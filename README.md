@@ -1,4 +1,4 @@
-# Passport-OpenID
+# Passport-OpenID Connect
 
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
 with [OpenID Connect](http://openid.net/connect/).
