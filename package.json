@@ -27,10 +27,11 @@
     "webfinger": "0.3.x"
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "mocha": "1.x.x",
+    "chai": "1.x.x"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
+    "test": "NODE_PATH=./lib node_modules/.bin/mocha --reporter spec --require test/node/bootstrap test/*.test.js"
   },
   "engines": { "node": ">= 0.6.0" }
 }

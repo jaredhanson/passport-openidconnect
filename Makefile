@@ -1,14 +1,18 @@
 SOURCES = lib/**/*.js
+TESTS = test/*.test.js
 
 # ==============================================================================
 # Node Tests
 # ==============================================================================
 
-VOWS = ./node_modules/.bin/vows
-TESTS ?= test/*-test.js
+MOCHA = ./node_modules/.bin/mocha
 
-test:
-	@NODE_ENV=test NODE_PATH=lib $(VOWS) $(TESTS)
+test: test-node
+test-node:
+	@NODE_PATH=./lib \
+	$(MOCHA) \
+		--reporter spec \
+		--require test/node/bootstrap $(TESTS)
 
 # ==============================================================================
 # Static Analysis
@@ -21,4 +25,4 @@ lint:
 	$(JSHINT) $(SOURCES)
 
 
-.PHONY: test hint lint
+.PHONY: test test-node hint lint
