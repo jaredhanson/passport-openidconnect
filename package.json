@@ -1,6 +1,6 @@
 {
   "name": "openidconnect-for-passport",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "OpenID Connect authentication strategy for Passport.",
   "keywords": ["passport", "openid", "openidconnect", "auth", "authn", "authentication", "identity"],
   "repository": {
