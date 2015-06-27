@@ -1,20 +1,27 @@
 {
-  "name": "passport-openidconnect",
+  "name": "openidconnect-for-passport",
   "version": "0.0.1",
   "description": "OpenID Connect authentication strategy for Passport.",
   "keywords": ["passport", "openid", "openidconnect", "auth", "authn", "authentication", "identity"],
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/passport-openidconnect.git"
+    "url": "git://github.com/nicolerauch/openidconnect-for-passport.git"
   },
   "bugs": {
-    "url": "http://github.com/jaredhanson/passport-openidconnect/issues"
+    "url": "http://github.com/nicolerauch/openidconnect-for-passport/issues"
   },
   "author": {
     "name": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/"
   },
+  "contributors": [
+    {
+      "name": "Nicole Rauch",
+      "email": "nicole.m@gmx.de",
+      "url": "http://www.nicole-rauch.de"
+    }
+  ],
   "licenses": [ {
     "type": "MIT",
     "url": "http://www.opensource.org/licenses/MIT" 
@@ -33,5 +40,5 @@
   "scripts": {
     "test": "NODE_PATH=./lib node_modules/.bin/mocha --reporter spec --require test/node/bootstrap test/*.test.js"
   },
-  "engines": { "node": ">= 0.6.0" }
+  "engines": { "node": ">= 0.10.0" }
 }
