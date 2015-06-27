@@ -14,3 +14,6 @@ npm-debug.log
 
 # Git
 .git*
+
+# IntelliJ / WebStorm
+.idea
