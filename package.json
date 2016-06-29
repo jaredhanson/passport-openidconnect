@@ -31,6 +31,7 @@
   ],
   "main": "./lib",
   "dependencies": {
+    "cookie-parser": "~1.4.3",
     "jsonwebtoken": "^6.2.0",
     "oauth": "0.9.x",
     "passport": "~0.1.1",
