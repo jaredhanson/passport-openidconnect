@@ -1,7 +1,7 @@
 var openid = require('..');
 
 
-describe('passport-openidconnect', function() {
+describe('package', function() {
     
   it('should export Strategy constructor as module', function() {
     expect(openid).to.be.a('function');

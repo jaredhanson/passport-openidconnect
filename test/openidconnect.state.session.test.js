@@ -3,7 +3,7 @@ var OIDCStrategy = require('../lib/strategy')
   , uri = require('url');
 
 
-describe('passport-openidconnect', function() {
+describe('session store', function() {
   
   describe('using default session state store', function() {
     
