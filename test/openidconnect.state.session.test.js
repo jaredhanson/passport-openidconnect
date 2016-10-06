@@ -3,11 +3,9 @@ var OIDCStrategy = require('../lib/strategy'),
   uri = require('url');
 
 
-describe('session store', function() {
-
-  describe('using default session state store', function() {
-
-    describe('issuing authorization request', function() {
+describe('session store', function () {
+  describe('using default session state store', function () {
+    describe('issuing authorization request', function () {
       var strategy = new OIDCStrategy({
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         tokenURL: 'https://www.example.com/oauth2/token',
