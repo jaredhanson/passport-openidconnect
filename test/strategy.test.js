@@ -40,4 +40,4 @@ describe('Strategy', function() {
     
   }); // configured to work with a known OpenID provider
   
-});
+}); // Strategy
