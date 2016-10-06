@@ -4,4 +4,4 @@ var chai = require('chai')
 chai.use(passport);
 
 
-global.expect = chai.expect;
+window.expect = chai.expect;

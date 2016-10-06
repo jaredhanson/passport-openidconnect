@@ -32,8 +32,7 @@
   ],
   "main": "./lib",
   "dependencies": {
-    "pkginfo": "0.2.x",
-    "passport": "~0.1.1",
+    "passport-strategy": "1.x.x",
     "oauth": "0.9.x",
     "webfinger": "0.3.x"
   },
@@ -52,6 +51,6 @@
     "node": ">= 0.6.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/eslint lib && NODE_PATH=./lib node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js"
+    "test": "node_modules/.bin/eslint lib && node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
   }
 }
