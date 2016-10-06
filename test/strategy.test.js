@@ -18,7 +18,7 @@ describe('strategy', function() {
         function(accessToken, refreshToken, profile, done) {});
       
       
-        var url;
+        var state, url;
   
         before(function(done) {
           chai.passport.use(strategy)
