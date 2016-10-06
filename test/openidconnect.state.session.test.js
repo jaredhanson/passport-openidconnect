@@ -100,7 +100,7 @@ describe('passport-openidconnect', function() {
   
         it('should error', function() {
           expect(err).to.be.an.instanceof(Error)
-          expect(err.message).to.equal('OAuth 2.0 authentication requires session support when using state. Did you forget to use express-session middleware?');
+          expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
         });
       }); // that errors due to lack of session support in app
       
@@ -366,7 +366,7 @@ describe('passport-openidconnect', function() {
   
         it('should error', function() {
           expect(err).to.be.an.instanceof(Error)
-          expect(err.message).to.equal('OAuth 2.0 authentication requires session support when using state. Did you forget to use express-session middleware?');
+          expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
         });
       }); // that errors due to lack of session support in app
       
