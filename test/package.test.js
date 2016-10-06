@@ -3,11 +3,12 @@ var openid = require('..');
 
 describe('passport-openidconnect', function() {
     
-  it('should export version', function() {
-    expect(openid.version).to.be.a('string');
+  it('should export Strategy constructor as module', function() {
+    expect(openid).to.be.a('function');
+    expect(openid).to.equal(openid.Strategy);
   });
     
-  it('should export Strategy', function() {
+  it('should export Strategy constructor', function() {
     expect(openid.Strategy).to.be.a('function');
   });
   
