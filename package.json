@@ -32,9 +32,10 @@
   ],
   "main": "./lib",
   "dependencies": {
-    "passport-strategy": "1.x.x",
     "oauth": "0.9.x",
-    "webfinger": "0.3.x"
+    "passport-strategy": "1.x.x",
+    "request": "^2.75.0",
+    "webfinger": "0.4.x"
   },
   "devDependencies": {
     "chai": "2.x.x",

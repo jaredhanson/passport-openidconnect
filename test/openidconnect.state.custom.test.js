@@ -3,8 +3,9 @@ var OIDCStrategy = require('../lib/strategy'),
   uri = require('url');
 
 
-describe('passport-openidconnect', function () {
-  describe('with custom state store that accepts meta argument', function () {
+describe('custom store', function() {
+
+  describe('with custom state store that accepts meta argument', function() {
     function CustomStore() {
     }
 
