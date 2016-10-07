@@ -39,6 +39,7 @@ describe('custom store', function() {
       if (state !== 'foos7473') { return cb(new Error('incorrect state argument')); }
 
       var storedInfo = {
+        issuer: 'https://www.example.com/',
         userInfoURL: 'https://www.example.com/oauth2/userinfo',
         tokenURL: 'https://www.example.com/oauth2/token',
         clientID: 'ABC123',
@@ -55,6 +56,7 @@ describe('custom store', function() {
     
     describe('issuing authorization request', function() {
       var strategy = new OIDCStrategy({
+        issuer: 'https://www.example.com/',
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         tokenURL: 'https://www.example.com/oauth2/token',
         clientID: 'ABC123',
@@ -138,6 +140,7 @@ describe('custom store', function() {
     
     describe('processing response to authorization request', function() {
       var strategy = new OIDCStrategy({
+        issuer: 'https://www.example.com/',
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         userInfoURL: 'https://www.example.com/oauth2/userinfo',
         tokenURL: 'https://www.example.com/oauth2/token',
@@ -293,6 +296,7 @@ describe('custom store', function() {
     CustomStore.prototype.verify = function(req, state, cb) {
 
       var storedInfo = {
+        issuer: 'https://www.example.com/',
         userInfoURL: 'https://www.example.com/oauth2/userinfo',
         tokenURL: 'https://www.example.com/oauth2/token',
         clientID: 'ABC123',
@@ -312,6 +316,7 @@ describe('custom store', function() {
       
       describe('that was approved without info', function() {
         var strategy = new OIDCStrategy({
+          issuer: 'https://www.example.com/',
           authorizationURL: 'https://www.example.com/oauth2/authorize',
           userInfoURL: 'https://www.example.com/oauth2/userinfo',
           tokenURL: 'https://www.example.com/oauth2/token',
@@ -403,6 +408,7 @@ describe('custom store', function() {
       
       describe('that was approved with info', function() {
         var strategy = new OIDCStrategy({
+          issuer: 'https://www.example.com/',
           authorizationURL: 'https://www.example.com/oauth2/authorize',
           userInfoURL: 'https://www.example.com/oauth2/userinfo',
           tokenURL: 'https://www.example.com/oauth2/token',

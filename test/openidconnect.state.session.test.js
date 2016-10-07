@@ -18,6 +18,7 @@ describe('session store', function() {
     
     describe('issuing authorization request', function() {
       var strategy = new OIDCStrategy({
+        issuer: 'https://www.example.com/',
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         tokenURL: 'https://www.example.com/oauth2/token',
         clientID: 'ABC123',
@@ -131,6 +132,7 @@ describe('session store', function() {
     
     describe('processing response to authorization request', function() {
       var strategy = new OIDCStrategy({
+        issuer: 'https://www.example.com/',
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         userInfoURL: 'https://www.example.com/oauth2/userinfo',
         tokenURL: 'https://www.example.com/oauth2/token',
@@ -203,6 +205,7 @@ describe('session store', function() {
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
               req.session['openidconnect:www.example.com']['state'] = {
+                issuer: 'https://www.example.com/',
                 handle: 'DkbychwKu8kBaJoLE5yeR5NK',
                 authorizationURL: 'https://www.example.com/oauth2/authorize',
                 userInfoURL: 'https://www.example.com/oauth2/userinfo',
@@ -257,6 +260,7 @@ describe('session store', function() {
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
               req.session['openidconnect:www.example.com']['state'] = {
+                issuer: 'https://www.example.com/',
                 handle: 'DkbychwKu8kBaJoLE5yeR5NK',
                 authorizationURL: 'https://www.example.com/oauth2/authorize',
                 userInfoURL: 'https://www.example.com/oauth2/userinfo',
@@ -312,6 +316,7 @@ describe('session store', function() {
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
               req.session['openidconnect:www.example.com']['state'] = {
+                issuer: 'https://www.example.com/',
                 handle: 'DkbychwKu8kBaJoLE5yeR5NK',
                 authorizationURL: 'https://www.example.com/oauth2/authorize',
                 userInfoURL: 'https://www.example.com/oauth2/userinfo',
@@ -442,6 +447,7 @@ describe('session store', function() {
   
   describe('using default session state store with session key option', function() {
     var strategy = new OIDCStrategy({
+      issuer: 'https://www.example.com/',
       authorizationURL: 'https://www.example.com/oauth2/authorize',
       userInfoURL: 'https://www.example.com/oauth2/userinfo',
       tokenURL: 'https://www.example.com/oauth2/token',
@@ -557,6 +563,7 @@ describe('session store', function() {
               req.session = {};
               req.session['openidconnect:example'] = {};
               req.session['openidconnect:example']['state'] = {
+                issuer: 'https://www.example.com/',
                 handle: 'DkbychwKu8kBaJoLE5yeR5NK',
                 authorizationURL: 'https://www.example.com/oauth2/authorize',
                 userInfoURL: 'https://www.example.com/oauth2/userinfo',
