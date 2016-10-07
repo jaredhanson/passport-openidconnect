@@ -4,7 +4,7 @@ var Strategy = require('../lib/strategy')
 
 describe('strategy', function() {
 
-  describe('configured to work with a known OpenID provider', function() {
+  describe('configured to work with a specific OpenID provider', function() {
 
     describe('issuing authorization request', function() {
 
