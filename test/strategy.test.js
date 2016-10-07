@@ -203,6 +203,45 @@ describe('strategy', function() {
           expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
         });
       }); // that redirects to identity provider with scope option as array
+      
+      describe('that redirects to identity provider with redirect URI option', function() {
+        var strategy = new Strategy({
+          issuer: 'https://www.example.com',
+          authorizationURL: 'https://www.example.com/oauth2/authorize',
+          tokenURL: 'https://www.example.com/oauth2/token',
+          clientID: 'ABC123',
+          clientSecret: 'secret',
+          callbackURL: 'https://www.example.net/login/return'
+        }, function() {});
+      
+      
+        var request, url, state;
+  
+        before(function(done) {
+          chai.passport.use(strategy)
+            .redirect(function(u) {
+              var pu = uri.parse(u, true);
+              
+              state = pu.query.state;
+              url = u;
+              done();
+            })
+            .req(function(req) {
+              request = req;
+              req.session = {};
+            })
+            .authenticate({ callbackURL: 'https://www.example.net/oidc/return' });
+        });
+  
+        it('should be redirected', function() {
+          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Foidc%2Freturn&scope=openid&state=' + encodeURIComponent(state));
+        });
+        
+        it('should save state in session', function() {
+          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+        });
+      }); // that redirects to identity provider with scope option as array
   
     }); // issuing authorization request
     
