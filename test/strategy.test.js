@@ -12,12 +12,12 @@ describe('strategy', function () {
           clientID: 'ABC123',
           clientSecret: 'secret'
         },
-        function(accessToken, refreshToken, profile, done) {});
+        function (accessToken, refreshToken, profile, done) {});
 
 
         var state, url;
 
-        before(function(done) {
+        before(function (done) {
           chai.passport.use(strategy)
             .redirect(function (u) {
               state = encodeURIComponent(qs.parse(u).state);
