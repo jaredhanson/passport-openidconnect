@@ -9,7 +9,7 @@ var Resolver = require('../lib/resolver');
 
 var REL = 'http://openid.net/specs/connect/1.0/issuer';
 
-describe('OpenID Connect Dynamic Discovery - Resolver', function () {
+describe.skip('OpenID Connect Dynamic Discovery - Resolver', function () {
   beforeEach(function () {
     // Reset all mocks.
     webfinger.reset();
