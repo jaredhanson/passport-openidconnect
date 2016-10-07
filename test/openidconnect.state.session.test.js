@@ -1,9 +1,18 @@
 var OIDCStrategy = require('../lib/strategy')
   , chai = require('chai')
-  , uri = require('url');
-
+  , uri = require('url')
+  , jwt = require('jsonwebtoken');
 
 describe('session store', function() {
+  
+  function buildIdToken() {
+    return jwt.sign({some: 'claim'}, 'this is a secret', {
+      issuer: 'https://www.example.com/',
+      subject: '1234',
+      audience: 'ABC123',
+      expiresIn: '1h'
+    });
+  };
   
   describe('using default session state store', function() {
     
@@ -153,7 +162,7 @@ describe('session store', function() {
 
             return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', {
               token_type: 'example',
-              id_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwiaXNzIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vIn0.IyylG4uhzD4AlEo4iW_mwq_pc_eHM7vtpG4VuT-jFEY'
+              id_token: buildIdToken()
             });
           },
           _request: function(method, url, headers, post_body, access_token, callback) {
@@ -465,7 +474,7 @@ describe('session store', function() {
 
           return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', {
             token_type: 'example',
-            id_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwiaXNzIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vIn0.IyylG4uhzD4AlEo4iW_mwq_pc_eHM7vtpG4VuT-jFEY'
+            id_token: buildIdToken()
           });
         },
         _request: function(method, url, headers, post_body, access_token, callback) {
