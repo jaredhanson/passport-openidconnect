@@ -22,18 +22,26 @@ describe('custom store', function() {
       return cb(null, 'foos7473');
     };
     
-    CustomStore.prototype.verify = function(req, state, meta, cb) {
+    CustomStore.prototype.verify = function(req, state, cb) {
       if (req.url === '/error') { return cb(new Error('something went wrong verifying state')); }
       if (req.url === '/exception') { throw new Error('something went horribly wrong verifying state'); }
       
       if (req.url !== '/auth/example/callback') { return cb(new Error('incorrect req argument')); }
       if (state !== 'foos7473') { return cb(new Error('incorrect state argument')); }
-      if (meta.authorizationURL !== 'https://www.example.com/oauth2/authorize') { return cb(new Error('incorrect meta.authorizationURL argument')); }
-      if (meta.tokenURL !== 'https://www.example.com/oauth2/token') { return cb(new Error('incorrect meta.tokenURL argument')); }
-      if (meta.clientID !== 'ABC123') { return callback(new Error('incorrect meta.clientID argument')); }
+
+      var storedInfo = {
+        userInfoURL: 'https://www.example.com/oauth2/userinfo',
+        tokenURL: 'https://www.example.com/oauth2/token',
+        clientID: 'ABC123',
+        clientSecret: 'secret',
+        callbackURL: 'https://www.example.net/auth/example/callback',
+        params: {
+          state: 'foos7473'
+        }
+      }
       
       req.customStoreVerifyCalled = req.customStoreVerifyCalled ? req.customStoreVerifyCalled++ : 1;
-      return cb(null, true);
+      return cb(null, true, storedInfo);
     };
     
     
@@ -259,6 +267,7 @@ describe('custom store', function() {
         });
 
         it('should error', function() {
+          console.log(err);
           expect(err).to.be.an.instanceof(Error);
           expect(err.message).to.equal('something went horribly wrong verifying state');
         });
@@ -273,9 +282,22 @@ describe('custom store', function() {
     function CustomStore() {
     }
     
-    CustomStore.prototype.verify = function(req, state, meta, cb) {
+    CustomStore.prototype.verify = function(req, state, cb) {
+
+      var storedInfo = {
+        userInfoURL: 'https://www.example.com/oauth2/userinfo',
+        tokenURL: 'https://www.example.com/oauth2/token',
+        clientID: 'ABC123',
+        clientSecret: 'secret',
+        callbackURL: 'https://www.example.net/auth/example/callback',
+        params: {
+          state: 'foos7473'
+        },
+        returnTo: 'http://www.example.com/'
+      }
+
       req.customStoreVerifyCalled = req.customStoreVerifyCalled ? req.customStoreVerifyCalled++ : 1;
-      return cb(null, true, { returnTo: 'http://www.example.com/' });
+      return cb(null, true, storedInfo);
     };
     
     describe('processing response to authorization request', function() {

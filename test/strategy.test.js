@@ -42,8 +42,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider without redirect URI
       
@@ -81,8 +87,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider with redirect URI
       
@@ -121,8 +133,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider with redirect URI and scope
       
@@ -160,8 +178,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider with scope option
       
@@ -199,8 +223,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider with scope option as array
       
@@ -238,8 +268,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider with redirect URI option
       
@@ -280,8 +316,14 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to identity provider with relative redirect URI option
   

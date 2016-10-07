@@ -43,8 +43,15 @@ describe('session store', function() {
         it('should save state in session', function() {
           var u = uri.parse(url, true);
         
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(u.query.state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(u.query.state);
+
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to service provider
       
@@ -74,8 +81,15 @@ describe('session store', function() {
         it('should save state in session', function() {
           var u = uri.parse(url, true);
         
-          expect(request.session['openidconnect:www.example.com'].state).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state).to.equal(u.query.state);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(u.query.state);
+          
+          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:www.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
+          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
         
         it('should preserve other data in session', function() {
@@ -179,7 +193,21 @@ describe('session store', function() {
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
-              req.session['openidconnect:www.example.com']['state'] = 'DkbychwKu8kBaJoLE5yeR5NK';
+              req.session['openidconnect:www.example.com']['state'] = {
+                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+                authorizationURL: 'https://www.example.com/oauth2/authorize',
+                userInfoURL: 'https://www.example.com/oauth2/userinfo',
+                tokenURL: 'https://www.example.com/oauth2/token',
+                clientID: 'ABC123',
+                clientSecret: 'secret',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                  response_type: 'code',
+                  client_id: 'ABC123',
+                  redirect_uri: 'https://www.example.net/auth/example/callback',
+                  scope: 'openid'
+                }
+              };
             })
             .authenticate();
         });
@@ -219,7 +247,21 @@ describe('session store', function() {
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
-              req.session['openidconnect:www.example.com']['state'] = 'DkbychwKu8kBaJoLE5yeR5NK';
+              req.session['openidconnect:www.example.com']['state'] = {
+                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+                authorizationURL: 'https://www.example.com/oauth2/authorize',
+                userInfoURL: 'https://www.example.com/oauth2/userinfo',
+                tokenURL: 'https://www.example.com/oauth2/token',
+                clientID: 'ABC123',
+                clientSecret: 'secret',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                  response_type: 'code',
+                  client_id: 'ABC123',
+                  redirect_uri: 'https://www.example.net/auth/example/callback',
+                  scope: 'openid'
+                }
+              };
               req.session['openidconnect:www.example.com'].foo = 'bar';
             })
             .authenticate();
@@ -260,7 +302,21 @@ describe('session store', function() {
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK-WRONG';
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
-              req.session['openidconnect:www.example.com']['state'] = 'DkbychwKu8kBaJoLE5yeR5NK';
+              req.session['openidconnect:www.example.com']['state'] = {
+                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+                authorizationURL: 'https://www.example.com/oauth2/authorize',
+                userInfoURL: 'https://www.example.com/oauth2/userinfo',
+                tokenURL: 'https://www.example.com/oauth2/token',
+                clientID: 'ABC123',
+                clientSecret: 'secret',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                  response_type: 'code',
+                  client_id: 'ABC123',
+                  redirect_uri: 'https://www.example.net/auth/example/callback',
+                  scope: 'openid'
+                }
+              };
             })
             .authenticate();
         });
@@ -455,8 +511,15 @@ describe('session store', function() {
         it('should save state in session', function() {
           var u = uri.parse(url, true);
         
-          expect(request.session['openidconnect:example'].state).to.have.length(24);
-          expect(request.session['openidconnect:example'].state).to.equal(u.query.state);
+          expect(request.session['openidconnect:example'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:example'].state.handle).to.equal(u.query.state);
+
+          expect(request.session['openidconnect:example'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+          expect(request.session['openidconnect:example'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+          expect(request.session['openidconnect:example'].state.clientID).to.equal('ABC123');
+          expect(request.session['openidconnect:example'].state.clientSecret).to.equal('secret');
+          expect(request.session['openidconnect:example'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
+          expect(request.session['openidconnect:example'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to service provider
       
@@ -484,7 +547,21 @@ describe('session store', function() {
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
               req.session = {};
               req.session['openidconnect:example'] = {};
-              req.session['openidconnect:example']['state'] = 'DkbychwKu8kBaJoLE5yeR5NK';
+              req.session['openidconnect:example']['state'] = {
+                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+                authorizationURL: 'https://www.example.com/oauth2/authorize',
+                userInfoURL: 'https://www.example.com/oauth2/userinfo',
+                tokenURL: 'https://www.example.com/oauth2/token',
+                clientID: 'ABC123',
+                clientSecret: 'secret',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                  response_type: 'code',
+                  client_id: 'ABC123',
+                  redirect_uri: 'https://www.example.net/auth/example/callback',
+                  scope: 'openid'
+                }
+              };
             })
             .authenticate();
         });
