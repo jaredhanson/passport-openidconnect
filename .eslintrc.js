@@ -2,14 +2,20 @@ module.exports = {
   extends: 'auth0',
   installedESLint: true,
   env: {
-    node: true
+    node: true,
+    mocha: true,
+    es6: false
   },
   parserOptions: {
-    ecmaVersion: 5
+    ecmaVersion: 5,
+    ecmaFeatures: {
+      arrowFunctions: false
+    },
   },
   rules: {
     'no-unused-vars': ['error', {args: 'none'}],
     'object-shorthand': ['error', 'never'],
+    'no-confusing-arrow': 'error',
 
     // Rules set to warning because they are not followed but should be in the future.
     'max-len': 'warn',
@@ -21,6 +27,7 @@ module.exports = {
     'block-scoped-var': 'off',
     'consistent-return': 'off',
     'eqeqeq': 'off',
+    'func-names': 'off',
     'guard-for-in': 'off',
     'no-else-return': 'off',
     'no-param-reassign': 'off',
