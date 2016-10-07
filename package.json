@@ -46,7 +46,8 @@
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
     "make-node": "0.3.x",
-    "mocha": "2.x.x"
+    "mocha": "2.x.x",
+    "sinon": "^1.17.6"
   },
   "engines": {
     "node": ">= 0.6.0"
