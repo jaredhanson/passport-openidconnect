@@ -1,11 +1,14 @@
 var assert = require('assert');
 var sinon = require('sinon');
+var proxyquire = require('proxyquire');
 
 // Mocks, stubs etc.
 var webfinger = sinon.stub(require('webfinger'), 'webfinger');
 
+var pathStub = { webfinger: { webfinger: webfinger } };
+
 // Code under test.
-var Resolver = require('../lib/resolver');
+var Resolver = proxyquire('../lib/resolver', pathStub);
 
 var REL = 'http://openid.net/specs/connect/1.0/issuer';
 
