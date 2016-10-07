@@ -43,7 +43,7 @@ describe('OpenID Connect Dynamic Discovery', function () {
 
     it('should register the client', function () {
       // TODO: This call needs more data, like the registrationURL.
-      assert(registrar.resolve.calledWith('myissuer'));
+      assert(registrar.resolve.calledWithMatch({ issuer: 'myissuer' }));
       registrar.resolve.yield(null, { id: 'foo', secret: 'bar' });
     });
 
