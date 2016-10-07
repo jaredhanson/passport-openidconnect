@@ -38,10 +38,11 @@
     "webfinger": "0.4.x"
   },
   "devDependencies": {
+    "chai": "2.x.x",
+    "chai-passport-strategy": "1.x.x",
     "make-node": "0.3.x",
     "mocha": "2.x.x",
-    "chai": "2.x.x",
-    "chai-passport-strategy": "1.x.x"
+    "sinon": "^1.17.6"
   },
   "engines": {
     "node": ">= 0.6.0"
