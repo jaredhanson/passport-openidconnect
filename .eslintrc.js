@@ -3,7 +3,6 @@ module.exports = {
   installedESLint: true,
   env: {
     node: true,
-    mocha: true,
     es6: false
   },
   parserOptions: {
