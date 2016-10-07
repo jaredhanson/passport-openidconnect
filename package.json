@@ -40,6 +40,7 @@
   "devDependencies": {
     "chai": "2.x.x",
     "chai-passport-strategy": "1.x.x",
+    "jsonwebtoken": "^7.1.9",
     "make-node": "0.3.x",
     "mocha": "2.x.x",
     "proxyquire": "^1.7.10",
