@@ -32,7 +32,6 @@ The default Registrar module will use the following options:
   following form `cb(null, client)`, where client is an object with:
 
   * `id` (REQUIRED)
-  * `accessToken` (OPTIONAL)
   * `secret` (OPTIONAL, as given from provider)
   * `secretExpiresAt` (OPTIONAL, as given from provider)
 
