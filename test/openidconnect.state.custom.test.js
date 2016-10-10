@@ -1,10 +1,19 @@
 var OIDCStrategy = require('../lib/strategy')
   , chai = require('chai')
-  , uri = require('url');
-
+  , uri = require('url')
+  , jwt = require('jsonwebtoken');
 
 describe('custom store', function() {
-  
+
+  function buildIdToken() {
+    return jwt.sign({some: 'claim'}, 'this is a secret', {
+      issuer: 'https://www.example.com/',
+      subject: '1234',
+      audience: 'ABC123',
+      expiresIn: '1h'
+    });
+  };
+
   describe('with custom state store that accepts meta argument', function() {
     function CustomStore() {
     }
@@ -22,23 +31,32 @@ describe('custom store', function() {
       return cb(null, 'foos7473');
     };
     
-    CustomStore.prototype.verify = function(req, state, meta, cb) {
+    CustomStore.prototype.verify = function(req, state, cb) {
       if (req.url === '/error') { return cb(new Error('something went wrong verifying state')); }
       if (req.url === '/exception') { throw new Error('something went horribly wrong verifying state'); }
       
       if (req.url !== '/auth/example/callback') { return cb(new Error('incorrect req argument')); }
       if (state !== 'foos7473') { return cb(new Error('incorrect state argument')); }
-      if (meta.authorizationURL !== 'https://www.example.com/oauth2/authorize') { return cb(new Error('incorrect meta.authorizationURL argument')); }
-      if (meta.tokenURL !== 'https://www.example.com/oauth2/token') { return cb(new Error('incorrect meta.tokenURL argument')); }
-      if (meta.clientID !== 'ABC123') { return callback(new Error('incorrect meta.clientID argument')); }
+
+      var storedInfo = {
+        issuer: 'https://www.example.com/',
+        userInfoURL: 'https://www.example.com/oauth2/userinfo',
+        tokenURL: 'https://www.example.com/oauth2/token',
+        clientID: 'ABC123',
+        clientSecret: 'secret',
+        callbackURL: 'https://www.example.net/auth/example/callback',
+        params: {
+          state: 'foos7473'
+        }
+      }
       
       req.customStoreVerifyCalled = req.customStoreVerifyCalled ? req.customStoreVerifyCalled++ : 1;
-      return cb(null, true);
+      return cb(null, true, storedInfo);
     };
-    
     
     describe('issuing authorization request', function() {
       var strategy = new OIDCStrategy({
+        issuer: 'https://www.example.com/',
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         tokenURL: 'https://www.example.com/oauth2/token',
         clientID: 'ABC123',
@@ -122,6 +140,7 @@ describe('custom store', function() {
     
     describe('processing response to authorization request', function() {
       var strategy = new OIDCStrategy({
+        issuer: 'https://www.example.com/',
         authorizationURL: 'https://www.example.com/oauth2/authorize',
         userInfoURL: 'https://www.example.com/oauth2/userinfo',
         tokenURL: 'https://www.example.com/oauth2/token',
@@ -153,7 +172,7 @@ describe('custom store', function() {
 
             return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', {
               token_type: 'example',
-              id_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwiaXNzIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vIn0.IyylG4uhzD4AlEo4iW_mwq_pc_eHM7vtpG4VuT-jFEY'
+              id_token: buildIdToken()
             });
           },
           _request: function(method, url, headers, post_body, access_token, callback) {
@@ -259,6 +278,7 @@ describe('custom store', function() {
         });
 
         it('should error', function() {
+          console.log(err);
           expect(err).to.be.an.instanceof(Error);
           expect(err.message).to.equal('something went horribly wrong verifying state');
         });
@@ -273,15 +293,30 @@ describe('custom store', function() {
     function CustomStore() {
     }
     
-    CustomStore.prototype.verify = function(req, state, meta, cb) {
+    CustomStore.prototype.verify = function(req, state, cb) {
+
+      var storedInfo = {
+        issuer: 'https://www.example.com/',
+        userInfoURL: 'https://www.example.com/oauth2/userinfo',
+        tokenURL: 'https://www.example.com/oauth2/token',
+        clientID: 'ABC123',
+        clientSecret: 'secret',
+        callbackURL: 'https://www.example.net/auth/example/callback',
+        params: {
+          state: 'foos7473'
+        },
+        returnTo: 'http://www.example.com/'
+      }
+
       req.customStoreVerifyCalled = req.customStoreVerifyCalled ? req.customStoreVerifyCalled++ : 1;
-      return cb(null, true, { returnTo: 'http://www.example.com/' });
+      return cb(null, true, storedInfo);
     };
     
     describe('processing response to authorization request', function() {
       
       describe('that was approved without info', function() {
         var strategy = new OIDCStrategy({
+          issuer: 'https://www.example.com/',
           authorizationURL: 'https://www.example.com/oauth2/authorize',
           userInfoURL: 'https://www.example.com/oauth2/userinfo',
           tokenURL: 'https://www.example.com/oauth2/token',
@@ -313,7 +348,7 @@ describe('custom store', function() {
 
               return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', {
                 token_type: 'example',
-                id_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwiaXNzIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vIn0.IyylG4uhzD4AlEo4iW_mwq_pc_eHM7vtpG4VuT-jFEY'
+                id_token: buildIdToken()
               });
             },
             _request: function(method, url, headers, post_body, access_token, callback) {
@@ -373,6 +408,7 @@ describe('custom store', function() {
       
       describe('that was approved with info', function() {
         var strategy = new OIDCStrategy({
+          issuer: 'https://www.example.com/',
           authorizationURL: 'https://www.example.com/oauth2/authorize',
           userInfoURL: 'https://www.example.com/oauth2/userinfo',
           tokenURL: 'https://www.example.com/oauth2/token',
@@ -404,7 +440,7 @@ describe('custom store', function() {
 
               return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', {
                 token_type: 'example',
-                id_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0IiwiaXNzIjoiaHR0cHM6Ly93d3cuZXhhbXBsZS5jb20vIn0.IyylG4uhzD4AlEo4iW_mwq_pc_eHM7vtpG4VuT-jFEY'
+                id_token: buildIdToken()
               });
             },
             _request: function(method, url, headers, post_body, access_token, callback) {
