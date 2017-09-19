@@ -1,0 +1,15 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "3.4.7",
+    "ejs": "*",
+    "express-partials": ">= 0.0.0",
+    "passport": ">= 0.0.0",
+    "passport-openidconnect": ">= 0.0.0"
+  }
+}
