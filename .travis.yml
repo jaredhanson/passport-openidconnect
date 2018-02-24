@@ -9,7 +9,9 @@ node_js:
   - "0.10"
   - "0.8"
   - "0.6"
-
+  - 'lts/boron'
+  - 'lts/carbon'
+  - 'lts/*'
 
 before_install:
   - "npm install make-node@0.3.x -g"
