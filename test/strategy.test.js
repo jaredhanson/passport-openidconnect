@@ -174,7 +174,7 @@ describe('strategy', function() {
         });
   
         it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&scope=openid%20email&state=' + encodeURIComponent(state));
+          expect(url).to.equal('https://www.example.com/oauth2/authorize?scope=openid%20email&response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&state=' + encodeURIComponent(state));
         });
         
         it('should save state in session', function() {
@@ -219,7 +219,7 @@ describe('strategy', function() {
         });
   
         it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&scope=openid%20address%20phone&state=' + encodeURIComponent(state));
+          expect(url).to.equal('https://www.example.com/oauth2/authorize?scope=openid%20address%20phone&response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&state=' + encodeURIComponent(state));
         });
         
         it('should save state in session', function() {
@@ -264,7 +264,7 @@ describe('strategy', function() {
         });
   
         it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Foidc%2Freturn&scope=openid&state=' + encodeURIComponent(state));
+          expect(url).to.equal('https://www.example.com/oauth2/authorize?callbackURL=https%3A%2F%2Fwww.example.net%2Foidc%2Freturn&response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Foidc%2Freturn&scope=openid&state=' + encodeURIComponent(state));
         });
         
         it('should save state in session', function() {
@@ -312,7 +312,7 @@ describe('strategy', function() {
         });
   
         it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Fopenid-connect%2Freturn&scope=openid&state=' + encodeURIComponent(state));
+          expect(url).to.equal('https://www.example.com/oauth2/authorize?callbackURL=%2Fopenid-connect%2Freturn&response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Fopenid-connect%2Freturn&scope=openid&state=' + encodeURIComponent(state));
         });
         
         it('should save state in session', function() {
