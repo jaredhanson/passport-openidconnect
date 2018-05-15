@@ -35,7 +35,16 @@
     "oauth": "0.9.x",
     "passport-strategy": "1.x.x",
     "request": "^2.75.0",
-    "webfinger": "0.4.x"
+    "webfinger": "0.4.x",
+    "express": ">= 0.0.0",
+    "ejs": ">= 0.0.0",
+    "passport": ">= 0.0.0",
+    "passport-openid": ">= 0.0.0",
+    "cookie-parser": "",
+    "method-override":"",
+    "body-parser": "",
+    "errorhandler": "",
+    "express-session": ""
   },
   "devDependencies": {
     "chai": "2.x.x",
