@@ -4,7 +4,7 @@ var OIDCStrategy = require('../lib/strategy')
   , jwt = require('jsonwebtoken');
 
 describe('session store', function() {
-  
+
   function buildIdToken() {
     return jwt.sign({some: 'claim'}, 'this is a secret', {
       issuer: 'https://www.example.com/',
@@ -13,9 +13,9 @@ describe('session store', function() {
       expiresIn: '1h'
     });
   };
-  
+
   describe('using default session state store', function() {
-    
+
     describe('issuing authorization request', function() {
       var strategy = new OIDCStrategy({
         issuer: 'https://www.example.com/',
@@ -27,11 +27,11 @@ describe('session store', function() {
         state: true
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {});
-      
-      
+
+
       describe('that redirects to service provider', function() {
         var request, url;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .redirect(function(u) {
@@ -44,30 +44,30 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should be redirected', function() {
           var u = uri.parse(url, true);
           expect(u.query.state).to.have.length(24);
         });
-      
+
         it('should save state in session', function() {
           var u = uri.parse(url, true);
-        
+
           expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(u.query.state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
           expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
           expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          // expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
           expect(request.session['openidconnect:www.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
           expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to service provider
-      
+
       describe('that redirects to service provider with other data in session', function() {
         var request, url;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .redirect(function(u) {
@@ -82,34 +82,34 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should be redirected', function() {
           var u = uri.parse(url, true);
           expect(u.query.state).to.have.length(24);
         });
-      
+
         it('should save state in session', function() {
           var u = uri.parse(url, true);
-        
+
           expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(u.query.state);
-          
+
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
           expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
           expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+          // expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
           expect(request.session['openidconnect:www.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
           expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
         });
-        
+
         it('should preserve other data in session', function() {
           expect(request.session['openidconnect:www.example.com'].foo).to.equal('bar');
         });
       }); // that redirects to service provider with other data in session
-      
+
       describe('that errors due to lack of session support in app', function() {
         var request, err;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .error(function(e) {
@@ -121,15 +121,15 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should error', function() {
           expect(err).to.be.an.instanceof(Error)
           expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
         });
       }); // that errors due to lack of session support in app
-      
+
     }); // issuing authorization request
-    
+
     describe('processing response to authorization request', function() {
       var strategy = new OIDCStrategy({
         issuer: 'https://www.example.com/',
@@ -148,7 +148,7 @@ describe('session store', function() {
         if (Object.keys(profile).length === 0) { return done(new Error('incorrect profile argument')); }
         if (accessToken !== '2YotnFZFEjr1zCsicMWpAA') { return done(new Error('incorrect accessToken argument')); }
         if (refreshToken !== 'tGzv3JOkF0XG5Qx2TlKWIA') { return done(new Error('incorrect refreshToken argument')); }
-        
+
         return done(null, { id: '1234' }, { message: 'Hello' });
       });
 
@@ -182,13 +182,13 @@ describe('session store', function() {
           }
         };
       };
-      
-      
+
+
       describe('that was approved', function() {
         var request
           , user
           , info;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .success(function(u, i) {
@@ -198,7 +198,7 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
@@ -223,27 +223,27 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should supply user', function() {
           expect(user).to.be.an.object;
           expect(user.id).to.equal('1234');
         });
-  
+
         it('should supply info', function() {
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Hello');
         });
-      
+
         it('should remove state from session', function() {
           expect(request.session['openidconnect:www.example.com']).to.be.undefined;
         });
       }); // that was approved
-      
+
       describe('that was approved with other data in the session', function() {
         var request
           , user
           , info;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .success(function(u, i) {
@@ -253,7 +253,7 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
@@ -279,27 +279,27 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should supply user', function() {
           expect(user).to.be.an.object;
           expect(user.id).to.equal('1234');
         });
-  
+
         it('should supply info', function() {
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Hello');
         });
-      
+
         it('should preserve other data from session', function() {
           expect(request.session['openidconnect:www.example.com'].state).to.be.undefined;
           expect(request.session['openidconnect:www.example.com'].foo).to.equal('bar');
         });
       }); // that was approved with other data in the session
-      
+
       describe('that fails due to state being invalid', function() {
         var request
           , info, status;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .fail(function(i, s) {
@@ -309,7 +309,7 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK-WRONG';
@@ -334,25 +334,25 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should supply info', function() {
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Invalid authorization request state.');
         });
-      
+
         it('should supply status', function() {
           expect(status).to.equal(403);
         });
-      
+
         it('should remove state from session', function() {
           expect(request.session['openidconnect:www.example.com']).to.be.undefined;
         });
       }); // that fails due to state being invalid
-      
+
       describe('that fails due to provider-specific state not found in session', function() {
         var request
           , info, status;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .fail(function(i, s) {
@@ -362,7 +362,7 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
@@ -370,21 +370,21 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should supply info', function() {
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Unable to verify authorization request state.');
         });
-      
+
         it('should supply status', function() {
           expect(status).to.equal(403);
         });
       }); // that fails due to state not found in session
-      
+
       describe('that fails due to provider-specific state lacking state value', function() {
         var request
           , info, status;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .fail(function(i, s) {
@@ -394,7 +394,7 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
@@ -403,21 +403,21 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should supply info', function() {
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Unable to verify authorization request state.');
         });
-      
+
         it('should supply status', function() {
           expect(status).to.equal(403);
         });
       }); // that fails due to provider-specific state lacking state value
-      
+
       describe('that errors due to lack of session support in app', function() {
         var request
           , err;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .error(function(e) {
@@ -426,25 +426,25 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
             })
             .authenticate();
         });
-  
+
         it('should error', function() {
           expect(err).to.be.an.instanceof(Error)
           expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
         });
       }); // that errors due to lack of session support in app
-      
+
     }); // processing response to authorization request
-    
+
   }); // using default session state store
-  
-  
+
+
   describe('using default session state store with session key option', function() {
     var strategy = new OIDCStrategy({
       issuer: 'https://www.example.com/',
@@ -464,7 +464,7 @@ describe('session store', function() {
       if (Object.keys(profile).length === 0) { return done(new Error('incorrect profile argument')); }
       if (accessToken !== '2YotnFZFEjr1zCsicMWpAA') { return done(new Error('incorrect accessToken argument')); }
       if (refreshToken !== 'tGzv3JOkF0XG5Qx2TlKWIA') { return done(new Error('incorrect refreshToken argument')); }
-      
+
       return done(null, { id: '1234' }, { message: 'Hello' });
     });
 
@@ -498,13 +498,13 @@ describe('session store', function() {
         }
       };
     };
-    
-    
+
+
     describe('issuing authorization request', function() {
-      
+
       describe('that redirects to service provider', function() {
         var request, url;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .redirect(function(u) {
@@ -517,36 +517,36 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should be redirected', function() {
           var u = uri.parse(url, true);
           expect(u.query.state).to.have.length(24);
         });
-      
+
         it('should save state in session', function() {
           var u = uri.parse(url, true);
-        
+
           expect(request.session['openidconnect:example'].state.handle).to.have.length(24);
           expect(request.session['openidconnect:example'].state.handle).to.equal(u.query.state);
 
           expect(request.session['openidconnect:example'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
           expect(request.session['openidconnect:example'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
           expect(request.session['openidconnect:example'].state.clientID).to.equal('ABC123');
-          expect(request.session['openidconnect:example'].state.clientSecret).to.equal('secret');
+          // expect(request.session['openidconnect:example'].state.clientSecret).to.equal('secret');
           expect(request.session['openidconnect:example'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
           expect(request.session['openidconnect:example'].state.params.response_type).to.equal('code');
         });
       }); // that redirects to service provider
-      
+
     }); // issuing authorization request
-    
+
     describe('processing response to authorization request', function() {
-      
+
       describe('that was approved', function() {
         var request
           , user
           , info;
-  
+
         before(function(done) {
           chai.passport.use(strategy)
             .success(function(u, i) {
@@ -556,7 +556,7 @@ describe('session store', function() {
             })
             .req(function(req) {
               request = req;
-            
+
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
@@ -581,24 +581,24 @@ describe('session store', function() {
             })
             .authenticate();
         });
-  
+
         it('should supply user', function() {
           expect(user).to.be.an.object;
           expect(user.id).to.equal('1234');
         });
-  
+
         it('should supply info', function() {
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Hello');
         });
-      
+
         it('should remove state from session', function() {
           expect(request.session['openidconnect:example']).to.be.undefined;
         });
       }); // that was approved
-      
+
     }); // processing response to authorization request
-    
+
   }); // using default session state store with session key option
-  
+
 });
