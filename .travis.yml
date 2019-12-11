@@ -1,8 +1,15 @@
-language: "node_js"
+language: node_js
 node_js:
-  - "node"
-
+  - node
 install:
   - npm ci
 script:
   - npm test
+deploy:
+  provider: npm
+  email: junyuwei@gmail.com
+  api_key:
+    secure: ZZ0WLwLx8bk0g7AgFalWk/TxCN1g8HDDhIoVCpWwyifRUjXHtZJp8f2gmnfx/SQsP6prHl861i0Yhj0sFS49xWv3AT+Y8FuEmnUOVkzTUtjpoc5GsbCa19cJopmDvEBtWO+8KS2gbg1kKBVvAUIl8YUgrIX2QNNugDrFTtzoUSXxRRiv5QrcCfgC9lx1foJGTzsscG7OHN4h/0Lg0Jwo6MwTZJPQwsJZ1rwhW/9qVBJx1n5xAXLcZyJlls5UtcsLXgo5ycePUUPUiKg4JwoAy8KF7EVjxPQ8io5yaIIQxNZgF1NO03nHvtXJxP7r9wLbx4ZokJ6dBKcNQAmKUsxcy+yUZBntm+DmVe+Ux7NxFbUyA28aTxWyaA9JC9jgT2oBY64U1akIvVBBrbYHKrs3yOATVGLjvQbzFGCCA1S10T05i6Zki6d4dokEvIht7OWrOtVZtbzUQVX9V1qB8Q/4XJ0JDod/LEvBszHNtW7tKxK4Ci4Go3WYG48sGmAWAiVr0m7yWu6YkZvrPcs0LEkaBc8pI9Vuld2hJiN3sP+jSuJP/x84LLMvNEm+HAxEzt7lEA9NyNhl8pRDD6dZmpjHJJth2ldx6UvAsPp122q5z2ZhFnoCtyn3eMmRyySsna1gOHwTs6gYmwFPBxflnWzGSrU/38aHdGg3q2Rw8750IQI=
+  on:
+    tags: true
+    repo: weijunyu/passport-openidconnect
