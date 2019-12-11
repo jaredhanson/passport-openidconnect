@@ -52,5 +52,8 @@
   "directories": {
     "lib": "lib",
     "test": "test"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
