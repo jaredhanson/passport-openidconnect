@@ -1,10 +1,10 @@
 language: node_js
 node_js:
-- node
+  - node
 install:
-- npm ci
+  - npm ci
 script:
-- npm test
+  - npm test
 deploy:
   provider: npm
   email:
