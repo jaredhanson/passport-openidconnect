@@ -11,12 +11,9 @@
     "openidconnect",
     "passport"
   ],
-  "bugs": {
-    "url": "http://github.com/jaredhanson/passport-openidconnect/issues"
-  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/passport-openidconnect.git"
+    "url": "git://github.com/weijunyu/passport-openidconnect.git"
   },
   "license": "MIT",
   "author": {
