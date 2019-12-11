@@ -1,5 +1,5 @@
 {
-  "name": "passport-openidconnect",
+  "name": "@jywei/passport-openidconnect",
   "version": "0.1.3",
   "description": "OpenID Connect authentication strategy for Passport.",
   "keywords": [
@@ -16,14 +16,10 @@
     "url": "git://github.com/weijunyu/passport-openidconnect.git"
   },
   "license": "MIT",
-  "author": {
-    "name": "Jared Hanson",
-    "email": "jaredhanson@gmail.com",
-    "url": "http://www.jaredhanson.net/"
-  },
+  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "main": "./lib",
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
+    "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
   },
   "dependencies": {
     "oauth": "^0.9.15",
@@ -48,5 +44,13 @@
       "type": "MIT",
       "url": "http://opensource.org/licenses/MIT"
     }
-  ]
+  ],
+  "bugs": {
+    "url": "https://github.com/weijunyu/passport-openidconnect/issues"
+  },
+  "homepage": "https://github.com/weijunyu/passport-openidconnect#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  }
 }
