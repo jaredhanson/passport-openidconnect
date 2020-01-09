@@ -1,6 +1,6 @@
 {
   "name": "@jywei/passport-openidconnect",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "OpenID Connect authentication strategy for Passport.",
   "keywords": [
     "auth",
