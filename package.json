@@ -32,9 +32,9 @@
   ],
   "main": "./lib",
   "dependencies": {
+    "axios": "^0.19.2",
     "oauth": "^0.9.15",
     "passport-strategy": "1.x.x",
-    "request": "^2.75.0",
     "webfinger": "0.4.x"
   },
   "devDependencies": {
@@ -44,7 +44,7 @@
     "make-node": "0.3.x",
     "mocha": "2.x.x",
     "proxyquire": "^1.7.10",
-    "sinon": "^1.17.6"
+    "sinon": "^9.0.2"
   },
   "engines": {
     "node": ">= 0.6.0"
