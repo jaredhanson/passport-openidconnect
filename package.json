@@ -1,5 +1,5 @@
 {
-  "name": "@jywei/passport-openidconnect",
+  "name": "@techpass/passport-openidconnect",
   "version": "0.1.6",
   "description": "OpenID Connect authentication strategy for Passport.",
   "keywords": [
@@ -13,7 +13,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/weijunyu/passport-openidconnect.git"
+    "url": "git://github.com/GovTechSG/passport-openidconnect.git"
   },
   "license": "MIT",
   "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
@@ -46,9 +46,9 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/weijunyu/passport-openidconnect/issues"
+    "url": "https://github.com/GovTechSG/passport-openidconnect/issues"
   },
-  "homepage": "https://github.com/weijunyu/passport-openidconnect#readme",
+  "homepage": "https://github.com/GovTechSG/passport-openidconnect#readme",
   "directories": {
     "lib": "lib",
     "test": "test"
