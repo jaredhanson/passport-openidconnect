@@ -12,7 +12,7 @@ including [Express](http://expressjs.com/).
 ## Installation
 
 ```bash
-npm install @jywei/passport-openidconnect
+npm install @techpass/passport-openidconnect
 ```
 
 ## Usage
@@ -21,7 +21,7 @@ npm install @jywei/passport-openidconnect
 
 ```javascript
 const passport = require("passport");
-const OidcStrategy = require("@jywei/passport-openidconnect").Strategy;
+const OidcStrategy = require("@techpass/passport-openidconnect").Strategy;
 
 passport.use(
   "oidc",
