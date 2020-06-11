@@ -3,7 +3,7 @@ var assert = require('assert');
 var sinon = require('sinon');
 
 // Mocks, stubs etc.
-var requestGet = sinon.stub(require('request'), 'get');
+var axiosGet = sinon.stub(require('axios'),'get');
 
 // Code under test.
 var setup = require('../lib/setup/dynamic');
@@ -17,7 +17,19 @@ describe('OpenID Connect Dynamic Discovery', function () {
     var callback = sinon.spy();
 
     before(function () {
-      requestGet.reset();
+      axiosGet.reset();
+      axiosGet.resolves(
+        { 
+          status: 200,
+          data: {
+            issuer: 'myissuer',
+            authorization_endpoint: 'foo',
+            token_endpoint: 'bar',
+            userinfo_endpoint: 'baz',
+            registration_endpoint: 'qux'
+          }
+        }
+      );
       setup({ resolver: resolver, registrar: registrar })('baz', callback);
     });
 
@@ -27,18 +39,7 @@ describe('OpenID Connect Dynamic Discovery', function () {
     });
 
     it('should get information from openid-configuration', function () {
-      assert(requestGet.calledWith('resolvedIssuer/.well-known/openid-configuration'));
-      requestGet.yield(
-        null,
-        { statusCode: 200 },
-        JSON.stringify({
-          issuer: 'myissuer',
-          authorization_endpoint: 'foo',
-          token_endpoint: 'bar',
-          userinfo_endpoint: 'baz',
-          registration_endpoint: 'qux'
-        })
-      );
+      assert(axiosGet.calledWith('resolvedIssuer/.well-known/openid-configuration'));
     });
 
     it('should register the client', function () {
