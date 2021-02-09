@@ -22,6 +22,7 @@
     "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
   },
   "dependencies": {
+    "base64url": "^3.0.1",
     "oauth": "^0.9.15",
     "passport-strategy": "^1.0.0",
     "request": "^2.88.0",
