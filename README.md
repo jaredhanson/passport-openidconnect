@@ -34,7 +34,7 @@ passport.use(
       clientID: "my-oidc-client-id",
       clientSecret: "my-oidc-client-secret",
       callbackURL: "https://my-client-endpoint.com/auth/callback",
-      scope: "openid" // Optional values from OIDC spec: profile, email, address, phone
+      scope: "openid", // Optional values from OIDC spec: profile, email, address, phone
       pkce: "S256" // Include to perform Proof Key Code Exchange else ignore. Possible values are "S256" || "plain"
     },
     async (
