@@ -35,7 +35,8 @@ passport.use(
       clientSecret: "my-oidc-client-secret",
       callbackURL: "https://my-client-endpoint.com/auth/callback",
       scope: "openid", // Optional values from OIDC spec: profile, email, address, phone
-      pkce: "S256" // Include to perform Proof Key Code Exchange else ignore. Possible values are "S256" || "plain"
+      pkce: "S256" // Optional. Include to perform Proof Key Code Exchange else ignore. Possible values are "S256" || "plain"
+      originalReqProp: "query" // Optional. Extra state from any properties in the original auth request which will be sent back in the callback's request.query.state as a json string. Possible values are default properties in req such as path, params, query or any custom properties you assign into req
     },
     async (
       issuer,
