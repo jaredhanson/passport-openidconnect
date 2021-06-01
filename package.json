@@ -1,41 +1,32 @@
 {
-  "name": "passport-openidconnect",
-  "version": "0.0.2",
+  "name": "@techpass/passport-openidconnect",
+  "version": "0.3.0",
   "description": "OpenID Connect authentication strategy for Passport.",
   "keywords": [
-    "passport",
+    "auth",
+    "authentication",
+    "authn",
+    "identity",
     "openid",
     "openidconnect",
-    "auth",
-    "authn",
-    "authentication",
-    "identity"
+    "passport"
   ],
-  "author": {
-    "name": "Jared Hanson",
-    "email": "jaredhanson@gmail.com",
-    "url": "http://www.jaredhanson.net/"
-  },
   "repository": {
     "type": "git",
-    "url": "git://github.com/jaredhanson/passport-openidconnect.git"
-  },
-  "bugs": {
-    "url": "http://github.com/jaredhanson/passport-openidconnect/issues"
+    "url": "git://github.com/GovTechSG/passport-openidconnect.git"
   },
   "license": "MIT",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://opensource.org/licenses/MIT"
-    }
-  ],
+  "author": "Jared Hanson <jaredhanson@gmail.com> (http://www.jaredhanson.net/)",
   "main": "./lib",
+  "scripts": {
+    "test": "mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
+  },
   "dependencies": {
-    "oauth": "0.9.x",
-    "passport-strategy": "1.x.x",
-    "request": "^2.75.0",
-    "webfinger": "0.4.x"
+    "base64url": "^3.0.1",
+    "oauth": "^0.9.15",
+    "passport-strategy": "^1.0.0",
+    "request": "^2.88.0",
+    "webfinger": "^0.4.2"
   },
   "devDependencies": {
     "chai": "2.x.x",
@@ -49,7 +40,21 @@
   "engines": {
     "node": ">= 0.6.0"
   },
-  "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://opensource.org/licenses/MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/GovTechSG/passport-openidconnect/issues"
+  },
+  "homepage": "https://github.com/GovTechSG/passport-openidconnect#readme",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
