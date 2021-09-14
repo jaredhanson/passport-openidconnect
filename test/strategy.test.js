@@ -42,7 +42,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -87,7 +87,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -133,7 +133,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -178,7 +178,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -223,7 +223,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -268,7 +268,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -316,7 +316,7 @@ describe('strategy', function() {
         });
         
         it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
