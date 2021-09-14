@@ -47,13 +47,14 @@ describe('session store', function() {
   
         it('should be redirected', function() {
           var u = uri.parse(url, true);
-          expect(u.query.state).to.have.length(24);
+          // u.query.state == json string: `{"handle":"sFkeuzR88RwQMRK6Pcncet5s"}`
+          expect(u.query.state).to.have.length(37);
         });
       
         it('should save state in session', function() {
           var u = uri.parse(url, true);
         
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(u.query.state);
 
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -85,13 +86,13 @@ describe('session store', function() {
   
         it('should be redirected', function() {
           var u = uri.parse(url, true);
-          expect(u.query.state).to.have.length(24);
+          expect(u.query.state).to.have.length(37);
         });
       
         it('should save state in session', function() {
           var u = uri.parse(url, true);
         
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(u.query.state);
           
           expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
@@ -520,13 +521,13 @@ describe('session store', function() {
   
         it('should be redirected', function() {
           var u = uri.parse(url, true);
-          expect(u.query.state).to.have.length(24);
+          expect(u.query.state).to.have.length(37);
         });
       
         it('should save state in session', function() {
           var u = uri.parse(url, true);
         
-          expect(request.session['openidconnect:example'].state.handle).to.have.length(24);
+          expect(request.session['openidconnect:example'].state.handle).to.have.length(37);
           expect(request.session['openidconnect:example'].state.handle).to.equal(u.query.state);
 
           expect(request.session['openidconnect:example'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
