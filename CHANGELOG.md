@@ -7,8 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
+- Added `customHeaders` option to `Strategy` constructor, matching functionality
+in `passport-oauth2`.
 - Parsing `profile.username` from UserInfo response.
 - Parsing `profile.emails` from UserInfo response.
+
+### Fixed
+
+- Corrected `ui_locales` option to Strategy constructor.  Was previously
+misspelled as `ui_locals`.
 
 ## [0.0.2] - 2017-02-23
 
