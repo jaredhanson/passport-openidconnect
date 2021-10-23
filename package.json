@@ -11,6 +11,7 @@
     "authentication",
     "identity"
   ],
+  "types": "index.d.ts",
   "author": {
     "name": "Jared Hanson",
     "email": "jaredhanson@gmail.com",
