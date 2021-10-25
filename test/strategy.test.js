@@ -30,7 +30,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -75,7 +75,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -121,7 +121,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -166,7 +166,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -211,7 +211,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -256,7 +256,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -301,7 +301,7 @@ describe('strategy', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.url = '/login/openid';
               req.headers.host = 'www.example.net';

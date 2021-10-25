@@ -38,7 +38,7 @@ describe('session store', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -74,7 +74,7 @@ describe('session store', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
@@ -116,7 +116,7 @@ describe('session store', function() {
               err = e;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             })
             .authenticate();
@@ -196,7 +196,7 @@ describe('session store', function() {
               info = i;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};
@@ -251,7 +251,7 @@ describe('session store', function() {
               info = i;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};
@@ -307,7 +307,7 @@ describe('session store', function() {
               status = s;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};
@@ -360,7 +360,7 @@ describe('session store', function() {
               status = s;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};
@@ -392,7 +392,7 @@ describe('session store', function() {
               status = s;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};
@@ -424,7 +424,7 @@ describe('session store', function() {
               err = e;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};
@@ -511,7 +511,7 @@ describe('session store', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.session = {};
             })
@@ -554,7 +554,7 @@ describe('session store', function() {
               info = i;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
             
               req.query = {};

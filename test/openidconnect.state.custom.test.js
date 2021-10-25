@@ -76,7 +76,7 @@ describe('custom store', function() {
               url = u;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.url = '/me';
             })
@@ -101,7 +101,7 @@ describe('custom store', function() {
               err = e;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.url = '/error';
             })
@@ -123,7 +123,7 @@ describe('custom store', function() {
               err = e;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
               req.url = '/exception';
             })
@@ -203,7 +203,7 @@ describe('custom store', function() {
               info = i;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
           
               req.url = '/auth/example/callback';
@@ -239,7 +239,7 @@ describe('custom store', function() {
               err = e;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
           
               req.url = '/error';
@@ -266,7 +266,7 @@ describe('custom store', function() {
               err = e;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
           
               req.url = '/exception';
@@ -378,7 +378,7 @@ describe('custom store', function() {
               info = i;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
         
               req.url = '/auth/example/callback';
@@ -470,7 +470,7 @@ describe('custom store', function() {
               info = i;
               done();
             })
-            .req(function(req) {
+            .request(function(req) {
               request = req;
         
               req.url = '/auth/example/callback';
