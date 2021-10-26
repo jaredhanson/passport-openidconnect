@@ -18,22 +18,22 @@ describe('Strategy', function() {
       }, function() {});
   
       chai.passport.use(strategy)
+        .request(function(req) {
+          req.session = {};
+        })
         .redirect(function(url) {
-          var pu = uri.parse(url, true);
+          var l = uri.parse(url, true);
         
-          expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid%20profile%20email&state=' + encodeURIComponent(pu.query.state));
+          expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid%20profile%20email&state=' + encodeURIComponent(l.query.state));
           // TODO: Clean this up
           expect(this.session['openidconnect:server.example.com'].state.handle).to.have.length(24);
-          expect(this.session['openidconnect:server.example.com'].state.handle).to.equal(pu.query.state);
+          expect(this.session['openidconnect:server.example.com'].state.handle).to.equal(l.query.state);
           expect(this.session['openidconnect:server.example.com'].state.authorizationURL).to.equal('https://server.example.com/authorize');
           expect(this.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
           expect(this.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
           expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
           expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
           done();
-        })
-        .request(function(req) {
-          req.session = {};
         })
         .error(done)
         .authenticate({ scope: [ 'profile', 'email' ] });
@@ -50,6 +50,9 @@ describe('Strategy', function() {
       }, function() {});
     
       chai.passport.use(strategy)
+        .request(function(req) {
+          req.session = {};
+        })
         .redirect(function(url) {
           var pu = uri.parse(url, true);
         
@@ -63,9 +66,6 @@ describe('Strategy', function() {
           expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
           expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
           done();
-        })
-        .request(function(req) {
-          req.session = {};
         })
         .error(done)
         .authenticate({ scope: 'profile email' });
@@ -82,6 +82,9 @@ describe('Strategy', function() {
       }, function() {});
       
       chai.passport.use(strategy)
+        .request(function(req) {
+          req.session = {};
+        })
         .redirect(function(url) {
           var pu = uri.parse(url, true);
         
@@ -95,9 +98,6 @@ describe('Strategy', function() {
           expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
           expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
           done();
-        })
-        .request(function(req) {
-          req.session = {};
         })
         .error(done)
         .authenticate({ callbackURL: 'https://client.example.org/cb2' });
