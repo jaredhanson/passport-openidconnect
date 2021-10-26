@@ -53,46 +53,33 @@ describe('session store', function() {
           .authenticate();
       }); // that redirects to service provider
       
-      describe('that redirects to service provider with other data in session', function() {
-        var request, url;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .redirect(function(u) {
-              url = u;
-              done();
-            })
-            .request(function(req) {
-              request = req;
-              req.session = {};
-              req.session['openidconnect:server.example.com'] = {};
-              req.session['openidconnect:server.example.com'].foo = 'bar';
-            })
-            .authenticate();
-        });
-  
-        it('should be redirected', function() {
-          var u = uri.parse(url, true);
-          expect(u.query.state).to.have.length(24);
-        });
-      
-        it('should save state in session', function() {
-          var u = uri.parse(url, true);
+      it('that redirects to service provider with other data in session', function(done) {
+        chai.passport.use(strategy)
+          .redirect(function(url) {
+            var u = uri.parse(url, true);
+            expect(u.query.state).to.have.length(24);
+            
+            expect(this.session['openidconnect:server.example.com'].state.handle).to.have.length(24);
+            expect(this.session['openidconnect:server.example.com'].state.handle).to.equal(u.query.state);
         
-          expect(request.session['openidconnect:server.example.com'].state.handle).to.have.length(24);
-          expect(request.session['openidconnect:server.example.com'].state.handle).to.equal(u.query.state);
-          
-          expect(request.session['openidconnect:server.example.com'].state.authorizationURL).to.equal('https://server.example.com/authorize');
-          expect(request.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
-          expect(request.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
-          expect(request.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
-          expect(request.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
-          expect(request.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
-        });
-        
-        it('should preserve other data in session', function() {
-          expect(request.session['openidconnect:server.example.com'].foo).to.equal('bar');
-        });
+            expect(this.session['openidconnect:server.example.com'].state.authorizationURL).to.equal('https://server.example.com/authorize');
+            expect(this.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
+            expect(this.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
+            expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
+            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
+            expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
+            
+            expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
+            
+            done();
+          })
+          .request(function(req) {
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {};
+            req.session['openidconnect:server.example.com'].foo = 'bar';
+          })
+          .error(done)
+          .authenticate();
       }); // that redirects to service provider with other data in session
       
       describe('that errors due to lack of session support in app', function() {
