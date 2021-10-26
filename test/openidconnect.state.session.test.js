@@ -103,8 +103,7 @@ describe('session store', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb',
-        state: true
+        callbackURL: 'https://client.example.org/cb'
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {
         if (iss !== 'https://www.example.com/') { return done(new Error('incorrect iss argument')); }
@@ -231,122 +230,84 @@ describe('session store', function() {
           .authenticate();
       }); // that was approved with other data in the session
       
-      describe('that fails due to state being invalid', function() {
-        var request
-          , info, status;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .fail(function(i, s) {
-              info = i;
-              status = s;
-              done();
-            })
-            .request(function(req) {
-              request = req;
+      it('that fails due to state being invalid', function(done) {
+        chai.passport.use(strategy)
+          .fail(function(info, status) {
+            expect(info).to.be.an.object;
+            expect(info.message).to.equal('Invalid authorization request state.');
             
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK-WRONG';
-              req.session = {};
-              req.session['openidconnect:server.example.com'] = {};
-              req.session['openidconnect:server.example.com']['state'] = {
-                issuer: 'https://www.example.com/',
-                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-                authorizationURL: 'https://server.example.com/authorize',
-                userInfoURL: 'https://server.example.com/userinfo',
-                tokenURL: 'https://server.example.com/token',
-                clientID: 'ABC123',
-                clientSecret: 'secret',
-                callbackURL: 'https://www.example.net/auth/example/callback',
-                params: {
-                  response_type: 'code',
-                  client_id: 'ABC123',
-                  redirect_uri: 'https://www.example.net/auth/example/callback',
-                  scope: 'openid'
-                }
-              };
-            })
-            .authenticate();
-        });
-  
-        it('should supply info', function() {
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Invalid authorization request state.');
-        });
-      
-        it('should supply status', function() {
-          expect(status).to.equal(403);
-        });
-      
-        it('should remove state from session', function() {
-          expect(request.session['openidconnect:server.example.com']).to.be.undefined;
-        });
+            expect(status).to.equal(403);
+            
+            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
+            
+            done();
+          })
+          .request(function(req) {
+            req.query = {};
+            req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
+            req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK-WRONG';
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {};
+            req.session['openidconnect:server.example.com']['state'] = {
+              issuer: 'https://www.example.com/',
+              handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+              authorizationURL: 'https://server.example.com/authorize',
+              userInfoURL: 'https://server.example.com/userinfo',
+              tokenURL: 'https://server.example.com/token',
+              clientID: 'ABC123',
+              clientSecret: 'secret',
+              callbackURL: 'https://www.example.net/auth/example/callback',
+              params: {
+                response_type: 'code',
+                client_id: 'ABC123',
+                redirect_uri: 'https://www.example.net/auth/example/callback',
+                scope: 'openid'
+              }
+            };
+          })
+          .error(done)
+          .authenticate();
       }); // that fails due to state being invalid
       
-      describe('that fails due to provider-specific state not found in session', function() {
-        var request
-          , info, status;
-  
-        before(function(done) {
+      it('that fails due to provider-specific state not found in session', function(done) {
           chai.passport.use(strategy)
-            .fail(function(i, s) {
-              info = i;
-              status = s;
+            .fail(function(info, status) {
+              expect(info).to.be.an.object;
+              expect(info.message).to.equal('Unable to verify authorization request state.');
+              
+              expect(status).to.equal(403);
+              
               done();
             })
             .request(function(req) {
-              request = req;
-            
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
               req.session = {};
             })
+            .error(done)
             .authenticate();
-        });
-  
-        it('should supply info', function() {
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Unable to verify authorization request state.');
-        });
-      
-        it('should supply status', function() {
-          expect(status).to.equal(403);
-        });
       }); // that fails due to state not found in session
       
-      describe('that fails due to provider-specific state lacking state value', function() {
-        var request
-          , info, status;
-  
-        before(function(done) {
+      it('that fails due to provider-specific state lacking state value', function(done) {
           chai.passport.use(strategy)
-            .fail(function(i, s) {
-              info = i;
-              status = s;
+            .fail(function(info, status) {
+              expect(info).to.be.an.object;
+              expect(info.message).to.equal('Unable to verify authorization request state.');
+              
+              expect(status).to.equal(403);
+              
               done();
             })
             .request(function(req) {
-              request = req;
-            
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
               req.session = {};
               req.session['openidconnect:www.example.com'] = {};
             })
+            .error(done)
             .authenticate();
-        });
-  
-        it('should supply info', function() {
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Unable to verify authorization request state.');
-        });
-      
-        it('should supply status', function() {
-          expect(status).to.equal(403);
-        });
       }); // that fails due to provider-specific state lacking state value
       
       describe('that errors due to lack of session support in app', function() {
