@@ -97,13 +97,13 @@ describe('session store', function() {
     
     describe('processing response to authorization request', function() {
       var strategy = new OIDCStrategy({
-        issuer: 'https://www.example.com/',
-        authorizationURL: 'https://www.example.com/oauth2/authorize',
-        userInfoURL: 'https://www.example.com/oauth2/userinfo',
-        tokenURL: 'https://www.example.com/oauth2/token',
-        clientID: 'ABC123',
-        clientSecret: 'secret',
-        callbackURL: 'https://www.example.net/auth/example/callback',
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize',
+        tokenURL: 'https://server.example.com/token',
+        userInfoURL: 'https://server.example.com/userinfo',
+        clientID: 's6BhdRkqt3',
+        clientSecret: 'some_secret12345',
+        callbackURL: 'https://client.example.org/cb',
         state: true
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {
@@ -134,7 +134,7 @@ describe('session store', function() {
           },
           _request: function(method, url, headers, post_body, access_token, callback) {
             if (method !== 'GET') { return callback(new Error('incorrect method argument')); }
-            if (url !== 'https://www.example.com/oauth2/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
+            if (url !== 'https://server.example.com/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
             if (headers.Authorization !== 'Bearer 2YotnFZFEjr1zCsicMWpAA') { return callback(new Error('incorrect headers.Authorization argument')); }
             if (headers.Accept !== 'application/json') { return callback(new Error('incorrect headers.Accept argument')); }
             if (post_body !== null) { return callback(new Error('incorrect post_body argument')); }
@@ -149,59 +149,44 @@ describe('session store', function() {
       };
       
       
-      describe('that was approved', function() {
-        var request
-          , user
-          , info;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .success(function(u, i) {
-              user = u;
-              info = i;
-              done();
-            })
-            .request(function(req) {
-              request = req;
+      it('that was approved', function(done) {
+        chai.passport.use(strategy)
+          .success(function(user, info) {
+            expect(user).to.be.an.object;
+            expect(user.id).to.equal('1234');
             
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
-              req.session['openidconnect:www.example.com'] = {};
-              req.session['openidconnect:www.example.com']['state'] = {
-                issuer: 'https://www.example.com/',
-                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-                authorizationURL: 'https://www.example.com/oauth2/authorize',
-                userInfoURL: 'https://www.example.com/oauth2/userinfo',
-                tokenURL: 'https://www.example.com/oauth2/token',
-                clientID: 'ABC123',
-                clientSecret: 'secret',
-                callbackURL: 'https://www.example.net/auth/example/callback',
-                params: {
-                  response_type: 'code',
-                  client_id: 'ABC123',
-                  redirect_uri: 'https://www.example.net/auth/example/callback',
-                  scope: 'openid'
-                }
-              };
-            })
-            .authenticate();
-        });
-  
-        it('should supply user', function() {
-          expect(user).to.be.an.object;
-          expect(user.id).to.equal('1234');
-        });
-  
-        it('should supply info', function() {
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Hello');
-        });
-      
-        it('should remove state from session', function() {
-          expect(request.session['openidconnect:www.example.com']).to.be.undefined;
-        });
+            expect(info).to.be.an.object;
+            expect(info.message).to.equal('Hello');
+            
+            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
+            
+            done();
+          })
+          .request(function(req) {
+            req.query = {};
+            req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
+            req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {};
+            req.session['openidconnect:server.example.com']['state'] = {
+              issuer: 'https://www.example.com/',
+              handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+              authorizationURL: 'https://server.example.com/authorize',
+              userInfoURL: 'https://server.example.com/userinfo',
+              tokenURL: 'https://server.example.com/token',
+              clientID: 'ABC123',
+              clientSecret: 'secret',
+              callbackURL: 'https://www.example.net/auth/example/callback',
+              params: {
+                response_type: 'code',
+                client_id: 'ABC123',
+                redirect_uri: 'https://www.example.net/auth/example/callback',
+                scope: 'openid'
+              }
+            };
+          })
+          .error(done)
+          .authenticate();
       }); // that was approved
       
       describe('that was approved with other data in the session', function() {
@@ -223,13 +208,13 @@ describe('session store', function() {
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
               req.session = {};
-              req.session['openidconnect:www.example.com'] = {};
-              req.session['openidconnect:www.example.com']['state'] = {
+              req.session['openidconnect:server.example.com'] = {};
+              req.session['openidconnect:server.example.com']['state'] = {
                 issuer: 'https://www.example.com/',
                 handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-                authorizationURL: 'https://www.example.com/oauth2/authorize',
-                userInfoURL: 'https://www.example.com/oauth2/userinfo',
-                tokenURL: 'https://www.example.com/oauth2/token',
+                authorizationURL: 'https://server.example.com/authorize',
+                userInfoURL: 'https://server.example.com/userinfo',
+                tokenURL: 'https://server.example.com/token',
                 clientID: 'ABC123',
                 clientSecret: 'secret',
                 callbackURL: 'https://www.example.net/auth/example/callback',
@@ -240,7 +225,7 @@ describe('session store', function() {
                   scope: 'openid'
                 }
               };
-              req.session['openidconnect:www.example.com'].foo = 'bar';
+              req.session['openidconnect:server.example.com'].foo = 'bar';
             })
             .authenticate();
         });
@@ -256,8 +241,8 @@ describe('session store', function() {
         });
       
         it('should preserve other data from session', function() {
-          expect(request.session['openidconnect:www.example.com'].state).to.be.undefined;
-          expect(request.session['openidconnect:www.example.com'].foo).to.equal('bar');
+          expect(request.session['openidconnect:server.example.com'].state).to.be.undefined;
+          expect(request.session['openidconnect:server.example.com'].foo).to.equal('bar');
         });
       }); // that was approved with other data in the session
       
@@ -279,13 +264,13 @@ describe('session store', function() {
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK-WRONG';
               req.session = {};
-              req.session['openidconnect:www.example.com'] = {};
-              req.session['openidconnect:www.example.com']['state'] = {
+              req.session['openidconnect:server.example.com'] = {};
+              req.session['openidconnect:server.example.com']['state'] = {
                 issuer: 'https://www.example.com/',
                 handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-                authorizationURL: 'https://www.example.com/oauth2/authorize',
-                userInfoURL: 'https://www.example.com/oauth2/userinfo',
-                tokenURL: 'https://www.example.com/oauth2/token',
+                authorizationURL: 'https://server.example.com/authorize',
+                userInfoURL: 'https://server.example.com/userinfo',
+                tokenURL: 'https://server.example.com/token',
                 clientID: 'ABC123',
                 clientSecret: 'secret',
                 callbackURL: 'https://www.example.net/auth/example/callback',
@@ -310,7 +295,7 @@ describe('session store', function() {
         });
       
         it('should remove state from session', function() {
-          expect(request.session['openidconnect:www.example.com']).to.be.undefined;
+          expect(request.session['openidconnect:server.example.com']).to.be.undefined;
         });
       }); // that fails due to state being invalid
       
