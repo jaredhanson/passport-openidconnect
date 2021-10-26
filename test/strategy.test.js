@@ -79,6 +79,12 @@ describe('Strategy', function() {
     }, function() {});
 
     chai.passport.use(strategy)
+      .request(function(req) {
+        req.url = '/login';
+        req.headers['host'] = 'client.example.org';
+        req.session = {};
+        req.connection = { encrypted: true };
+      })
       .redirect(function(url) {
         var l = uri.parse(url, true);
         
@@ -92,12 +98,6 @@ describe('Strategy', function() {
         expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
         expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
         done();
-      })
-      .request(function(req) {
-        req.url = '/login/openid';
-        req.headers.host = 'client.example.org';
-        req.connection = { encrypted: true };
-        req.session = {};
       })
       .error(done)
       .authenticate();
