@@ -183,7 +183,7 @@ describe('strategy', function() {
           .authenticate({ scope: [ 'address', 'phone' ] });
       }); // that redirects to identity provider with scope option as array
       
-      describe('that redirects to identity provider with redirect URI option', function() {
+      it('that redirects to identity provider with redirect URI option', function(done) {
         var strategy = new Strategy({
           issuer: 'https://www.example.com',
           authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -194,41 +194,31 @@ describe('strategy', function() {
         }, function() {});
       
       
-        var request, url, state;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .redirect(function(u) {
-              var pu = uri.parse(u, true);
-              
-              state = pu.query.state;
-              url = u;
-              done();
-            })
-            .request(function(req) {
-              request = req;
-              req.session = {};
-            })
-            .authenticate({ callbackURL: 'https://www.example.net/oidc/return' });
-        });
-  
-        it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Foidc%2Freturn&scope=openid&state=' + encodeURIComponent(state));
-        });
-        
-        it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+        chai.passport.use(strategy)
+          .redirect(function(url) {
+            var pu = uri.parse(url, true);
+            
+            expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Foidc%2Freturn&scope=openid&state=' + encodeURIComponent(pu.query.state));
+            
+            expect(this.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+            expect(this.session['openidconnect:www.example.com'].state.handle).to.equal(pu.query.state);
 
-          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
-          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
-          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
-        });
+            expect(this.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+            expect(this.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+            expect(this.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+            expect(this.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+            expect(this.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
+            
+            done();
+          })
+          .request(function(req) {
+            req.session = {};
+          })
+          .error(done)
+          .authenticate({ callbackURL: 'https://www.example.net/oidc/return' });
       }); // that redirects to identity provider with redirect URI option
       
-      describe('that redirects to identity provider with relative redirect URI option', function() {
+      it('that redirects to identity provider with relative redirect URI option', function(done) {
         var strategy = new Strategy({
           issuer: 'https://www.example.com',
           authorizationURL: 'https://www.example.com/oauth2/authorize',
@@ -238,42 +228,32 @@ describe('strategy', function() {
           callbackURL: 'https://www.example.net/login/return'
         }, function() {});
       
-      
-        var request, url, state;
   
-        before(function(done) {
-          chai.passport.use(strategy)
-            .redirect(function(u) {
-              var pu = uri.parse(u, true);
-              
-              state = pu.query.state;
-              url = u;
-              done();
-            })
-            .request(function(req) {
-              request = req;
-              req.url = '/login/openid';
-              req.headers.host = 'www.example.net';
-              req.connection = { encrypted: true };
-              req.session = {};
-            })
-            .authenticate({ callbackURL: '/openid-connect/return' });
-        });
-  
-        it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Fopenid-connect%2Freturn&scope=openid&state=' + encodeURIComponent(state));
-        });
-        
-        it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
+        chai.passport.use(strategy)
+          .redirect(function(url) {
+            var pu = uri.parse(url, true);
+            
+            expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Fopenid-connect%2Freturn&scope=openid&state=' + encodeURIComponent(pu.query.state));
+            
+            expect(this.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
+            expect(this.session['openidconnect:www.example.com'].state.handle).to.equal(pu.query.state);
 
-          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
-          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-          expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
-          expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
-        });
+            expect(this.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
+            expect(this.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
+            expect(this.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
+            expect(this.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
+            expect(this.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
+            
+            done();
+          })
+          .request(function(req) {
+            req.url = '/login/openid';
+            req.headers.host = 'www.example.net';
+            req.connection = { encrypted: true };
+            req.session = {};
+          })
+          .error(done)
+          .authenticate({ callbackURL: '/openid-connect/return' });
       }); // that redirects to identity provider with relative redirect URI option
   
     }); // issuing authorization request
