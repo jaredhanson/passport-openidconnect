@@ -134,7 +134,7 @@ describe('session store', function() {
         if (accessToken !== '2YotnFZFEjr1zCsicMWpAA') { return done(new Error('incorrect accessToken argument')); }
         if (refreshToken !== 'tGzv3JOkF0XG5Qx2TlKWIA') { return done(new Error('incorrect refreshToken argument')); }
         
-        return done(null, { id: '1234' }, { message: 'Hello' });
+        return done(null, { id: '248289761001' }, { message: 'Hello' });
       });
 
       strategy._getOAuth2Client = function(){
@@ -173,7 +173,7 @@ describe('session store', function() {
         chai.passport.use(strategy)
           .success(function(user, info) {
             expect(user).to.be.an.object;
-            expect(user.id).to.equal('1234');
+            expect(user).to.deep.equal({ id: '248289761001' });
             
             expect(info).to.be.an.object;
             expect(info.message).to.equal('Hello');
@@ -213,7 +213,7 @@ describe('session store', function() {
         chai.passport.use(strategy)
           .success(function(user, info) {
             expect(user).to.be.an.object;
-            expect(user.id).to.equal('1234');
+            expect(user).to.deep.equal({ id: '248289761001' });
             
             expect(info).to.be.an.object;
             expect(info.message).to.equal('Hello');
