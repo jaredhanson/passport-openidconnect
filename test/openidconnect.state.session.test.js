@@ -189,61 +189,46 @@ describe('session store', function() {
           .authenticate();
       }); // that was approved
       
-      describe('that was approved with other data in the session', function() {
-        var request
-          , user
-          , info;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .success(function(u, i) {
-              user = u;
-              info = i;
-              done();
-            })
-            .request(function(req) {
-              request = req;
+      it('that was approved with other data in the session', function(done) {
+        chai.passport.use(strategy)
+          .success(function(user, info) {
+            expect(user).to.be.an.object;
+            expect(user.id).to.equal('1234');
             
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
-              req.session['openidconnect:server.example.com'] = {};
-              req.session['openidconnect:server.example.com']['state'] = {
-                issuer: 'https://www.example.com/',
-                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-                authorizationURL: 'https://server.example.com/authorize',
-                userInfoURL: 'https://server.example.com/userinfo',
-                tokenURL: 'https://server.example.com/token',
-                clientID: 'ABC123',
-                clientSecret: 'secret',
-                callbackURL: 'https://www.example.net/auth/example/callback',
-                params: {
-                  response_type: 'code',
-                  client_id: 'ABC123',
-                  redirect_uri: 'https://www.example.net/auth/example/callback',
-                  scope: 'openid'
-                }
-              };
-              req.session['openidconnect:server.example.com'].foo = 'bar';
-            })
-            .authenticate();
-        });
-  
-        it('should supply user', function() {
-          expect(user).to.be.an.object;
-          expect(user.id).to.equal('1234');
-        });
-  
-        it('should supply info', function() {
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Hello');
-        });
-      
-        it('should preserve other data from session', function() {
-          expect(request.session['openidconnect:server.example.com'].state).to.be.undefined;
-          expect(request.session['openidconnect:server.example.com'].foo).to.equal('bar');
-        });
+            expect(info).to.be.an.object;
+            expect(info.message).to.equal('Hello');
+            
+            expect(this.session['openidconnect:server.example.com'].state).to.be.undefined;
+            expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
+            
+            done();
+          })
+          .request(function(req) {
+            req.query = {};
+            req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
+            req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {};
+            req.session['openidconnect:server.example.com']['state'] = {
+              issuer: 'https://www.example.com/',
+              handle: 'DkbychwKu8kBaJoLE5yeR5NK',
+              authorizationURL: 'https://server.example.com/authorize',
+              userInfoURL: 'https://server.example.com/userinfo',
+              tokenURL: 'https://server.example.com/token',
+              clientID: 'ABC123',
+              clientSecret: 'secret',
+              callbackURL: 'https://www.example.net/auth/example/callback',
+              params: {
+                response_type: 'code',
+                client_id: 'ABC123',
+                redirect_uri: 'https://www.example.net/auth/example/callback',
+                scope: 'openid'
+              }
+            };
+            req.session['openidconnect:server.example.com'].foo = 'bar';
+          })
+          .error(done)
+          .authenticate();
       }); // that was approved with other data in the session
       
       describe('that fails due to state being invalid', function() {
