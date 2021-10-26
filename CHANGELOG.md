@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `customHeaders` option to `Strategy` constructor, matching functionality
 in `passport-oauth2`.
+- Support for `StateStore#store()` function signature which accepts
+application-supplied state as an argument.
+- Support for `state` object passed as option to `authenticate`, which will be
+persisted in the session by state store.
 - Parsing `profile.username` from UserInfo response.
 - Parsing `profile.emails` from UserInfo response.
 
