@@ -23,7 +23,7 @@ describe('session store', function() {
         tokenURL: 'https://server.example.com/token',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://www.example.net/auth/example/callback'
+        callbackURL: 'https://client.example.org/cb'
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {});
       
@@ -42,7 +42,7 @@ describe('session store', function() {
             expect(this.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
             expect(this.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
             expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
-            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
+            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://client.example.org/cb')
             expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
             done();
           })
@@ -66,7 +66,7 @@ describe('session store', function() {
             expect(this.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
             expect(this.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
             expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
-            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
+            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://client.example.org/cb')
             expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
             
             expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
