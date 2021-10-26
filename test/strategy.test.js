@@ -101,41 +101,6 @@ describe('Strategy', function() {
       .authenticate();
   }); // that redirects to identity provider with redirect URI and scope
   
-  it('that redirects to identity provider with scope option as array', function(done) {
-    var strategy = new Strategy({
-      issuer: 'https://www.example.com',
-      authorizationURL: 'https://www.example.com/oauth2/authorize',
-      tokenURL: 'https://www.example.com/oauth2/token',
-      clientID: 'ABC123',
-      clientSecret: 'secret',
-      callbackURL: 'https://www.example.net/login/return'
-    }, function() {});
-  
-  
-    chai.passport.use(strategy)
-      .redirect(function(url) {
-        var pu = uri.parse(url, true);
-        
-        expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&scope=openid%20address%20phone&state=' + encodeURIComponent(pu.query.state));
-        
-        expect(this.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
-        expect(this.session['openidconnect:www.example.com'].state.handle).to.equal(pu.query.state);
-
-        expect(this.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
-        expect(this.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-        expect(this.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-        expect(this.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
-        expect(this.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
-        
-        done();
-      })
-      .request(function(req) {
-        req.session = {};
-      })
-      .error(done)
-      .authenticate({ scope: [ 'address', 'phone' ] });
-  }); // that redirects to identity provider with scope option as array
-  
   it('that redirects to identity provider with redirect URI option', function(done) {
     var strategy = new Strategy({
       issuer: 'https://www.example.com',
