@@ -23,8 +23,7 @@ describe('session store', function() {
         tokenURL: 'https://www.example.com/oauth2/token',
         clientID: 'ABC123',
         clientSecret: 'secret',
-        callbackURL: 'https://www.example.net/auth/example/callback',
-        state: true
+        callbackURL: 'https://www.example.net/auth/example/callback'
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {});
       
