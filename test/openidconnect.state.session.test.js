@@ -82,25 +82,15 @@ describe('session store', function() {
           .authenticate();
       }); // that redirects to service provider with other data in session
       
-      describe('that errors due to lack of session support in app', function() {
-        var request, err;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .error(function(e) {
-              err = e;
-              done();
-            })
-            .request(function(req) {
-              request = req;
-            })
-            .authenticate();
-        });
-  
-        it('should error', function() {
-          expect(err).to.be.an.instanceof(Error)
-          expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
-        });
+      it('that errors due to lack of session support in app', function(done) {
+        chai.passport.use(strategy)
+          .error(function(err) {
+            expect(err).to.be.an.instanceof(Error)
+            expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
+            
+            done();
+          })
+          .authenticate();
       }); // that errors due to lack of session support in app
       
     }); // issuing authorization request
