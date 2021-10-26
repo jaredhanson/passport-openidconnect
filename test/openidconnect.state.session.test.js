@@ -30,24 +30,33 @@ describe('session store', function() {
       
       it('that redirects to service provider', function(done) {
         chai.passport.use(strategy)
-          .redirect(function(url) {
-            
-            var u = uri.parse(url, true);
-            expect(u.query.state).to.have.length(24);
-            
-            // TODO: Clean this up
-            expect(this.session['openidconnect:server.example.com'].state.handle).to.have.length(24);
-            expect(this.session['openidconnect:server.example.com'].state.handle).to.equal(u.query.state);
-            expect(this.session['openidconnect:server.example.com'].state.authorizationURL).to.equal('https://server.example.com/authorize');
-            expect(this.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
-            expect(this.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
-            expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
-            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://client.example.org/cb')
-            expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
-            done();
-          })
           .request(function(req) {
             req.session = {};
+          })
+          .redirect(function(url) {
+            var l = uri.parse(url, true);
+            var state = l.query.state;
+            
+            expect(state).to.have.length(24);
+            expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
+              handle: state,
+              issuer: 'https://server.example.com',
+              authorizationURL: 'https://server.example.com/authorize',
+              tokenURL: 'https://server.example.com/token',
+              userInfoURL: undefined,
+              clientID: 's6BhdRkqt3',
+              clientSecret: 'some_secret12345',
+              callbackURL: 'https://client.example.org/cb',
+              customHeaders: undefined,
+              params: {
+                response_type: 'code',
+                client_id: 's6BhdRkqt3',
+                redirect_uri: 'https://client.example.org/cb',
+                scope: 'openid',
+                state: state
+              }
+            });
+            done();
           })
           .error(done)
           .authenticate();
@@ -56,20 +65,32 @@ describe('session store', function() {
       it('that redirects to service provider with other data in session', function(done) {
         chai.passport.use(strategy)
           .redirect(function(url) {
-            var u = uri.parse(url, true);
-            expect(u.query.state).to.have.length(24);
+            var l = uri.parse(url, true);
+            var state = l.query.state;
             
-            expect(this.session['openidconnect:server.example.com'].state.handle).to.have.length(24);
-            expect(this.session['openidconnect:server.example.com'].state.handle).to.equal(u.query.state);
-        
-            expect(this.session['openidconnect:server.example.com'].state.authorizationURL).to.equal('https://server.example.com/authorize');
-            expect(this.session['openidconnect:server.example.com'].state.tokenURL).to.equal('https://server.example.com/token');
-            expect(this.session['openidconnect:server.example.com'].state.clientID).to.equal('s6BhdRkqt3');
-            expect(this.session['openidconnect:server.example.com'].state.clientSecret).to.equal('some_secret12345');
-            expect(this.session['openidconnect:server.example.com'].state.callbackURL).to.equal('https://client.example.org/cb')
-            expect(this.session['openidconnect:server.example.com'].state.params.response_type).to.equal('code');
+            expect(l.query.state).to.have.length(24);
             
             expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
+            
+            expect(state).to.have.length(24);
+            expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
+              handle: state,
+              issuer: 'https://server.example.com',
+              authorizationURL: 'https://server.example.com/authorize',
+              tokenURL: 'https://server.example.com/token',
+              userInfoURL: undefined,
+              clientID: 's6BhdRkqt3',
+              clientSecret: 'some_secret12345',
+              callbackURL: 'https://client.example.org/cb',
+              customHeaders: undefined,
+              params: {
+                response_type: 'code',
+                client_id: 's6BhdRkqt3',
+                redirect_uri: 'https://client.example.org/cb',
+                scope: 'openid',
+                state: state
+              }
+            });
             
             done();
           })
