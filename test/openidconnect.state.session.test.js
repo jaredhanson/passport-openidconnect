@@ -98,7 +98,6 @@ describe('session store', function() {
                 }
               }
             });
-            
             done();
           })
           .error(done)
@@ -110,7 +109,6 @@ describe('session store', function() {
           .error(function(err) {
             expect(err).to.be.an.instanceof(Error)
             expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
-            
             done();
           })
           .authenticate();
