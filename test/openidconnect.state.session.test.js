@@ -310,30 +310,20 @@ describe('session store', function() {
             .authenticate();
       }); // that fails due to provider-specific state lacking state value
       
-      describe('that errors due to lack of session support in app', function() {
-        var request
-          , err;
-  
-        before(function(done) {
+      it('that errors due to lack of session support in app', function(done) {
           chai.passport.use(strategy)
-            .error(function(e) {
-              err = e;
+            .error(function(err) {
+              expect(err).to.be.an.instanceof(Error)
+              expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
+              
               done();
             })
             .request(function(req) {
-              request = req;
-            
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
               req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
             })
             .authenticate();
-        });
-  
-        it('should error', function() {
-          expect(err).to.be.an.instanceof(Error)
-          expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
-        });
       }); // that errors due to lack of session support in app
       
     }); // processing response to authorization request
