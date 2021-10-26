@@ -66,40 +66,40 @@ describe('session store', function() {
       
       it('that redirects to service provider with other data in session', function(done) {
         chai.passport.use(strategy)
+          .request(function(req) {
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {
+              returnTo: 'https://client.example.org/welcome'
+            };
+          })
           .redirect(function(url) {
             var l = uri.parse(url, true);
             var state = l.query.state;
             
-            expect(l.query.state).to.have.length(24);
-            
-            expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
-            
             expect(state).to.have.length(24);
-            expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-              handle: state,
-              issuer: 'https://server.example.com',
-              authorizationURL: 'https://server.example.com/authorize',
-              tokenURL: 'https://server.example.com/token',
-              userInfoURL: undefined,
-              clientID: 's6BhdRkqt3',
-              clientSecret: 'some_secret12345',
-              callbackURL: 'https://client.example.org/cb',
-              customHeaders: undefined,
-              params: {
-                response_type: 'code',
-                client_id: 's6BhdRkqt3',
-                redirect_uri: 'https://client.example.org/cb',
-                scope: 'openid',
-                state: state
+            expect(this.session['openidconnect:server.example.com']).to.deep.equal({
+              returnTo: 'https://client.example.org/welcome',
+              state: {
+                handle: state,
+                issuer: 'https://server.example.com',
+                authorizationURL: 'https://server.example.com/authorize',
+                tokenURL: 'https://server.example.com/token',
+                userInfoURL: undefined,
+                clientID: 's6BhdRkqt3',
+                clientSecret: 'some_secret12345',
+                callbackURL: 'https://client.example.org/cb',
+                customHeaders: undefined,
+                params: {
+                  response_type: 'code',
+                  client_id: 's6BhdRkqt3',
+                  redirect_uri: 'https://client.example.org/cb',
+                  scope: 'openid',
+                  state: state
+                }
               }
             });
             
             done();
-          })
-          .request(function(req) {
-            req.session = {};
-            req.session['openidconnect:server.example.com'] = {};
-            req.session['openidconnect:server.example.com'].foo = 'bar';
           })
           .error(done)
           .authenticate();
