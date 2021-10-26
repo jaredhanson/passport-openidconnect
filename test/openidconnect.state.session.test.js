@@ -171,17 +171,6 @@ describe('session store', function() {
       
       it('that was approved', function(done) {
         chai.passport.use(strategy)
-          .success(function(user, info) {
-            expect(user).to.be.an.object;
-            expect(user).to.deep.equal({ id: '248289761001' });
-            
-            expect(info).to.be.an.object;
-            expect(info.message).to.equal('Hello');
-            
-            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
-            
-            done();
-          })
           .request(function(req) {
             req.query = {};
             req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
@@ -205,12 +194,6 @@ describe('session store', function() {
               }
             };
           })
-          .error(done)
-          .authenticate();
-      }); // that was approved
-      
-      it('that was approved with other data in the session', function(done) {
-        chai.passport.use(strategy)
           .success(function(user, info) {
             expect(user).to.be.an.object;
             expect(user).to.deep.equal({ id: '248289761001' });
@@ -218,11 +201,16 @@ describe('session store', function() {
             expect(info).to.be.an.object;
             expect(info.message).to.equal('Hello');
             
-            expect(this.session['openidconnect:server.example.com'].state).to.be.undefined;
-            expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
+            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
             
             done();
           })
+          .error(done)
+          .authenticate();
+      }); // that was approved
+      
+      it('that was approved with other data in the session', function(done) {
+        chai.passport.use(strategy)
           .request(function(req) {
             req.query = {};
             req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
@@ -247,22 +235,24 @@ describe('session store', function() {
             };
             req.session['openidconnect:server.example.com'].foo = 'bar';
           })
+          .success(function(user, info) {
+            expect(user).to.be.an.object;
+            expect(user).to.deep.equal({ id: '248289761001' });
+            
+            expect(info).to.be.an.object;
+            expect(info.message).to.equal('Hello');
+            
+            expect(this.session['openidconnect:server.example.com'].state).to.be.undefined;
+            expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
+            
+            done();
+          })
           .error(done)
           .authenticate();
       }); // that was approved with other data in the session
       
       it('that fails due to state being invalid', function(done) {
         chai.passport.use(strategy)
-          .fail(function(info, status) {
-            expect(info).to.be.an.object;
-            expect(info.message).to.equal('Invalid authorization request state.');
-            
-            expect(status).to.equal(403);
-            
-            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
-            
-            done();
-          })
           .request(function(req) {
             req.query = {};
             req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
@@ -286,12 +276,28 @@ describe('session store', function() {
               }
             };
           })
+          .fail(function(info, status) {
+            expect(info).to.be.an.object;
+            expect(info.message).to.equal('Invalid authorization request state.');
+            
+            expect(status).to.equal(403);
+            
+            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
+            
+            done();
+          })
           .error(done)
           .authenticate();
       }); // that fails due to state being invalid
       
       it('that fails due to provider-specific state not found in session', function(done) {
           chai.passport.use(strategy)
+            .request(function(req) {
+              req.query = {};
+              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
+              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+              req.session = {};
+            })
             .fail(function(info, status) {
               expect(info).to.be.an.object;
               expect(info.message).to.equal('Unable to verify authorization request state.');
@@ -299,12 +305,6 @@ describe('session store', function() {
               expect(status).to.equal(403);
               
               done();
-            })
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
             })
             .error(done)
             .authenticate();
@@ -312,6 +312,13 @@ describe('session store', function() {
       
       it('that fails due to provider-specific state lacking state value', function(done) {
           chai.passport.use(strategy)
+            .request(function(req) {
+              req.query = {};
+              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
+              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+              req.session = {};
+              req.session['openidconnect:www.example.com'] = {};
+            })
             .fail(function(info, status) {
               expect(info).to.be.an.object;
               expect(info.message).to.equal('Unable to verify authorization request state.');
@@ -320,29 +327,22 @@ describe('session store', function() {
               
               done();
             })
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
-              req.session['openidconnect:www.example.com'] = {};
-            })
             .error(done)
             .authenticate();
       }); // that fails due to provider-specific state lacking state value
       
       it('that errors due to lack of session support in app', function(done) {
           chai.passport.use(strategy)
+            .request(function(req) {
+              req.query = {};
+              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
+              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+            })
             .error(function(err) {
               expect(err).to.be.an.instanceof(Error)
               expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
               
               done();
-            })
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
             })
             .authenticate();
       }); // that errors due to lack of session support in app
@@ -411,6 +411,9 @@ describe('session store', function() {
       
       it('that redirects to service provider', function(done) {
           chai.passport.use(strategy)
+            .request(function(req) {
+              req.session = {};
+            })
             .redirect(function(url) {
               var u = uri.parse(url, true);
               expect(u.query.state).to.have.length(24);
@@ -427,9 +430,6 @@ describe('session store', function() {
               
               done();
             })
-            .request(function(req) {
-              req.session = {};
-            })
             .error(done)
             .authenticate();
       }); // that redirects to service provider
@@ -440,17 +440,6 @@ describe('session store', function() {
       
       it('that was approved', function(done) {
           chai.passport.use(strategy)
-            .success(function(user, info) {
-              expect(user).to.be.an.object;
-              expect(user.id).to.equal('1234');
-              
-              expect(info).to.be.an.object;
-              expect(info.message).to.equal('Hello');
-              
-              expect(this.session['openidconnect:example']).to.be.undefined;
-              
-              done();
-            })
             .request(function(req) {
               req.query = {};
               req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
@@ -473,6 +462,17 @@ describe('session store', function() {
                   scope: 'openid'
                 }
               };
+            })
+            .success(function(user, info) {
+              expect(user).to.be.an.object;
+              expect(user.id).to.equal('1234');
+              
+              expect(info).to.be.an.object;
+              expect(info.message).to.equal('Hello');
+              
+              expect(this.session['openidconnect:example']).to.be.undefined;
+              
+              done();
             })
             .error(done)
             .authenticate();
