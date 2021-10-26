@@ -1,4 +1,4 @@
-# Passport-OpenID Connect
+# passport-openidconnect
 
 [Passport](https://github.com/jaredhanson/passport) strategy for authenticating
 with [OpenID Connect](http://openid.net/connect/).
@@ -17,6 +17,5 @@ including [Express](http://expressjs.com/).
 
 [The MIT License](http://opensource.org/licenses/MIT)
 
-Copyright (c) 2011-2013 Jared Hanson <[http://jaredhanson.net/](http://jaredhanson.net/)>
-
+Copyright (c) 2011-2021 Jared Hanson <[https://www.jaredhanson.me/](https://www.jaredhanson.me/)>
 
