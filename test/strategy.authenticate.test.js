@@ -35,7 +35,6 @@ describe('Strategy', function() {
               tokenURL: 'https://server.example.com/token',
               userInfoURL: undefined,
               clientID: 's6BhdRkqt3',
-              clientSecret: 'some_secret12345',
               callbackURL: 'https://client.example.org/cb2',
               customHeaders: undefined
             }
@@ -74,7 +73,6 @@ describe('Strategy', function() {
               tokenURL: 'https://server.example.com/token',
               userInfoURL: undefined,
               clientID: 's6BhdRkqt3',
-              clientSecret: 'some_secret12345',
               callbackURL: 'https://client.example.org/cb',
               customHeaders: undefined
             }
@@ -113,7 +111,6 @@ describe('Strategy', function() {
               tokenURL: 'https://server.example.com/token',
               userInfoURL: undefined,
               clientID: 's6BhdRkqt3',
-              clientSecret: 'some_secret12345',
               callbackURL: 'https://client.example.org/cb',
               customHeaders: undefined
             }

@@ -46,7 +46,6 @@ describe('session store', function() {
                 tokenURL: 'https://server.example.com/token',
                 userInfoURL: undefined,
                 clientID: 's6BhdRkqt3',
-                clientSecret: 'some_secret12345',
                 callbackURL: 'https://client.example.org/cb',
                 customHeaders: undefined
               }
@@ -79,7 +78,6 @@ describe('session store', function() {
                 tokenURL: 'https://server.example.com/token',
                 userInfoURL: undefined,
                 clientID: 's6BhdRkqt3',
-                clientSecret: 'some_secret12345',
                 callbackURL: 'https://client.example.org/cb',
                 customHeaders: undefined
               }
@@ -410,7 +408,7 @@ describe('session store', function() {
               expect(this.session['openidconnect:example'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
               expect(this.session['openidconnect:example'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
               expect(this.session['openidconnect:example'].state.clientID).to.equal('ABC123');
-              expect(this.session['openidconnect:example'].state.clientSecret).to.equal('secret');
+              //expect(this.session['openidconnect:example'].state.clientSecret).to.equal('secret');
               expect(this.session['openidconnect:example'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
               //expect(this.session['openidconnect:example'].state.params.response_type).to.equal('code');
               

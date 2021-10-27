@@ -28,6 +28,7 @@ order to support values defined by extensions.
 
 ### Removed
 
+- Removed `clientSecret` property from state stored in session.
 - Removed `params` property, which contained all authentication request
 parameters, from state stored in session.  Most of these parameters are not
 required to validate the authentication response and this minimizes the size of
