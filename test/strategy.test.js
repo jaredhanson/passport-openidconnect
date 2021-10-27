@@ -263,119 +263,46 @@ describe('Strategy', function() {
       .authenticate();
   }); // should redirect with login hint parameter
 
-
-
-      describe('that redirects to identity provider with claims option', function() {
-        var strategy = new Strategy({
-          issuer: 'https://www.example.com',
-          authorizationURL: 'https://www.example.com/oauth2/authorize',
-          tokenURL: 'https://www.example.com/oauth2/token',
-          clientID: 'ABC123',
-          clientSecret: 'secret',
-          callbackURL: 'https://www.example.net/login/return'
-        }, function() {});
-      
-      
-        var request, url, state;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .redirect(function(u) {
-              var pu = uri.parse(u, true);
-              
-              state = pu.query.state;
-              url = u;
-              done();
-            })
-            .request(function(req) {
-              request = req;
-              req.session = {};
-            })
-            .authenticate({ claims: {
-              id_token: {
-                email: null,
-                email_verified: null
-              },
-              userinfo: {
-                picture: null,
-                email: null,
-                email_verified: null
-              }
-            }});
-        });
-  
-        it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&scope=openid' + 
-          '&claims=%7B%22id_token%22%3A%7B%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%2C%22userinfo%22%3A%7B%22picture%22%3Anull%2C%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%7D&state=' + encodeURIComponent(state));
-        });
+  it('should redirect with claims parameter', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb',
+      claims: {
+        userinfo: {
+          email: null,
+          email_verified: null
+        }
+      }
+    }, function() {});
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.session = {};
+      })
+      .redirect(function(url) {
+        var l = uri.parse(url, true);
+        var state = l.query.state;
         
-        it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
-
-          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
-          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-          //expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
-          //expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
+        expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&claims=%7B%22userinfo%22%3A%7B%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%7D&state=' + encodeURIComponent(state));
+        expect(state).to.have.length(24);
+        expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
+          handle: state,
+          issuer: 'https://server.example.com',
+          authorizationURL: 'https://server.example.com/authorize',
+          tokenURL: 'https://server.example.com/token',
+          userInfoURL: undefined,
+          clientID: 's6BhdRkqt3',
+          callbackURL: 'https://client.example.org/cb',
+          customHeaders: undefined
         });
-      }); // that redirects to identity provider with claims option
-
-      describe('that redirects to identity provider with redirect URI and claims', function() {
-        var strategy = new Strategy({
-          issuer: 'https://www.example.com',
-          authorizationURL: 'https://www.example.com/oauth2/authorize',
-          tokenURL: 'https://www.example.com/oauth2/token',
-          clientID: 'ABC123',
-          clientSecret: 'secret',
-          callbackURL: 'https://www.example.net/login/return',
-          claims: {
-            id_token: {
-              email: null,
-              email_verified: null
-            },
-            userinfo: {
-              picture: null,
-              email: null,
-              email_verified: null
-            }
-          }
-        }, function() {});
-      
-      
-        var request, url, state;
-  
-        before(function(done) {
-          chai.passport.use(strategy)
-            .redirect(function(u) {
-              var pu = uri.parse(u, true);
-              
-              state = pu.query.state;
-              url = u;
-              done();
-            })
-            .request(function(req) {
-              request = req;
-              req.session = {};
-            })
-            .authenticate();
-        });
-  
-        it('should be redirected', function() {
-          expect(url).to.equal('https://www.example.com/oauth2/authorize?response_type=code&client_id=ABC123&redirect_uri=https%3A%2F%2Fwww.example.net%2Flogin%2Freturn&scope=openid' + 
-          '&claims=%7B%22id_token%22%3A%7B%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%2C%22userinfo%22%3A%7B%22picture%22%3Anull%2C%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%7D&state=' + encodeURIComponent(state));
-        });
-        
-        it('should save state in session', function() {
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.have.length(24);
-          expect(request.session['openidconnect:www.example.com'].state.handle).to.equal(state);
-
-          expect(request.session['openidconnect:www.example.com'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
-          expect(request.session['openidconnect:www.example.com'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-          expect(request.session['openidconnect:www.example.com'].state.clientID).to.equal('ABC123');
-          //expect(request.session['openidconnect:www.example.com'].state.clientSecret).to.equal('secret');
-          //expect(request.session['openidconnect:www.example.com'].state.params.response_type).to.equal('code');
-        });
-      }); // that redirects to identity provider with redirect URI and claims
+        done();
+      })
+      .error(done)
+      .authenticate();
+  }); // should redirect with claims parameter
   
 }); // Strategy

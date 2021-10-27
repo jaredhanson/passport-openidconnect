@@ -16,6 +16,7 @@ redirect URIs to an absolute URI.
 behavior.
 - Support for `StateStore#store()` function signature which accepts
 application-supplied state as an argument.
+- Support for `claims` options to both `Strategy` constructor and `authenticate()`.
 - Support for `state` object passed as option to `authenticate`, which will be
 persisted in the session by state store.
 - Parsing `profile.username` from UserInfo response.

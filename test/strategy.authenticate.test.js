@@ -160,6 +160,49 @@ describe('Strategy', function() {
         .authenticate({ display: 'touch' });
     }); // should redirect with display parameter
   
+    it('should redirect with claims parameter', function(done) {
+      var strategy = new Strategy({
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize',
+        tokenURL: 'https://server.example.com/token',
+        clientID: 's6BhdRkqt3',
+        clientSecret: 'some_secret12345',
+        callbackURL: 'https://client.example.org/cb'
+      }, function() {});
+    
+      chai.passport.use(strategy)
+        .request(function(req) {
+          req.session = {};
+        })
+        .redirect(function(url) {
+          var l = uri.parse(url, true);
+          var state = l.query.state;
+          
+          expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&claims=%7B%22userinfo%22%3A%7B%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%7D&state=' + encodeURIComponent(state));
+          expect(state).to.have.length(24);
+          expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
+            handle: state,
+            issuer: 'https://server.example.com',
+            authorizationURL: 'https://server.example.com/authorize',
+            tokenURL: 'https://server.example.com/token',
+            userInfoURL: undefined,
+            clientID: 's6BhdRkqt3',
+            callbackURL: 'https://client.example.org/cb',
+            customHeaders: undefined
+          });
+          done();
+        })
+        .error(done)
+        .authenticate({
+          claims: {
+            userinfo: {
+              email: null,
+              email_verified: null
+            }
+          }
+        });
+    }); // should redirect with claims parameter
+  
   }); // #authenticate
   
 }); // Strategy
