@@ -271,7 +271,7 @@ describe('Strategy', function() {
       clientID: 's6BhdRkqt3',
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb',
-      ui_locales: 'fr-CA fr en'
+      uiLocales: 'fr-CA fr en'
     }, function() {});
   
     chai.passport.use(strategy)

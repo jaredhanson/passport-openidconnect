@@ -27,6 +27,7 @@ persisted in the session by state store.
 
 - `display` option can now take any value, rather than just defined values, in
 order to support values defined by extensions.
+- `ui_locals` option to `Strategy` constructor renamed to `uiLocales`.
 - `max_age` option to `Strategy` constructor renamed to `maxAge`.
 
 ### Removed
@@ -40,8 +41,6 @@ session data.
 
 ### Fixed
 
-- Corrected `ui_locales` option to Strategy constructor.  Was previously
-misspelled as `ui_locals`.
 - Correctly validating that an `azp` claim is present if the ID token contains
 multiple audiences.
 
