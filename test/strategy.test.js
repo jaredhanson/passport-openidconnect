@@ -263,6 +263,43 @@ describe('Strategy', function() {
       .authenticate();
   }); // should redirect with display parameter set to extension value
   
+  it('should redirect with UI locales parameter', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb',
+      ui_locales: 'fr-CA fr en'
+    }, function() {});
+  
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.session = {};
+      })
+      .redirect(function(url) {
+        var l = uri.parse(url, true);
+        var state = l.query.state;
+        
+        expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&ui_locales=fr-CA%20fr%20en&state=' + encodeURIComponent(state));
+        expect(state).to.have.length(24);
+        expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
+          handle: state,
+          issuer: 'https://server.example.com',
+          authorizationURL: 'https://server.example.com/authorize',
+          tokenURL: 'https://server.example.com/token',
+          userInfoURL: undefined,
+          clientID: 's6BhdRkqt3',
+          callbackURL: 'https://client.example.org/cb',
+          customHeaders: undefined
+        });
+        done();
+      })
+      .error(done)
+      .authenticate();
+  }); // should redirect with UI locales parameter
+  
   it('should redirect with max age parameter', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
