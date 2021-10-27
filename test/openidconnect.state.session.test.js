@@ -48,14 +48,7 @@ describe('session store', function() {
                 clientID: 's6BhdRkqt3',
                 clientSecret: 'some_secret12345',
                 callbackURL: 'https://client.example.org/cb',
-                customHeaders: undefined,
-                params: {
-                  response_type: 'code',
-                  client_id: 's6BhdRkqt3',
-                  redirect_uri: 'https://client.example.org/cb',
-                  scope: 'openid',
-                  state: state
-                }
+                customHeaders: undefined
               }
             });
             done();
@@ -88,14 +81,7 @@ describe('session store', function() {
                 clientID: 's6BhdRkqt3',
                 clientSecret: 'some_secret12345',
                 callbackURL: 'https://client.example.org/cb',
-                customHeaders: undefined,
-                params: {
-                  response_type: 'code',
-                  client_id: 's6BhdRkqt3',
-                  redirect_uri: 'https://client.example.org/cb',
-                  scope: 'openid',
-                  state: state
-                }
+                customHeaders: undefined
               }
             });
             done();
@@ -426,7 +412,7 @@ describe('session store', function() {
               expect(this.session['openidconnect:example'].state.clientID).to.equal('ABC123');
               expect(this.session['openidconnect:example'].state.clientSecret).to.equal('secret');
               expect(this.session['openidconnect:example'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
-              expect(this.session['openidconnect:example'].state.params.response_type).to.equal('code');
+              //expect(this.session['openidconnect:example'].state.params.response_type).to.equal('code');
               
               done();
             })

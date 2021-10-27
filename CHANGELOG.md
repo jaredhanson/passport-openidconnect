@@ -21,6 +21,13 @@ persisted in the session by state store.
 - `display` option can now take any value, rather than just defined values, in
 order to support values defined by extensions.
 
+### Removed
+
+- Removed `params` property, which contained all authentication request
+parameters, from state stored in session.  Most of these parameters are not
+required to validate the authentication response and this minimizes the size of
+session data.
+
 ### Fixed
 
 - Corrected `ui_locales` option to Strategy constructor.  Was previously

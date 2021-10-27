@@ -33,13 +33,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: undefined,
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            scope: 'openid',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
@@ -76,14 +70,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: 'https://client.example.org/cb',
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            redirect_uri: 'https://client.example.org/cb',
-            scope: 'openid',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
@@ -123,14 +110,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: 'https://client.example.org/cb',
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            redirect_uri: 'https://client.example.org/cb',
-            scope: 'openid',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
@@ -168,14 +148,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: 'https://client.example.org/cb',
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            redirect_uri: 'https://client.example.org/cb',
-            scope: 'openid profile email',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
@@ -213,15 +186,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: 'https://client.example.org/cb',
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            redirect_uri: 'https://client.example.org/cb',
-            scope: 'openid',
-            display: 'touch',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
@@ -259,15 +224,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: 'https://client.example.org/cb',
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            redirect_uri: 'https://client.example.org/cb',
-            scope: 'openid',
-            display: 'x-example',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
@@ -305,15 +262,7 @@ describe('Strategy', function() {
           clientID: 's6BhdRkqt3',
           clientSecret: 'some_secret12345',
           callbackURL: 'https://client.example.org/cb',
-          customHeaders: undefined,
-          params: {
-            response_type: 'code',
-            client_id: 's6BhdRkqt3',
-            redirect_uri: 'https://client.example.org/cb',
-            scope: 'openid',
-            login_hint: 'joe@example.com',
-            state: state
-          }
+          customHeaders: undefined
         });
         done();
       })
