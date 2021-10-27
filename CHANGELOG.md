@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `customHeaders` option to `Strategy` constructor, matching functionality
 in `passport-oauth2`.
+- Added `proxy` option to `Strategy` constructor, which can be set to `true` to
+indicate the app is behind a front-facing proxy.  Used when resolving relative
+redirect URIs to an absolute URI.
 - Added `agent` option to `Strategy` constructor, used to control `http.Agent`
 behavior.
 - Support for `StateStore#store()` function signature which accepts
