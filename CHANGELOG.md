@@ -37,6 +37,8 @@ session data.
 
 - Corrected `ui_locales` option to Strategy constructor.  Was previously
 misspelled as `ui_locals`.
+- Correctly validating that an `azp` claim is present if the ID token contains
+multiple audiences.
 
 ## [0.0.2] - 2017-02-23
 
