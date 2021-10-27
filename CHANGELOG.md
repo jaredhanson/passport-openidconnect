@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Added `customHeaders` option to `Strategy` constructor, matching functionality
 in `passport-oauth2`.
+- Added `agent` option to `Strategy` constructor, used to control `http.Agent`
+behavior.
 - Support for `StateStore#store()` function signature which accepts
 application-supplied state as an argument.
 - Support for `state` object passed as option to `authenticate`, which will be
