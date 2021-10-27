@@ -345,7 +345,7 @@ describe('Strategy', function() {
       clientID: 's6BhdRkqt3',
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb',
-      id_token_hint: 'eyJh.ewogImlzcyI6ICJo.ggW8hZ1E'
+      idTokenHint: 'eyJh.ewogImlzcyI6ICJo.ggW8hZ1E'
     }, function() {});
   
     chai.passport.use(strategy)
