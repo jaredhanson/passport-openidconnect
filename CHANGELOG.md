@@ -29,6 +29,7 @@ persisted in the session by state store.
 order to support values defined by extensions.
 - `ui_locals` option to `Strategy` constructor renamed to `uiLocales`.
 - `max_age` option to `Strategy` constructor renamed to `maxAge`.
+- `acr_values` option to `Strategy` constructor renamed to `acrValues`.
 - `id_token_hint` option to `Strategy` constructor renamed to `idTokenHint`.
 - `login_hint` option to `Strategy` constructor renamed to `loginHint`.
 
