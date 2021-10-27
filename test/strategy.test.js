@@ -382,7 +382,7 @@ describe('Strategy', function() {
       clientID: 's6BhdRkqt3',
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb',
-      login_hint: 'joe@example.com'
+      loginHint: 'joe@example.com'
     }, function() {});
   
     chai.passport.use(strategy)
