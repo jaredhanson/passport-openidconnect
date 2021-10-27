@@ -16,7 +16,7 @@ redirect URIs to an absolute URI.
 behavior.
 - Support for `StateStore#store()` function signature which accepts
 application-supplied state as an argument.
-- Support for `resposneMode` options to `Strategy` constructor.
+- Support for `responseMode` options to `Strategy` constructor.
 - Support for `claims` options to both `Strategy` constructor and `authenticate()`.
 - Support for `state` object passed as option to `authenticate`, which will be
 persisted in the session by state store.
@@ -27,10 +27,12 @@ persisted in the session by state store.
 
 - `display` option can now take any value, rather than just defined values, in
 order to support values defined by extensions.
+- `max_age` option to `Strategy` constructor renamed to `maxAge`.
 
 ### Removed
 
 - Removed `clientSecret` property from state stored in session.
+- Removed `timestamp` property from state stored in session.
 - Removed `params` property, which contained all authentication request
 parameters, from state stored in session.  Most of these parameters are not
 required to validate the authentication response and this minimizes the size of
