@@ -16,6 +16,11 @@ persisted in the session by state store.
 - Parsing `profile.username` from UserInfo response.
 - Parsing `profile.emails` from UserInfo response.
 
+### Changed
+
+- `display` option can now take any value, rather than just defined values, in
+order to support values defined by extensions.
+
 ### Fixed
 
 - Corrected `ui_locales` option to Strategy constructor.  Was previously
