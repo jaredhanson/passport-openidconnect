@@ -160,12 +160,7 @@ describe('custom store', function() {
         return done(null, { id: '1234' }, { message: 'Hello' });
       });
 
-      strategy._getOAuth2Client = function(){
-        return {
-          _authorizeUrl: 'https://www.example.com/oauth2/authorize',
-          _accessTokenUrl: 'https://www.example.com/oauth2/token',
-          _clientId: 'ABC123',
-          getOAuthAccessToken: function(code, options, callback) {
+          strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
             if (code !== 'SplxlOBeZQQYbYS6WxSbIA') { return callback(new Error('incorrect code argument')); }
             if (options.grant_type !== 'authorization_code') { return callback(new Error('incorrect options.grant_type argument')); }
             if (options.redirect_uri !== 'https://www.example.net/auth/example/callback') { return callback(new Error('incorrect options.redirect_uri argument')); }
@@ -174,8 +169,8 @@ describe('custom store', function() {
               token_type: 'example',
               id_token: buildIdToken()
             });
-          },
-          _request: function(method, url, headers, post_body, access_token, callback) {
+          }
+          strategy._oauth2._request = function(method, url, headers, post_body, access_token, callback) {
             if (method !== 'GET') { return callback(new Error('incorrect method argument')); }
             if (url !== 'https://www.example.com/oauth2/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
             if (headers.Authorization !== 'Bearer 2YotnFZFEjr1zCsicMWpAA') { return callback(new Error('incorrect headers.Authorization argument')); }
@@ -188,8 +183,6 @@ describe('custom store', function() {
               name: 'john'
             }));
           }
-        };
-      };
       
       describe('that was approved', function() {
         var request
@@ -336,12 +329,7 @@ describe('custom store', function() {
           return done(null, { id: '1234' });
         });
 
-        strategy._getOAuth2Client = function(){
-          return {
-            _authorizeUrl: 'https://www.example.com/oauth2/authorize',
-            _accessTokenUrl: 'https://www.example.com/oauth2/token',
-            _clientId: 'ABC123',
-            getOAuthAccessToken: function(code, options, callback) {
+            strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
               if (code !== 'SplxlOBeZQQYbYS6WxSbIA') { return callback(new Error('incorrect code argument')); }
               if (options.grant_type !== 'authorization_code') { return callback(new Error('incorrect options.grant_type argument')); }
               if (options.redirect_uri !== 'https://www.example.net/auth/example/callback') { return callback(new Error('incorrect options.redirect_uri argument')); }
@@ -350,8 +338,8 @@ describe('custom store', function() {
                 token_type: 'example',
                 id_token: buildIdToken()
               });
-            },
-            _request: function(method, url, headers, post_body, access_token, callback) {
+            }
+            strategy._oauth2._request = function(method, url, headers, post_body, access_token, callback) {
               if (method !== 'GET') { return callback(new Error('incorrect method argument')); }
               if (url !== 'https://www.example.com/oauth2/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
               if (headers.Authorization !== 'Bearer 2YotnFZFEjr1zCsicMWpAA') { return callback(new Error('incorrect headers.Authorization argument')); }
@@ -364,8 +352,6 @@ describe('custom store', function() {
                 name: 'john'
               }));
             }
-          };
-        };
         
         var request
           , user
@@ -428,12 +414,7 @@ describe('custom store', function() {
           return done(null, { id: '1234' }, { message: 'Hello' });
         });
 
-        strategy._getOAuth2Client = function(){
-          return {
-            _authorizeUrl: 'https://www.example.com/oauth2/authorize',
-            _accessTokenUrl: 'https://www.example.com/oauth2/token',
-            _clientId: 'ABC123',
-            getOAuthAccessToken: function(code, options, callback) {
+            strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
               if (code !== 'SplxlOBeZQQYbYS6WxSbIA') { return callback(new Error('incorrect code argument')); }
               if (options.grant_type !== 'authorization_code') { return callback(new Error('incorrect options.grant_type argument')); }
               if (options.redirect_uri !== 'https://www.example.net/auth/example/callback') { return callback(new Error('incorrect options.redirect_uri argument')); }
@@ -442,8 +423,8 @@ describe('custom store', function() {
                 token_type: 'example',
                 id_token: buildIdToken()
               });
-            },
-            _request: function(method, url, headers, post_body, access_token, callback) {
+            }
+            strategy._oauth2._request = function(method, url, headers, post_body, access_token, callback) {
               if (method !== 'GET') { return callback(new Error('incorrect method argument')); }
               if (url !== 'https://www.example.com/oauth2/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
               if (headers.Authorization !== 'Bearer 2YotnFZFEjr1zCsicMWpAA') { return callback(new Error('incorrect headers.Authorization argument')); }
@@ -456,8 +437,6 @@ describe('custom store', function() {
                 name: 'john'
               }));
             }
-          };
-        };
         
         var request
           , user
