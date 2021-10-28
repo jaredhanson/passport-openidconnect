@@ -41,6 +41,9 @@ order to support values defined by extensions.
 `callbackURL` from state stored in session.  This information is redundant and
 can be derived from `issuer`, which remains in the session.
 - Removed `clientSecret` property from state stored in session.
+- Removed support for OpenID Provider Issuer Discovery using WebFinger, as it
+is largely unused and the functionality would be better suited in a different
+package.
 - Removed `timestamp` property from state stored in session.
 - Removed `params` property, which contained all authentication request
 parameters, from state stored in session.  Most of these parameters are not
