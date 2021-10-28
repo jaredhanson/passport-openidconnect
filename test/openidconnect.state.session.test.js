@@ -9,7 +9,7 @@ describe('session store', function() {
     return jwt.sign({some: 'claim'}, 'this is a secret', {
       issuer: 'https://www.example.com/',
       subject: '1234',
-      audience: 'ABC123',
+      audience: 's6BhdRkqt3',
       expiresIn: '1h'
     });
   };
@@ -335,7 +335,7 @@ describe('session store', function() {
       authorizationURL: 'https://www.example.com/oauth2/authorize',
       userInfoURL: 'https://www.example.com/oauth2/userinfo',
       tokenURL: 'https://www.example.com/oauth2/token',
-      clientID: 'ABC123',
+      clientID: 's6BhdRkqt3',
       clientSecret: 'secret',
       callbackURL: 'https://www.example.net/auth/example/callback',
       state: true,
@@ -393,7 +393,7 @@ describe('session store', function() {
 
               expect(this.session['openidconnect:example'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
               expect(this.session['openidconnect:example'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-              expect(this.session['openidconnect:example'].state.clientID).to.equal('ABC123');
+              expect(this.session['openidconnect:example'].state.clientID).to.equal('s6BhdRkqt3');
               //expect(this.session['openidconnect:example'].state.clientSecret).to.equal('secret');
               expect(this.session['openidconnect:example'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
               //expect(this.session['openidconnect:example'].state.params.response_type).to.equal('code');
