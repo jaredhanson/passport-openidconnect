@@ -7,7 +7,7 @@ describe('session store', function() {
   
   function buildIdToken() {
     return jwt.sign({some: 'claim'}, 'this is a secret', {
-      issuer: 'https://www.example.com/',
+      issuer: 'https://server.example.com',
       subject: '1234',
       audience: 's6BhdRkqt3',
       expiresIn: '1h'
@@ -99,7 +99,7 @@ describe('session store', function() {
         callbackURL: 'https://client.example.org/cb'
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {
-        if (iss !== 'https://www.example.com/') { return done(new Error('incorrect iss argument')); }
+        if (iss !== 'https://server.example.com') { return done(new Error('incorrect iss argument')); }
         if (sub !== '1234') { return done(new Error('incorrect sub argument')); }
         if (typeof profile !== 'object') { return done(new Error('incorrect profile argument')); }
         if (Object.keys(profile).length === 0) { return done(new Error('incorrect profile argument')); }
@@ -319,7 +319,7 @@ describe('session store', function() {
   
   describe('using default session state store with session key option', function() {
     var strategy = new OIDCStrategy({
-      issuer: 'https://www.example.com/',
+      issuer: 'https://server.example.com',
       authorizationURL: 'https://www.example.com/oauth2/authorize',
       userInfoURL: 'https://www.example.com/oauth2/userinfo',
       tokenURL: 'https://www.example.com/oauth2/token',
@@ -330,7 +330,7 @@ describe('session store', function() {
       sessionKey: 'openidconnect:example'
     },
     function(iss, sub, profile, accessToken, refreshToken, done) {
-      if (iss !== 'https://www.example.com/') { return done(new Error('incorrect iss argument')); }
+      if (iss !== 'https://server.example.com') { return done(new Error('incorrect iss argument')); }
       if (sub !== '1234') { return done(new Error('incorrect sub argument')); }
       if (typeof profile !== 'object') { return done(new Error('incorrect profile argument')); }
       if (Object.keys(profile).length === 0) { return done(new Error('incorrect profile argument')); }
