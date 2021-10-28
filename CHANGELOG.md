@@ -37,6 +37,9 @@ order to support values defined by extensions.
 
 ### Removed
 
+- Removed `authorizationURL`, `tokenURL`, `userInfoURL`, `clientID`, and
+`callbackURL` from state stored in session.  This information is redundant and
+can be derived from `issuer`, which remains in the session.
 - Removed `clientSecret` property from state stored in session.
 - Removed `timestamp` property from state stored in session.
 - Removed `params` property, which contained all authentication request

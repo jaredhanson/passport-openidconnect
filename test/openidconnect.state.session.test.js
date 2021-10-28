@@ -41,13 +41,7 @@ describe('session store', function() {
             expect(this.session['openidconnect:server.example.com']).to.deep.equal({
               state: {
                 handle: state,
-                issuer: 'https://server.example.com',
-                authorizationURL: 'https://server.example.com/authorize',
-                tokenURL: 'https://server.example.com/token',
-                userInfoURL: undefined,
-                clientID: 's6BhdRkqt3',
-                callbackURL: 'https://client.example.org/cb',
-                customHeaders: undefined
+                issuer: 'https://server.example.com'
               }
             });
             done();
@@ -73,13 +67,7 @@ describe('session store', function() {
               returnTo: 'https://client.example.org/welcome',
               state: {
                 handle: state,
-                issuer: 'https://server.example.com',
-                authorizationURL: 'https://server.example.com/authorize',
-                tokenURL: 'https://server.example.com/token',
-                userInfoURL: undefined,
-                clientID: 's6BhdRkqt3',
-                callbackURL: 'https://client.example.org/cb',
-                customHeaders: undefined
+                issuer: 'https://server.example.com'
               }
             });
             done();
@@ -390,13 +378,6 @@ describe('session store', function() {
               
               expect(this.session['openidconnect:example'].state.handle).to.have.length(24);
               expect(this.session['openidconnect:example'].state.handle).to.equal(u.query.state);
-
-              expect(this.session['openidconnect:example'].state.authorizationURL).to.equal('https://www.example.com/oauth2/authorize');
-              expect(this.session['openidconnect:example'].state.tokenURL).to.equal('https://www.example.com/oauth2/token');
-              expect(this.session['openidconnect:example'].state.clientID).to.equal('s6BhdRkqt3');
-              //expect(this.session['openidconnect:example'].state.clientSecret).to.equal('secret');
-              expect(this.session['openidconnect:example'].state.callbackURL).to.equal('https://www.example.net/auth/example/callback')
-              //expect(this.session['openidconnect:example'].state.params.response_type).to.equal('code');
               
               done();
             })

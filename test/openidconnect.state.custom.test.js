@@ -80,6 +80,7 @@ describe('custom store', function() {
               request = req;
               req.url = '/me';
             })
+            .error(done)
             .authenticate();
         });
   

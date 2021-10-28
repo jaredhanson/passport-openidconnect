@@ -30,13 +30,7 @@ describe('Strategy', function() {
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
               handle: state,
-              issuer: 'https://server.example.com',
-              authorizationURL: 'https://server.example.com/authorize',
-              tokenURL: 'https://server.example.com/token',
-              userInfoURL: undefined,
-              clientID: 's6BhdRkqt3',
-              callbackURL: 'https://client.example.org/cb2',
-              customHeaders: undefined
+              issuer: 'https://server.example.com'
             }
           });
           done();
@@ -68,13 +62,7 @@ describe('Strategy', function() {
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
               handle: state,
-              issuer: 'https://server.example.com',
-              authorizationURL: 'https://server.example.com/authorize',
-              tokenURL: 'https://server.example.com/token',
-              userInfoURL: undefined,
-              clientID: 's6BhdRkqt3',
-              callbackURL: 'https://client.example.org/cb',
-              customHeaders: undefined
+              issuer: 'https://server.example.com'
             }
           });
           done();
@@ -106,13 +94,7 @@ describe('Strategy', function() {
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
               handle: state,
-              issuer: 'https://server.example.com',
-              authorizationURL: 'https://server.example.com/authorize',
-              tokenURL: 'https://server.example.com/token',
-              userInfoURL: undefined,
-              clientID: 's6BhdRkqt3',
-              callbackURL: 'https://client.example.org/cb',
-              customHeaders: undefined
+              issuer: 'https://server.example.com'
             }
           });
           done();
@@ -182,13 +164,7 @@ describe('Strategy', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
             handle: state,
-            issuer: 'https://server.example.com',
-            authorizationURL: 'https://server.example.com/authorize',
-            tokenURL: 'https://server.example.com/token',
-            userInfoURL: undefined,
-            clientID: 's6BhdRkqt3',
-            callbackURL: 'https://client.example.org/cb',
-            customHeaders: undefined
+            issuer: 'https://server.example.com'
           });
           done();
         })
