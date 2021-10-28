@@ -25,6 +25,8 @@ persisted in the session by state store.
 
 ### Changed
 
+- `prompt` option can now take any value, rather than just defined values, in
+order to support values defined by extensions.
 - `display` option can now take any value, rather than just defined values, in
 order to support values defined by extensions.
 - `ui_locals` option to `Strategy` constructor renamed to `uiLocales`.
