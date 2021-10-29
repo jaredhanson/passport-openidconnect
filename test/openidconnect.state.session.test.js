@@ -15,6 +15,8 @@ describe('SessionStore', function() {
     });
   };
   
+  // TODO: Asser that sotre is called with correct arguments
+  
     describe('#store', function() {
       var strategy = new OIDCStrategy({
         issuer: 'https://server.example.com',
@@ -88,7 +90,7 @@ describe('SessionStore', function() {
       
     }); // #store
     
-    describe('processing response to authorization request', function() {
+    describe('#verify', function() {
       var strategy = new OIDCStrategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -99,91 +101,50 @@ describe('SessionStore', function() {
         callbackURL: 'https://client.example.org/cb'
       },
       function(iss, sub, profile, accessToken, refreshToken, done) {
-        if (iss !== 'https://server.example.com') { return done(new Error('incorrect iss argument')); }
-        if (sub !== '1234') { return done(new Error('incorrect sub argument')); }
-        if (typeof profile !== 'object') { return done(new Error('incorrect profile argument')); }
-        if (Object.keys(profile).length === 0) { return done(new Error('incorrect profile argument')); }
-        if (accessToken !== '2YotnFZFEjr1zCsicMWpAA') { return done(new Error('incorrect accessToken argument')); }
-        if (refreshToken !== 'tGzv3JOkF0XG5Qx2TlKWIA') { return done(new Error('incorrect refreshToken argument')); }
-        
         return done(null, { id: '248289761001' }, { message: 'Hello' });
       });
       
-      sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null,
-        '2YotnFZFEjr1zCsicMWpAA',
-        'tGzv3JOkF0XG5Qx2TlKWIA',
-        {
-                      token_type: 'example',
-                      id_token: buildIdToken()
-                    }
-      );
-
-      /*
-          strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
-            if (code !== 'SplxlOBeZQQYbYS6WxSbIA') { return callback(new Error('incorrect code argument')); }
-            if (options.grant_type !== 'authorization_code') { return callback(new Error('incorrect options.grant_type argument')); }
-            if (options.redirect_uri !== 'https://www.example.net/auth/example/callback') { return callback(new Error('incorrect options.redirect_uri argument')); }
-
-            return callback(null, '2YotnFZFEjr1zCsicMWpAA', 'tGzv3JOkF0XG5Qx2TlKWIA', {
-              token_type: 'example',
-              id_token: buildIdToken()
-            });
-          }
-      */
+      sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+        token_type: 'Bearer',
+        expires_in: 3600,
+        id_token: buildIdToken()
+      });
       
-        /*
-          strategy._oauth2._request = function(method, url, headers, post_body, access_token, callback) {
-            console.log('OAUTH 2 REQUEST');
-            console.log(method)
-            
-            if (method !== 'GET') { return callback(new Error('incorrect method argument')); }
-            if (url !== 'https://server.example.com/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
-            if (headers.Authorization !== 'Bearer 2YotnFZFEjr1zCsicMWpAA') { return callback(new Error('incorrect headers.Authorization argument')); }
-            if (headers.Accept !== 'application/json') { return callback(new Error('incorrect headers.Accept argument')); }
-            if (post_body !== null) { return callback(new Error('incorrect post_body argument')); }
-            if (access_token !== null) { return callback(new Error('incorrect access_token argument')); }
-
-            return callback(null, JSON.stringify({
-              sub: '1234',
-              name: 'john'
-            }));
-          }
-          */
-          sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
-            sub: '1234',
-            name: 'john'
-          }));
+      sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+        sub: '248289761001',
+        name: 'Jane Doe',
+        given_name: 'Jane',
+        family_name: 'Doe',
+        preferred_username: 'j.doe',
+        email: 'janedoe@example.com',
+        picture: 'http://example.com/janedoe/me.jpg'
+      }));
       
-      
-      it('should remove state from session', function(done) {
+      it('should remove state from session when successfully verified', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
-            req.query = {};
-            req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-            req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'af0ifjsldkj'
+            };
             req.session = {};
-            req.session['openidconnect:server.example.com'] = {};
-            req.session['openidconnect:server.example.com']['state'] = {
-              issuer: 'https://www.example.com/',
-              handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
+            req.session['openidconnect:server.example.com'] = {
+              state: {
+                handle: 'af0ifjsldkj',
+                issuer: 'https://server.example.com',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                }
               }
             };
           })
           .success(function(user, info) {
-            expect(user).to.deep.equal({ id: '248289761001' });
-            
-            expect(info).to.be.an.object;
-            expect(info.message).to.equal('Hello');
-            
             expect(this.session['openidconnect:server.example.com']).to.be.undefined;
-            
             done();
           })
           .error(done)
           .authenticate();
-      }); // that was approved
+      }); // should remove state from session when successfully verified
       
       it('that was approved with other data in the session', function(done) {
         chai.passport.use(strategy)

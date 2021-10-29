@@ -71,8 +71,8 @@ describe('verify function', function() {
           req.session = {};
           req.session['openidconnect:server.example.com'] = {
             state: {
-              issuer: 'https://www.example.com/',
               handle: 'af0ifjsldkj',
+              issuer: 'https://server.example.com',
               callbackURL: 'https://www.example.net/auth/example/callback',
               params: {
               }
