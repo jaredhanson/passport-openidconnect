@@ -31,6 +31,8 @@ describe('SessionStore', function() {
       throw new Error('verify function should not be called');
     });
     
+    var spy = sinon.spy(strategy._stateStore, 'store');
+    
     it('should store strategy-specific state in session', function(done) {
       chai.passport.use(strategy)
         .request(function(req) {
@@ -47,6 +49,16 @@ describe('SessionStore', function() {
               issuer: 'https://server.example.com'
             }
           });
+          
+          expect(spy.calledOnce).to.be.true;
+          expect(spy.getCall(0).args[1]).to.deep.equal({
+            issuer: 'https://server.example.com',
+            authorizationURL: 'https://server.example.com/authorize',
+            tokenURL: 'https://server.example.com/token',
+            clientID: 's6BhdRkqt3',
+            callbackURL: 'https://client.example.org/cb'
+          });
+          
           done();
         })
         .error(done)
