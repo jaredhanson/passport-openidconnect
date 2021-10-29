@@ -1,5 +1,10 @@
+var sinon = require('sinon');
 var pkg = require('..');
 
+
+afterEach(function() {
+  sinon.restore();
+});
 
 describe('passport-openidconnect', function() {
     

@@ -1,7 +1,8 @@
 var OIDCStrategy = require('../lib/strategy')
   , chai = require('chai')
   , uri = require('url')
-  , jwt = require('jsonwebtoken');
+  , jwt = require('jsonwebtoken')
+  , sinon = require('sinon');
 
 describe('session store', function() {
   
@@ -108,7 +109,17 @@ describe('session store', function() {
         
         return done(null, { id: '248289761001' }, { message: 'Hello' });
       });
+      
+      sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null,
+        '2YotnFZFEjr1zCsicMWpAA',
+        'tGzv3JOkF0XG5Qx2TlKWIA',
+        {
+                      token_type: 'example',
+                      id_token: buildIdToken()
+                    }
+      );
 
+      /*
           strategy._oauth2.getOAuthAccessToken = function(code, options, callback) {
             if (code !== 'SplxlOBeZQQYbYS6WxSbIA') { return callback(new Error('incorrect code argument')); }
             if (options.grant_type !== 'authorization_code') { return callback(new Error('incorrect options.grant_type argument')); }
@@ -119,7 +130,13 @@ describe('session store', function() {
               id_token: buildIdToken()
             });
           }
+      */
+      
+        /*
           strategy._oauth2._request = function(method, url, headers, post_body, access_token, callback) {
+            console.log('OAUTH 2 REQUEST');
+            console.log(method)
+            
             if (method !== 'GET') { return callback(new Error('incorrect method argument')); }
             if (url !== 'https://server.example.com/userinfo?schema=openid') { return callback(new Error('incorrect url argument')); }
             if (headers.Authorization !== 'Bearer 2YotnFZFEjr1zCsicMWpAA') { return callback(new Error('incorrect headers.Authorization argument')); }
@@ -132,6 +149,11 @@ describe('session store', function() {
               name: 'john'
             }));
           }
+          */
+          sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+            sub: '1234',
+            name: 'john'
+          }));
       
       
       it('should remove state from session', function(done) {

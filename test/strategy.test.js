@@ -1,7 +1,7 @@
-var Strategy = require('../lib/strategy')
-  , chai = require('chai')
-  , uri = require('url')
-  , qs = require('querystring');
+var chai = require('chai');
+var Strategy = require('../lib/strategy');
+var uri = require('url');
+
 
 describe('Strategy', function() {
 
