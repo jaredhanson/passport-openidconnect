@@ -28,7 +28,7 @@ describe('session store', function() {
       function(iss, sub, profile, accessToken, refreshToken, done) {});
       
       
-      it('should store strategy-specific state', function(done) {
+      it('should store strategy-specific state in session', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
             req.session = {};
@@ -48,9 +48,9 @@ describe('session store', function() {
           })
           .error(done)
           .authenticate();
-      }); // should store strategy-specific state
+      }); // should store strategy-specific state in session
       
-      it('should store strategy-specific state alongside state set manually by app', function(done) {
+      it('should store strategy-specific state in session alongside state set manually by app', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
             req.session = {};
@@ -74,7 +74,7 @@ describe('session store', function() {
           })
           .error(done)
           .authenticate();
-      }); // should store strategy-specific state alongside state set manually by app
+      }); // should store strategy-specific state in session alongside state set manually by app
       
       it('should error when app does not have session support', function(done) {
         chai.passport.use(strategy)
@@ -134,7 +134,7 @@ describe('session store', function() {
           }
       
       
-      it('that was approved', function(done) {
+      it('should remove state from session', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
             req.query = {};
@@ -145,22 +145,12 @@ describe('session store', function() {
             req.session['openidconnect:server.example.com']['state'] = {
               issuer: 'https://www.example.com/',
               handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-              authorizationURL: 'https://server.example.com/authorize',
-              userInfoURL: 'https://server.example.com/userinfo',
-              tokenURL: 'https://server.example.com/token',
-              clientID: 'ABC123',
-              clientSecret: 'secret',
               callbackURL: 'https://www.example.net/auth/example/callback',
               params: {
-                response_type: 'code',
-                client_id: 'ABC123',
-                redirect_uri: 'https://www.example.net/auth/example/callback',
-                scope: 'openid'
               }
             };
           })
           .success(function(user, info) {
-            expect(user).to.be.an.object;
             expect(user).to.deep.equal({ id: '248289761001' });
             
             expect(info).to.be.an.object;
