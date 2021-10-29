@@ -88,6 +88,41 @@ describe('SessionStore', function() {
           .authenticate();
       }); // should error when app does not have session support
       
+      it('should store strategy-specific state in session under session key', function(done) {
+        var strategy = new OIDCStrategy({
+          issuer: 'https://server.example.com',
+          authorizationURL: 'https://server.example.com/authorize',
+          tokenURL: 'https://server.example.com/token',
+          clientID: 's6BhdRkqt3',
+          clientSecret: 'some_secret12345',
+          callbackURL: 'https://client.example.org/cb',
+          sessionKey: 'openidconnect:example'
+        },
+        function(iss, sub, profile, accessToken, refreshToken, done) {
+          throw new Error('verify function should not be called');
+        });
+        
+        chai.passport.use(strategy)
+          .request(function(req) {
+            req.session = {};
+          })
+          .redirect(function(url) {
+            var l = uri.parse(url, true);
+            var state = l.query.state;
+            
+            expect(state).to.have.length(24);
+            expect(this.session['openidconnect:example']).to.deep.equal({
+              state: {
+                handle: state,
+                issuer: 'https://server.example.com'
+              }
+            });
+            done();
+          })
+          .error(done)
+          .authenticate();
+      }); // should store strategy-specific state in session under session key
+      
     }); // #store
     
     describe('#verify', function() {
@@ -259,6 +294,62 @@ describe('SessionStore', function() {
           .authenticate();
       }); // should error when app does not have session support
       
+      it('should remove state from session under session key when successfully verified', function(done) {
+        var strategy = new OIDCStrategy({
+          issuer: 'https://server.example.com',
+          authorizationURL: 'https://server.example.com/authorize',
+          tokenURL: 'https://server.example.com/token',
+          userInfoURL: 'https://server.example.com/userinfo',
+          clientID: 's6BhdRkqt3',
+          clientSecret: 'some_secret12345',
+          callbackURL: 'https://client.example.org/cb',
+          sessionKey: 'openidconnect:example'
+        },
+        function(iss, sub, profile, accessToken, refreshToken, done) {
+          return done(null, { id: '248289761001' }, { message: 'Hello' });
+        });
+      
+        sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+          token_type: 'Bearer',
+          expires_in: 3600,
+          id_token: buildIdToken()
+        });
+      
+        sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+          sub: '248289761001',
+          name: 'Jane Doe',
+          given_name: 'Jane',
+          family_name: 'Doe',
+          preferred_username: 'j.doe',
+          email: 'janedoe@example.com',
+          picture: 'http://example.com/janedoe/me.jpg'
+        }));
+        
+        chai.passport.use(strategy)
+          .request(function(req) {
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'af0ifjsldkj'
+            };
+            req.session = {};
+            req.session['openidconnect:example'] = {
+              state: {
+                handle: 'af0ifjsldkj',
+                issuer: 'https://server.example.com',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                }
+              }
+            };
+          })
+          .success(function(user, info) {
+            expect(this.session['openidconnect:example']).to.be.undefined;
+            done();
+          })
+          .error(done)
+          .authenticate();
+      }); // should remove state from session under session key when successfully verified
+      
     }); // #verify
   
   
@@ -308,73 +399,6 @@ describe('SessionStore', function() {
             name: 'john'
           }));
     };
-    
-    
-    describe('issuing authorization request', function() {
-      
-      it('that redirects to service provider', function(done) {
-          chai.passport.use(strategy)
-            .request(function(req) {
-              req.session = {};
-            })
-            .redirect(function(url) {
-              var u = uri.parse(url, true);
-              expect(u.query.state).to.have.length(24);
-              
-              expect(this.session['openidconnect:example'].state.handle).to.have.length(24);
-              expect(this.session['openidconnect:example'].state.handle).to.equal(u.query.state);
-              
-              done();
-            })
-            .error(done)
-            .authenticate();
-      }); // that redirects to service provider
-      
-    }); // issuing authorization request
-    
-    describe('processing response to authorization request', function() {
-      
-      it('that was approved', function(done) {
-          chai.passport.use(strategy)
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
-              req.session['openidconnect:example'] = {};
-              req.session['openidconnect:example']['state'] = {
-                issuer: 'https://www.example.com/',
-                handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-                authorizationURL: 'https://www.example.com/oauth2/authorize',
-                userInfoURL: 'https://www.example.com/oauth2/userinfo',
-                tokenURL: 'https://www.example.com/oauth2/token',
-                clientID: 'ABC123',
-                clientSecret: 'secret',
-                callbackURL: 'https://www.example.net/auth/example/callback',
-                params: {
-                  response_type: 'code',
-                  client_id: 'ABC123',
-                  redirect_uri: 'https://www.example.net/auth/example/callback',
-                  scope: 'openid'
-                }
-              };
-            })
-            .success(function(user, info) {
-              expect(user).to.be.an.object;
-              expect(user.id).to.equal('1234');
-              
-              expect(info).to.be.an.object;
-              expect(info.message).to.equal('Hello');
-              
-              expect(this.session['openidconnect:example']).to.be.undefined;
-              
-              done();
-            })
-            .error(done)
-            .authenticate();
-      }); // that was approved
-      
-    }); // processing response to authorization request
     
   }); // using default session state store with session key option
   
