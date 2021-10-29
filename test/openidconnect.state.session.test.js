@@ -210,7 +210,7 @@ describe('SessionStore', function() {
           .request(function(req) {
             req.query = {
               code: 'SplxlOBeZQQYbYS6WxSbIA',
-              state: 'XXXXXXXX'
+              state: 'af0ifjsldkj'
             };
             req.session = {};
           })
@@ -228,7 +228,7 @@ describe('SessionStore', function() {
           .request(function(req) {
             req.query = {
               code: 'SplxlOBeZQQYbYS6WxSbIA',
-              state: 'XXXXXXXX'
+              state: 'af0ifjsldkj'
             };
             req.session = {};
             req.session['openidconnect:server.example.com'] = {};
@@ -243,23 +243,23 @@ describe('SessionStore', function() {
           .authenticate();
       }); // should fail if provider-specific state is missing state handle
       
-      it('that errors due to lack of session support in app', function(done) {
-          chai.passport.use(strategy)
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-            })
-            .error(function(err) {
-              expect(err).to.be.an.instanceof(Error)
-              expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
-              
-              done();
-            })
-            .authenticate();
-      }); // that errors due to lack of session support in app
+      it('should error when app does not have session support', function(done) {
+        chai.passport.use(strategy)
+          .request(function(req) {
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'af0ifjsldkj'
+            };
+          })
+          .error(function(err) {
+            expect(err).to.be.an.instanceof(Error)
+            expect(err.message).to.equal('OpenID Connect authentication requires session support when using state. Did you forget to use express-session middleware?');
+            done();
+          })
+          .authenticate();
+      }); // should error when app does not have session support
       
-    }); // processing response to authorization request
+    }); // #verify
   
   
   describe('using default session state store with session key option', function() {
