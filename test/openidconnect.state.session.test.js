@@ -28,7 +28,7 @@ describe('session store', function() {
       function(iss, sub, profile, accessToken, refreshToken, done) {});
       
       
-      it('that redirects to service provider', function(done) {
+      it('should store strategy-specific state', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
             req.session = {};
@@ -48,9 +48,9 @@ describe('session store', function() {
           })
           .error(done)
           .authenticate();
-      }); // that redirects to service provider
+      }); // should store strategy-specific state
       
-      it('that redirects to service provider with other data in session', function(done) {
+      it('should store strategy-specific state alongside state set manually by app', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
             req.session = {};
@@ -74,9 +74,9 @@ describe('session store', function() {
           })
           .error(done)
           .authenticate();
-      }); // that redirects to service provider with other data in session
+      }); // should store strategy-specific state alongside state set manually by app
       
-      it('that errors due to lack of session support in app', function(done) {
+      it('should error when app does not have session support', function(done) {
         chai.passport.use(strategy)
           .error(function(err) {
             expect(err).to.be.an.instanceof(Error)
@@ -84,7 +84,7 @@ describe('session store', function() {
             done();
           })
           .authenticate();
-      }); // that errors due to lack of session support in app
+      }); // should error when app does not have session support
       
     }); // issuing authorization request
     
