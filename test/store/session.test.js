@@ -1,6 +1,6 @@
 var chai = require('chai');
 var sinon = require('sinon');
-var OIDCStrategy = require('../lib/strategy');
+var Strategy = require('../../lib/strategy');
 var uri = require('url');
 var jwt = require('jsonwebtoken');
 
@@ -19,7 +19,7 @@ describe('SessionStore', function() {
   // TODO: Asser that sotre is called with correct arguments
   
   describe('#store', function() {
-    var strategy = new OIDCStrategy({
+    var strategy = new Strategy({
       issuer: 'https://server.example.com',
       authorizationURL: 'https://server.example.com/authorize',
       tokenURL: 'https://server.example.com/token',
@@ -102,7 +102,7 @@ describe('SessionStore', function() {
     }); // should error when app does not have session support
     
     it('should store strategy-specific state in session under session key', function(done) {
-      var strategy = new OIDCStrategy({
+      var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
         tokenURL: 'https://server.example.com/token',
@@ -139,7 +139,7 @@ describe('SessionStore', function() {
   }); // #store
     
   describe('#verify', function() {
-    var strategy = new OIDCStrategy({
+    var strategy = new Strategy({
       issuer: 'https://server.example.com',
       authorizationURL: 'https://server.example.com/authorize',
       tokenURL: 'https://server.example.com/token',
@@ -308,7 +308,7 @@ describe('SessionStore', function() {
     }); // should error when app does not have session support
     
     it('should remove state from session under session key when successfully verified', function(done) {
-      var strategy = new OIDCStrategy({
+      var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
         tokenURL: 'https://server.example.com/token',
