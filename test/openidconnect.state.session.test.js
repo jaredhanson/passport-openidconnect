@@ -146,127 +146,102 @@ describe('SessionStore', function() {
           .authenticate();
       }); // should remove state from session when successfully verified
       
-      it('that was approved with other data in the session', function(done) {
+      it('should not remove state set manually by application from session when successfully verified', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
-            req.query = {};
-            req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-            req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'af0ifjsldkj'
+            };
             req.session = {};
-            req.session['openidconnect:server.example.com'] = {};
-            req.session['openidconnect:server.example.com']['state'] = {
-              issuer: 'https://www.example.com/',
-              handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-              authorizationURL: 'https://server.example.com/authorize',
-              userInfoURL: 'https://server.example.com/userinfo',
-              tokenURL: 'https://server.example.com/token',
-              clientID: 'ABC123',
-              clientSecret: 'secret',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
-                response_type: 'code',
-                client_id: 'ABC123',
-                redirect_uri: 'https://www.example.net/auth/example/callback',
-                scope: 'openid'
+            req.session['openidconnect:server.example.com'] = {
+              returnTo: 'https://client.example.org/welcome',
+              state: {
+                handle: 'af0ifjsldkj',
+                issuer: 'https://server.example.com',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                }
               }
             };
-            req.session['openidconnect:server.example.com'].foo = 'bar';
           })
           .success(function(user, info) {
-            expect(user).to.be.an.object;
-            expect(user).to.deep.equal({ id: '248289761001' });
-            
-            expect(info).to.be.an.object;
-            expect(info.message).to.equal('Hello');
-            
-            expect(this.session['openidconnect:server.example.com'].state).to.be.undefined;
-            expect(this.session['openidconnect:server.example.com'].foo).to.equal('bar');
-            
+            expect(this.session['openidconnect:server.example.com']).to.deep.equal({
+              returnTo: 'https://client.example.org/welcome',
+            });
             done();
           })
           .error(done)
           .authenticate();
-      }); // that was approved with other data in the session
+      }); // should not remove state set manually by application from session when successfully verified
       
-      it('that fails due to state being invalid', function(done) {
+      it('should fail if state is not bound to session', function(done) {
         chai.passport.use(strategy)
           .request(function(req) {
-            req.query = {};
-            req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-            req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK-WRONG';
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'XXXXXXXX'
+            };
             req.session = {};
             req.session['openidconnect:server.example.com'] = {};
-            req.session['openidconnect:server.example.com']['state'] = {
-              issuer: 'https://www.example.com/',
-              handle: 'DkbychwKu8kBaJoLE5yeR5NK',
-              authorizationURL: 'https://server.example.com/authorize',
-              userInfoURL: 'https://server.example.com/userinfo',
-              tokenURL: 'https://server.example.com/token',
-              clientID: 'ABC123',
-              clientSecret: 'secret',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
-                response_type: 'code',
-                client_id: 'ABC123',
-                redirect_uri: 'https://www.example.net/auth/example/callback',
-                scope: 'openid'
+            req.session['openidconnect:server.example.com'] = {
+              state: {
+                handle: 'af0ifjsldkj',
+                issuer: 'https://server.example.com',
+                callbackURL: 'https://www.example.net/auth/example/callback',
+                params: {
+                }
               }
             };
           })
           .fail(function(info, status) {
-            expect(info).to.be.an.object;
-            expect(info.message).to.equal('Invalid authorization request state.');
-            
+            expect(info).to.deep.equal({ message: 'Invalid authorization request state.' });
             expect(status).to.equal(403);
-            
+            // FIXME: Should state be preserved in this case?
             expect(this.session['openidconnect:server.example.com']).to.be.undefined;
-            
             done();
           })
           .error(done)
           .authenticate();
-      }); // that fails due to state being invalid
+      }); // should fail if state is not bound to session
       
-      it('that fails due to provider-specific state not found in session', function(done) {
-          chai.passport.use(strategy)
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
-            })
-            .fail(function(info, status) {
-              expect(info).to.be.an.object;
-              expect(info.message).to.equal('Unable to verify authorization request state.');
-              
-              expect(status).to.equal(403);
-              
-              done();
-            })
-            .error(done)
-            .authenticate();
-      }); // that fails due to state not found in session
+      it('should fail if provider-specific state is not found in session', function(done) {
+        chai.passport.use(strategy)
+          .request(function(req) {
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'XXXXXXXX'
+            };
+            req.session = {};
+          })
+          .fail(function(info, status) {
+            expect(info).to.deep.equal({ message: 'Unable to verify authorization request state.' });
+            expect(status).to.equal(403);
+            done();
+          })
+          .error(done)
+          .authenticate();
+      }); // should fail if provider-specific state is not found in session
       
-      it('that fails due to provider-specific state lacking state value', function(done) {
-          chai.passport.use(strategy)
-            .request(function(req) {
-              req.query = {};
-              req.query.code = 'SplxlOBeZQQYbYS6WxSbIA';
-              req.query.state = 'DkbychwKu8kBaJoLE5yeR5NK';
-              req.session = {};
-              req.session['openidconnect:www.example.com'] = {};
-            })
-            .fail(function(info, status) {
-              expect(info).to.be.an.object;
-              expect(info.message).to.equal('Unable to verify authorization request state.');
-              
-              expect(status).to.equal(403);
-              
-              done();
-            })
-            .error(done)
-            .authenticate();
-      }); // that fails due to provider-specific state lacking state value
+      it('should fail if provider-specific state is missing state handle', function(done) {
+        chai.passport.use(strategy)
+          .request(function(req) {
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'XXXXXXXX'
+            };
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {};
+          })
+          .fail(function(info, status) {
+            expect(info).to.deep.equal({ message: 'Unable to verify authorization request state.' });
+            expect(status).to.equal(403);
+            expect(this.session['openidconnect:server.example.com']).to.deep.equal({});
+            done();
+          })
+          .error(done)
+          .authenticate();
+      }); // should fail if provider-specific state is missing state handle
       
       it('that errors due to lack of session support in app', function(done) {
           chai.passport.use(strategy)
