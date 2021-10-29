@@ -7,7 +7,7 @@ var jwt = require('jsonwebtoken');
 function buildIdToken() {
   return jwt.sign({some: 'claim'}, 'this is a secret', {
     issuer: 'https://server.example.com',
-    subject: '1234',
+    subject: '248289761001',
     audience: 's6BhdRkqt3',
     expiresIn: '1h'
   });
@@ -28,15 +28,22 @@ describe('verify function', function() {
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb'
       },
-      function(iss, sub, profile, accessToken, refreshToken, done) {
-        if (iss !== 'https://server.example.com') { return done(new Error('incorrect iss argument')); }
-        if (sub !== '1234') { return done(new Error('incorrect sub argument')); }
-        if (typeof profile !== 'object') { return done(new Error('incorrect profile argument')); }
-        if (Object.keys(profile).length === 0) { return done(new Error('incorrect profile argument')); }
-        if (accessToken !== 'SlAV32hkKG') { return done(new Error('incorrect accessToken argument')); }
-        if (refreshToken !== '8xLOxBtZp8') { return done(new Error('incorrect refreshToken argument')); }
+      function(iss, sub, profile, accessToken, refreshToken, cb) {
+        expect(iss).to.equal('https://server.example.com');
+        expect(sub).to.equal('248289761001');
+        var _raw = profile._raw; delete profile._raw;
+        var _json = profile._json; delete profile._json;
+        expect(profile).to.deep.equal({
+          id: '248289761001',
+          username: 'j.doe',
+          displayName: 'Jane Doe',
+          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          emails: [ { value: 'janedoe@example.com' } ]
+        });
+        expect(accessToken).to.equal('SlAV32hkKG');
+        expect(refreshToken).to.equal('8xLOxBtZp8');
         
-        return done(null, { id: '248289761001' }, { message: 'Hello' });
+        return cb(null, { id: '248289761001' }, { message: 'Hello' });
       });
       
       sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -46,8 +53,13 @@ describe('verify function', function() {
       });
       
       sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
-        sub: '1234',
-        name: 'john'
+        sub: '248289761001',
+        name: 'Jane Doe',
+        given_name: 'Jane',
+        family_name: 'Doe',
+        preferred_username: 'j.doe',
+        email: 'janedoe@example.com',
+        picture: 'http://example.com/janedoe/me.jpg'
       }));
       
       chai.passport.use(strategy)
@@ -58,12 +70,13 @@ describe('verify function', function() {
             state: 'af0ifjsldkj'
           };
           req.session = {};
-          req.session['openidconnect:server.example.com'] = {};
-          req.session['openidconnect:server.example.com']['state'] = {
-            issuer: 'https://www.example.com/',
-            handle: 'af0ifjsldkj',
-            callbackURL: 'https://www.example.net/auth/example/callback',
-            params: {
+          req.session['openidconnect:server.example.com'] = {
+            state: {
+              issuer: 'https://www.example.com/',
+              handle: 'af0ifjsldkj',
+              callbackURL: 'https://www.example.net/auth/example/callback',
+              params: {
+              }
             }
           };
         })
