@@ -64,7 +64,6 @@ describe('verify function', function() {
       
       chai.passport.use(strategy)
         .request(function(req) {
-          req.query = {};
           req.query = {
             code: 'SplxlOBeZQQYbYS6WxSbIA',
             state: 'af0ifjsldkj'

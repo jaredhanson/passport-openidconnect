@@ -4,7 +4,7 @@ var OIDCStrategy = require('../lib/strategy')
   , jwt = require('jsonwebtoken')
   , sinon = require('sinon');
 
-describe('session store', function() {
+describe('SessionStore', function() {
   
   function buildIdToken() {
     return jwt.sign({some: 'claim'}, 'this is a secret', {
@@ -15,9 +15,7 @@ describe('session store', function() {
     });
   };
   
-  describe('using default session state store', function() {
-    
-    describe('issuing authorization request', function() {
+    describe('#store', function() {
       var strategy = new OIDCStrategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -26,8 +24,9 @@ describe('session store', function() {
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb'
       },
-      function(iss, sub, profile, accessToken, refreshToken, done) {});
-      
+      function(iss, sub, profile, accessToken, refreshToken, done) {
+        throw new Error('verify function should not be called');
+      });
       
       it('should store strategy-specific state in session', function(done) {
         chai.passport.use(strategy)
@@ -87,7 +86,7 @@ describe('session store', function() {
           .authenticate();
       }); // should error when app does not have session support
       
-    }); // issuing authorization request
+    }); // #store
     
     describe('processing response to authorization request', function() {
       var strategy = new OIDCStrategy({
@@ -325,8 +324,6 @@ describe('session store', function() {
       }); // that errors due to lack of session support in app
       
     }); // processing response to authorization request
-    
-  }); // using default session state store
   
   
   describe('using default session state store with session key option', function() {
