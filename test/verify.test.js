@@ -81,6 +81,10 @@ describe('verify function', function() {
           };
         })
         .success(function(user, info) {
+          expect(user).to.deep.equal({ id: '248289761001' });
+          expect(info).to.be.an.object;
+          expect(info.message).to.equal('Hello');
+          
           expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
           expect(strategy._oauth2.getOAuthAccessToken.getCall(0).args[0]).to.equal('SplxlOBeZQQYbYS6WxSbIA');
           expect(strategy._oauth2.getOAuthAccessToken.getCall(0).args[1]).to.deep.equal({
@@ -97,14 +101,6 @@ describe('verify function', function() {
           });
           expect(strategy._oauth2._request.getCall(0).args[3]).to.be.null;
           expect(strategy._oauth2._request.getCall(0).args[4]).to.be.null;
-          
-          
-          expect(user).to.deep.equal({ id: '248289761001' });
-          
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Hello');
-          
-          expect(this.session['openidconnect:server.example.com']).to.be.undefined;
           
           done();
         })
