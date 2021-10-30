@@ -103,7 +103,7 @@ describe('Strategy', function() {
         .authenticate({ scope: 'profile email' });
     }); // should redirect with scope as string
     
-    it.skip('should redirect with display parameter', function(done) {
+    it('should redirect with display parameter', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -121,19 +121,12 @@ describe('Strategy', function() {
           var l = uri.parse(url, true);
           var state = l.query.state;
         
-          expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&state=' + encodeURIComponent(state));
+          expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&display=touch&state=' + encodeURIComponent(state));
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
               handle: state,
-              issuer: 'https://server.example.com',
-              authorizationURL: 'https://server.example.com/authorize',
-              tokenURL: 'https://server.example.com/token',
-              userInfoURL: undefined,
-              clientID: 's6BhdRkqt3',
-              clientSecret: 'some_secret12345',
-              callbackURL: 'https://client.example.org/cb',
-              customHeaders: undefined
+              issuer: 'https://server.example.com'
             }
           });
           done();
