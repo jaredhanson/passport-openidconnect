@@ -50,7 +50,7 @@ describe('SessionStore', function() {
           });
           
           expect(spy.calledOnce).to.be.true;
-          expect(spy.getCall(0).args[1]).to.deep.equal({
+          expect(spy.getCall(0).args[3]).to.deep.equal({
             issuer: 'https://server.example.com',
             authorizationURL: 'https://server.example.com/authorize',
             tokenURL: 'https://server.example.com/token',

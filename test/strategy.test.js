@@ -431,7 +431,8 @@ describe('Strategy', function() {
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
           handle: state,
-          issuer: 'https://server.example.com'
+          issuer: 'https://server.example.com',
+          nonce: nonce
         });
         done();
       })
