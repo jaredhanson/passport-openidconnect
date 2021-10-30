@@ -81,11 +81,9 @@ describe('verify function', function() {
         })
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
-          //expect(info).to.deep.equal({
-          //  message: 'Hello'
-          //})
-          expect(info).to.be.an.object;
-          expect(info.message).to.equal('Hello');
+          expect(info).to.deep.equal({
+            message: 'Hello'
+          });
           
           expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
           expect(strategy._oauth2.getOAuthAccessToken.getCall(0).args[0]).to.equal('SplxlOBeZQQYbYS6WxSbIA');
