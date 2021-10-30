@@ -16,7 +16,6 @@ describe('SessionStore', function() {
     });
   };
   
-  // TODO: Asser that sotre is called with correct arguments
   
   describe('#store', function() {
     var strategy = new Strategy({
@@ -178,11 +177,7 @@ describe('SessionStore', function() {
           req.session = {};
           req.session['openidconnect:server.example.com'] = {
             state: {
-              handle: 'af0ifjsldkj',
-              issuer: 'https://server.example.com',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
-              }
+              handle: 'af0ifjsldkj'
             }
           };
         })
@@ -205,11 +200,7 @@ describe('SessionStore', function() {
           req.session['openidconnect:server.example.com'] = {
             returnTo: 'https://client.example.org/welcome',
             state: {
-              handle: 'af0ifjsldkj',
-              issuer: 'https://server.example.com',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
-              }
+              handle: 'af0ifjsldkj'
             }
           };
         })
@@ -234,11 +225,7 @@ describe('SessionStore', function() {
           req.session['openidconnect:server.example.com'] = {};
           req.session['openidconnect:server.example.com'] = {
             state: {
-              handle: 'af0ifjsldkj',
-              issuer: 'https://server.example.com',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
-              }
+              handle: 'af0ifjsldkj'
             }
           };
         })
@@ -347,11 +334,7 @@ describe('SessionStore', function() {
           req.session = {};
           req.session['openidconnect:example'] = {
             state: {
-              handle: 'af0ifjsldkj',
-              issuer: 'https://server.example.com',
-              callbackURL: 'https://www.example.net/auth/example/callback',
-              params: {
-              }
+              handle: 'af0ifjsldkj'
             }
           };
         })
