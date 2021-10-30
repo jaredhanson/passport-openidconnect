@@ -81,6 +81,9 @@ describe('verify function', function() {
         })
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
+          //expect(info).to.deep.equal({
+          //  message: 'Hello'
+          //})
           expect(info).to.be.an.object;
           expect(info.message).to.equal('Hello');
           
@@ -88,7 +91,7 @@ describe('verify function', function() {
           expect(strategy._oauth2.getOAuthAccessToken.getCall(0).args[0]).to.equal('SplxlOBeZQQYbYS6WxSbIA');
           expect(strategy._oauth2.getOAuthAccessToken.getCall(0).args[1]).to.deep.equal({
             grant_type: 'authorization_code',
-            redirect_uri: 'https://www.example.net/auth/example/callback'
+            redirect_uri: 'https://client.example.org/cb'
           });
           
           expect(strategy._oauth2._request.calledOnce).to.be.true;
