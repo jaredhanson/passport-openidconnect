@@ -37,6 +37,7 @@ order to support values defined by extensions.
 - `info.state` supplied to `success()` action contains only app-level state, no
 longer contains state internal to the strategy (`handle`, etc).
 - Treat invalid `iss` claim as an authentication failure rather than an error.
+- Treat invalid `aud` claim as an authentication failure rather than an error.
 - Treat invalid `nonce` claim as an authentication failure rather than an error.
 
 ### Removed
