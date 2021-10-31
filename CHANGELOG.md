@@ -36,6 +36,7 @@ order to support values defined by extensions.
 - `login_hint` option to `Strategy` constructor renamed to `loginHint`.
 - `info.state` supplied to `success()` action contains only app-level state, no
 longer contains state internal to the strategy (`handle`, etc).
+- Treat invalid nonce claims as an authentication failure rather than an error.
 
 ### Removed
 

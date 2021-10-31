@@ -10,7 +10,7 @@ describe('SessionStore', function() {
   function buildIdToken() {
     return jwt.sign({some: 'claim'}, 'this is a secret', {
       issuer: 'https://server.example.com',
-      subject: '1234',
+      subject: '248289761001',
       audience: 's6BhdRkqt3',
       expiresIn: '1h'
     });
