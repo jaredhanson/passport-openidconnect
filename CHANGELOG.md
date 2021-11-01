@@ -38,6 +38,7 @@ order to support values defined by extensions.
 longer contains state internal to the strategy (`handle`, etc).
 - Treat invalid `iss` claim as an authentication failure rather than an error.
 - Treat invalid `aud` claim as an authentication failure rather than an error.
+- Treat invalid `azp` claim as an authentication failure rather than an error.
 - Treat invalid `nonce` claim as an authentication failure rather than an error.
 
 ### Removed
