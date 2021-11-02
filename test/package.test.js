@@ -2,10 +2,6 @@ var sinon = require('sinon');
 var pkg = require('..');
 
 
-afterEach(function() {
-  sinon.restore();
-});
-
 describe('passport-openidconnect', function() {
     
   it('should export Strategy constructor as module', function() {
@@ -17,4 +13,8 @@ describe('passport-openidconnect', function() {
     expect(pkg.Strategy).to.be.a('function');
   });
   
+});
+
+afterEach(function() {
+  sinon.restore();
 });
