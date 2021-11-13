@@ -37,9 +37,7 @@
   "main": "./lib",
   "dependencies": {
     "oauth": "0.9.x",
-    "passport-strategy": "1.x.x",
-    "request": "^2.75.0",
-    "webfinger": "0.4.x"
+    "passport-strategy": "1.x.x"
   },
   "devDependencies": {
     "chai": "2.x.x",
