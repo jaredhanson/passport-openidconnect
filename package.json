@@ -54,6 +54,6 @@
     "node": ">= 0.6.0"
   },
   "scripts": {
-    "test": "node_modules/.bin/mocha --reporter spec --require test/bootstrap/node test/*.test.js test/**/*.test.js"
+    "test": "mocha --require ./test/bootstrap/node --recursive"
   }
 }
