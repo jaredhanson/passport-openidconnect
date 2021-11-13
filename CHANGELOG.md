@@ -18,7 +18,7 @@ behavior.
 application-supplied state as an argument.
 - Support for `responseMode` options to `Strategy` constructor.
 - Support for `loginHint` options to `authenticate()`.
-- Support for `claims` options to both `Strategy` constructor and `authenticate()`.
+- Support for `claims` options to `Strategy` constructor.
 - Support for `state` object passed as option to `authenticate`, which will be
 persisted in the session by state store.
 - Parsing `profile.username` from UserInfo response.
