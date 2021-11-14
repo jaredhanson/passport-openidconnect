@@ -48,7 +48,7 @@ longer contains state internal to the strategy (`handle`, etc).
 `callbackURL` from state stored in session.  This information is redundant and
 can be derived from `issuer`, which remains in the session.
 - Removed `clientSecret` property from state stored in session.
-- Removed support for OpenID Provider Issuer Discovery using WebFinger, as it
+- Removed support for OpenID Connect Discovery and Dynamic Registration, as it
 is largely unused and the functionality would be better suited in a different
 package.
 - Removed `timestamp` property from state stored in session.
