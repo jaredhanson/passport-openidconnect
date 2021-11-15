@@ -577,7 +577,7 @@ describe('Strategy', function() {
       expect(accessToken).to.equal('SlAV32hkKG');
       expect(refreshToken).to.equal('8xLOxBtZp8');
       
-      return cb(null, { id: '248289761001' }, { message: 'Hello' });
+      return cb(null, { id: '248289761001' });
     });
     
     sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -611,9 +611,7 @@ describe('Strategy', function() {
       })
       .success(function(user, info) {
         expect(user).to.deep.equal({ id: '248289761001' });
-        expect(info).to.deep.equal({
-          message: 'Hello'
-        });
+        expect(info).to.deep.equal({});
         done();
       })
       .error(done)
@@ -631,21 +629,7 @@ describe('Strategy', function() {
       callbackURL: 'https://client.example.org/cb'
     },
     function(iss, sub, profile, accessToken, refreshToken, cb) {
-      expect(iss).to.equal('https://server.example.com');
-      expect(sub).to.equal('248289761001');
-      var _raw = profile._raw; delete profile._raw;
-      var _json = profile._json; delete profile._json;
-      expect(profile).to.deep.equal({
-        id: '248289761001',
-        username: 'j.doe',
-        displayName: 'Jane Doe',
-        name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
-        emails: [ { value: 'janedoe@example.com' } ]
-      });
-      expect(accessToken).to.equal('SlAV32hkKG');
-      expect(refreshToken).to.equal('8xLOxBtZp8');
-      
-      return cb(null, { id: '248289761001' }, { message: 'Hello' });
+      throw new Error('verify function should not be called');
     });
     
     sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -678,7 +662,7 @@ describe('Strategy', function() {
         };
       })
       .fail(function(challenge, status) {
-        expect(challenge).to.deep.equal({ message: 'id token not issued by correct OpenID provider - expected: https://server.example.com | from: https://server.example.net' });
+        expect(challenge).to.deep.equal({ message: 'ID token not issued by expected OpenID provider.' });
         expect(status).to.equal(403);
         done();
       })
