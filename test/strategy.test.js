@@ -1349,4 +1349,44 @@ describe('Strategy', function() {
       .authenticate();
   }); // should forbid request when too much time has elapsed since last authentication
   
+  it('should throw if constructed without a verify function', function() {
+    expect(function() {
+      new Strategy();
+    }).to.throw(TypeError, 'OpenIDConnectStrategy requires a verify function');
+  });
+  
+  it('should throw if constructed without an issuer option', function() {
+    expect(function() {
+      new Strategy({
+      }, function(){});
+    }).to.throw(TypeError, 'OpenIDConnectStrategy requires an issuer option');
+  });
+  
+  it('should throw if constructed without an authorizationURL option', function() {
+    expect(function() {
+      new Strategy({
+        issuer: 'https://server.example.com'
+      }, function(){});
+    }).to.throw(TypeError, 'OpenIDConnectStrategy requires an authorizationURL option');
+  });
+  
+  it('should throw if constructed without a tokenURL option', function() {
+    expect(function() {
+      new Strategy({
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize'
+      }, function(){});
+    }).to.throw(TypeError, 'OpenIDConnectStrategy requires a tokenURL option');
+  });
+  
+  it('should throw if constructed without a clientID option', function() {
+    expect(function() {
+      new Strategy({
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize',
+        tokenURL: 'https://server.example.com/token'
+      }, function(){});
+    }).to.throw(TypeError, 'OpenIDConnectStrategy requires a clientID option');
+  });
+  
 }); // Strategy
