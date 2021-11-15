@@ -720,6 +720,42 @@ describe('Strategy', function() {
       .authenticate();
   }); // should authenticate request where time when authentication occurred is recent enough
   
+  it('should fail request when user denies the request', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          error: 'access_denied',
+          error_description: 'User denied the request'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj'
+          }
+        };
+      })
+      .fail(function(challenge, status) {
+        expect(challenge).to.deep.equal({ message: 'User denied the request' });
+        expect(status).to.be.undefined;
+        done();
+      })
+      .error(done)
+      .authenticate();
+  }); // should fail request when user denies the request
+  
   it('should forbid request when issuer claim does not match identifier of OpenID provider', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
