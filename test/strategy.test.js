@@ -629,6 +629,8 @@ describe('Strategy', function() {
       .authenticate();
   }); // should authenticate request where audience claim contains the client ID value and authorized party claim matches client ID
   
+  // TODO: test case for when auth time is within range
+  
   it('should forbid request when issuer claim does not match identifier of OpenID provider', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
@@ -1192,5 +1194,70 @@ describe('Strategy', function() {
       .error(done)
       .authenticate();
   }); // should forbid request when value of nonce claim is not the same as that sent in authentication request
+  
+  it('should forbid request when too much time has elapsed since last authentication', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+      token_type: 'Bearer',
+      expires_in: 3600,
+      id_token: jws.sign({
+        header: { alg: 'HS256' },
+        payload: {
+          iss: 'https://server.example.com',
+          sub: '248289761001',
+          aud: 's6BhdRkqt3',
+          exp: Math.floor((Date.now() + 1000000) / 1000),
+          iat: Math.floor(Date.now() / 1000),
+          auth_time: Math.floor(Date.now() / 1000) - 1 // 1 second ago
+        },
+        secret: 'keyboard cat',
+      })
+    });
+    
+    sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+      sub: '248289761001',
+      name: 'Jane Doe',
+      given_name: 'Jane',
+      family_name: 'Doe',
+      preferred_username: 'j.doe',
+      email: 'janedoe@example.com',
+      picture: 'http://example.com/janedoe/me.jpg'
+    }));
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj',
+            maxAge: 86400, // 1 day
+            issued: new Date(Date.now() - 172800000).toJSON() // 2 days ago
+          }
+        };
+      })
+      .fail(function(challenge, status) {
+        expect(challenge).to.deep.equal({ message: 'Too much time has elapsed since last authentication.' });
+        expect(status).to.equal(403);
+        done();
+      })
+      .error(done)
+      .authenticate();
+  }); // should forbid request when too much time has elapsed since last authentication
   
 }); // Strategy
