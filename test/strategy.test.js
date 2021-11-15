@@ -774,7 +774,7 @@ describe('Strategy', function() {
       .authenticate();
   }); // should forbid request when audience claim is a single string that does not contain the client ID value
   
-  it('should forbid request when audience claim contain the client ID value but authorized party claim is not present', function(done) {
+  it('should forbid request when audience claim contains the client ID value but authorized party claim is not present', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
       authorizationURL: 'https://server.example.com/authorize',
@@ -785,21 +785,7 @@ describe('Strategy', function() {
       callbackURL: 'https://client.example.org/cb'
     },
     function(iss, sub, profile, accessToken, refreshToken, cb) {
-      expect(iss).to.equal('https://server.example.com');
-      expect(sub).to.equal('248289761001');
-      var _raw = profile._raw; delete profile._raw;
-      var _json = profile._json; delete profile._json;
-      expect(profile).to.deep.equal({
-        id: '248289761001',
-        username: 'j.doe',
-        displayName: 'Jane Doe',
-        name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
-        emails: [ { value: 'janedoe@example.com' } ]
-      });
-      expect(accessToken).to.equal('SlAV32hkKG');
-      expect(refreshToken).to.equal('8xLOxBtZp8');
-      
-      return cb(null, { id: '248289761001' }, { message: 'Hello' });
+      throw new Error('verify function should not be called');
     });
     
     sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -832,13 +818,13 @@ describe('Strategy', function() {
         };
       })
       .fail(function(challenge, status) {
-        expect(challenge).to.deep.equal({ message: 'azp parameter required with multiple audiences' });
+        expect(challenge).to.deep.equal({ message: 'ID token missing authorizied party claim.' });
         expect(status).to.equal(403);
         done();
       })
       .error(done)
       .authenticate();
-  }); // should forbid request when audience claim contain the client ID value but authorized party claim is not present
+  }); // should forbid request when audience claim contains the client ID value but authorized party claim is not present
   
   it('should forbid request when authorized party claim does not match client ID', function(done) {
     var strategy = new Strategy({
@@ -851,21 +837,7 @@ describe('Strategy', function() {
       callbackURL: 'https://client.example.org/cb'
     },
     function(iss, sub, profile, accessToken, refreshToken, cb) {
-      expect(iss).to.equal('https://server.example.com');
-      expect(sub).to.equal('248289761001');
-      var _raw = profile._raw; delete profile._raw;
-      var _json = profile._json; delete profile._json;
-      expect(profile).to.deep.equal({
-        id: '248289761001',
-        username: 'j.doe',
-        displayName: 'Jane Doe',
-        name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
-        emails: [ { value: 'janedoe@example.com' } ]
-      });
-      expect(accessToken).to.equal('SlAV32hkKG');
-      expect(refreshToken).to.equal('8xLOxBtZp8');
-      
-      return cb(null, { id: '248289761001' }, { message: 'Hello' });
+      throw new Error('verify function should not be called');
     });
     
     sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -898,7 +870,7 @@ describe('Strategy', function() {
         };
       })
       .fail(function(challenge, status) {
-        expect(challenge).to.deep.equal({ message: 'this client is not the authorized party - expected: s6BhdRkqt3 | is: XXXXXXXX' });
+        expect(challenge).to.deep.equal({ message: 'ID token not issued to this relying party.' });
         expect(status).to.equal(403);
         done();
       })
