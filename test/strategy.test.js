@@ -3,6 +3,7 @@ var sinon = require('sinon');
 var Strategy = require('../lib/strategy');
 var uri = require('url');
 var jws = require('jws');
+var AuthorizationError = require('../lib/errors/authorizationerror');
 
 
 describe('Strategy', function() {
@@ -740,12 +741,6 @@ describe('Strategy', function() {
           error: 'access_denied',
           error_description: 'User denied the request'
         };
-        req.session = {};
-        req.session['openidconnect:server.example.com'] = {
-          state: {
-            handle: 'af0ifjsldkj'
-          }
-        };
       })
       .fail(function(challenge, status) {
         expect(challenge).to.deep.equal({ message: 'User denied the request' });
@@ -1384,6 +1379,38 @@ describe('Strategy', function() {
       .error(done)
       .authenticate();
   }); // should forbid request when too much time has elapsed since last authentication
+  
+  it('should error when receiving an error response', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          error: 'invalid_request',
+          error_description: 'Unsupported response_type value'
+        };
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(AuthorizationError);
+        expect(err.message).to.equal('Unsupported response_type value');
+        expect(err.code).to.equal('invalid_request');
+        expect(err.uri).to.be.undefined;
+        expect(err.status).to.equal(500);
+        done();
+      })
+      .authenticate();
+  }); // should error when receiving an error response
   
   it('should throw if constructed without a verify function', function() {
     expect(function() {
