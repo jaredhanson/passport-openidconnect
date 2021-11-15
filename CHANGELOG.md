@@ -40,6 +40,7 @@ longer contains state internal to the strategy (`handle`, etc).
 - Treat invalid `iss` claim as an authentication failure rather than an error.
 - Treat invalid `aud` claim as an authentication failure rather than an error.
 - Treat invalid `azp` claim as an authentication failure rather than an error.
+- Treat expired `exp` claim as an authentication failure rather than an error.
 - Treat invalid `nonce` claim as an authentication failure rather than an error.
 
 ### Removed
@@ -61,6 +62,7 @@ session data.
 
 - Correctly validating that an `azp` claim is present if the ID token contains
 multiple audiences.
+- ID token expiration check is inclusive of the current time.
 
 ## [0.0.2] - 2017-02-23
 

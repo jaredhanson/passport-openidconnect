@@ -938,7 +938,7 @@ describe('Strategy', function() {
       .authenticate();
   }); // should forbid request when audience claim contain the client ID value but authorized party claim is not present
   
-  it.skip('should forbid request when expired', function(done) {
+  it('should forbid request when ID token is expired', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
       authorizationURL: 'https://server.example.com/authorize',
@@ -961,8 +961,8 @@ describe('Strategy', function() {
           iss: 'https://server.example.com',
           sub: '248289761001',
           aud: 's6BhdRkqt3',
-          exp: Math.floor((Date.now() + 1000000) / 1000),
-          iat: Math.floor(Date.now() / 1000)
+          exp: Math.floor((Date.now() - 60000) / 1000),
+          iat: Math.floor((Date.now() - 1000000 - 60000) / 1000)
         },
         secret: 'keyboard cat',
       })
@@ -993,13 +993,76 @@ describe('Strategy', function() {
         };
       })
       .fail(function(challenge, status) {
-        expect(challenge).to.deep.equal({ message: 'ID token contains invalid nonce.' });
+        expect(challenge).to.deep.equal({ message: 'ID token has expired.' });
         expect(status).to.equal(403);
         done();
       })
       .error(done)
       .authenticate();
-  });
+  }); // should forbid request when ID token is expired
+  
+  it('should forbid request when ID token is exactly expired', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+      token_type: 'Bearer',
+      expires_in: 3600,
+      id_token: jws.sign({
+        header: { alg: 'HS256' },
+        payload: {
+          iss: 'https://server.example.com',
+          sub: '248289761001',
+          aud: 's6BhdRkqt3',
+          exp: Math.floor(Date.now() / 1000),
+          iat: Math.floor((Date.now() - 1000000) / 1000)
+        },
+        secret: 'keyboard cat',
+      })
+    });
+    
+    sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+      sub: '248289761001',
+      name: 'Jane Doe',
+      given_name: 'Jane',
+      family_name: 'Doe',
+      preferred_username: 'j.doe',
+      email: 'janedoe@example.com',
+      picture: 'http://example.com/janedoe/me.jpg'
+    }));
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj',
+            nonce: 'n-0S6_WzA2Mj'
+          }
+        };
+      })
+      .fail(function(challenge, status) {
+        expect(challenge).to.deep.equal({ message: 'ID token has expired.' });
+        expect(status).to.equal(403);
+        done();
+      })
+      .error(done)
+      .authenticate();
+  }); // should forbid request when ID token is exactly expired
   
   it('should forbid request when nonce claim is not present but value was sent in authentication request', function(done) {
     var strategy = new Strategy({
