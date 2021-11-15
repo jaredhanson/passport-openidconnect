@@ -38,6 +38,7 @@ order to support values defined by extensions.
 - `max_age` option to `Strategy` constructor renamed to `maxAge`.
 - `acr_values` option to `Strategy` constructor renamed to `acrValues`.
 - `id_token_hint` option to `Strategy` constructor renamed to `idTokenHint`.
+- `Strategy` constructor no longer requires a `clientSecret` option.
 - `info.state` supplied to `success()` action contains only app-level state, no
 longer contains state internal to the strategy (`handle`, etc).
 - Treat invalid `iss` claim as an authentication failure rather than an error.
