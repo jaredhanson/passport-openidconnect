@@ -52,6 +52,7 @@ longer contains state internal to the strategy (`handle`, etc).
 - Removed support for OpenID Connect Discovery and Dynamic Registration, as it
 is largely unused and the functionality would be better suited in a different
 package.
+- Removed capability to pass `nonce` option as string or number values.
 - Removed `authorizationURL`, `tokenURL`, `userInfoURL`, `clientID`, and
 `callbackURL` from state stored in session.  This information is redundant and
 can be derived from `issuer`, which remains in the session.
