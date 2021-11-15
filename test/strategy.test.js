@@ -411,7 +411,9 @@ describe('Strategy', function() {
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
           handle: state,
-          issuer: 'https://server.example.com'
+          issuer: 'https://server.example.com',
+          maxAge: 86400,
+          issued: new Date('2011-07-21T20:42:50.000Z')
         });
         done();
       })

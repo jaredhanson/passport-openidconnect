@@ -23,6 +23,9 @@ behavior.
 application-supplied state as an argument.
 - Support for `state` object passed as option to `authenticate`, which will be
 persisted in the session by state store.
+- Added `maxAge` and `nonce` properties to state stored in session.
+- Added `issued` property to state stored in session, only when `maxAge` option
+is used.
 
 ### Changed
 
