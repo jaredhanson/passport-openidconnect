@@ -17,6 +17,18 @@ describe('Strategy', function() {
     clock.restore();
   });
 
+  it('should be named openidconnect', function() {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345'
+    }, function() {});
+    
+    expect(strategy.name).to.equal('openidconnect');
+  });
+
   it('should redirect without redirect URI', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
