@@ -6,7 +6,6 @@ var jws = require('jws');
 
 
 describe('Strategy', function() {
-
   var clock;
   
   beforeEach(function() {
@@ -16,6 +15,7 @@ describe('Strategy', function() {
   afterEach(function() {
     clock.restore();
   });
+
 
   it('should be named openidconnect', function() {
     var strategy = new Strategy({
