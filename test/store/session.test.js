@@ -157,7 +157,7 @@ describe('SessionStore', function() {
       id_token: buildIdToken()
     });
     
-    sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+    sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({
       sub: '248289761001',
       name: 'Jane Doe',
       given_name: 'Jane',
@@ -315,7 +315,7 @@ describe('SessionStore', function() {
         id_token: buildIdToken()
       });
     
-      sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+      sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({
         sub: '248289761001',
         name: 'Jane Doe',
         given_name: 'Jane',
