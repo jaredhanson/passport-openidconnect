@@ -4,6 +4,8 @@ var Strategy = require('../lib/strategy');
 var uri = require('url');
 var jws = require('jws');
 var AuthorizationError = require('../lib/errors/authorizationerror');
+var TokenError = require('../lib/errors/tokenerror');
+var InternalOAuthError = require('../lib/errors/internaloautherror');
 
 
 describe('Strategy', function() {
@@ -1547,7 +1549,7 @@ describe('Strategy', function() {
       .authenticate();
   }); // should error when state store does not yield state
   
-  it('should error when receiving an error response', function(done) {
+  it('should error when receiving an authentication error response', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
       authorizationURL: 'https://server.example.com/authorize',
@@ -1577,7 +1579,47 @@ describe('Strategy', function() {
         done();
       })
       .authenticate();
-  }); // should error when receiving an error response
+  }); // should error when receiving an authentication error response
+  
+  it('should error when receiving a token error response', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync({ statusCode: 400, data: '{"error":"invalid_grant","error_description":"The authorization code is invalid, expired, or revoked."}' });
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj'
+          }
+        };
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(TokenError);
+        expect(err.message).to.equal('The authorization code is invalid, expired, or revoked.');
+        expect(err.code).to.equal('invalid_grant');
+        expect(err.uri).to.be.undefined;
+        expect(err.status).to.equal(500);
+        done();
+      })
+      .authenticate();
+  }); // should error when receiving a token error response
   
   it('should throw if constructed without a verify function', function() {
     expect(function() {

@@ -24,6 +24,7 @@ behavior.
 - Added `maxAge` and `nonce` properties to state stored in session.
 - Added `issued` property to state stored in session, only when `maxAge` option
 is used.
+- Parsing of errors from token endpoint.
 
 ### Changed
 
