@@ -1700,6 +1700,46 @@ describe('Strategy', function() {
       .authenticate();
   }); // should error when receiving an internal error from token endpoint
   
+  it('should error when token response does not include an ID token', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+      token_type: 'Bearer',
+      expires_in: 3600
+    });
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj'
+          }
+        };
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(Error);
+        expect(err.message).to.equal('ID Token not present in token response');
+        done();
+      })
+      .authenticate();
+  }); // should error when token response does not include an ID token
+  
   it('should throw if constructed without a verify function', function() {
     expect(function() {
       new Strategy();
