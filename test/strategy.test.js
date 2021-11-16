@@ -1380,6 +1380,64 @@ describe('Strategy', function() {
       .authenticate();
   }); // should forbid request when too much time has elapsed since last authentication
   
+  it('should error when state store yeilds an error attempting to store state', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._stateStore, 'store').yieldsAsync(new Error('something went wrong'));
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.session = {};
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(Error);
+        expect(err.message).to.equal('something went wrong');
+        expect(this.session).to.deep.equal({});
+        done();
+      })
+      .authenticate();
+  }); // should error when state store yeilds an error attempting to store state
+  
+  it('should error when state store throws an error attempting to store state', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._stateStore, 'store').throws(new Error('something went wrong'));
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.session = {};
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(Error);
+        expect(err.message).to.equal('something went wrong');
+        expect(this.session).to.deep.equal({});
+        done();
+      })
+      .authenticate();
+  }); // should error when state store throws an error attempting to store state
+  
   it('should error when receiving an error response', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
