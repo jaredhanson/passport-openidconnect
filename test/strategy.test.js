@@ -1990,6 +1990,57 @@ describe('Strategy', function() {
       .authenticate();
   }); // should error when ID token is missing issued at claim
   
+  it('should error when ID token audience claim is not a string or array', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+      token_type: 'Bearer',
+      expires_in: 3600,
+      id_token: jws.sign({
+        header: { alg: 'HS256' },
+        payload: {
+          iss: 'https://server.example.com',
+          sub: '248289761001',
+          aud: 1,
+          exp: Math.floor((Date.now() + 1000000) / 1000),
+          iat: Math.floor(Date.now() / 1000)
+        },
+        secret: 'keyboard cat',
+      })
+    });
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj'
+          }
+        };
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(Error);
+        expect(err.message).to.equal('ID token audience claim not an array or string value');
+        done();
+      })
+      .authenticate();
+  }); // should error when ID token audience claim is not a string or array
+  
   it('should throw if constructed without a verify function', function() {
     expect(function() {
       new Strategy();
