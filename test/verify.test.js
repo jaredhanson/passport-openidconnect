@@ -52,7 +52,7 @@ describe('verify function', function() {
         id_token: buildIdToken()
       });
       
-      sinon.stub(strategy._oauth2, '_request').yieldsAsync(null, JSON.stringify({
+      sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({
         sub: '248289761001',
         name: 'Jane Doe',
         given_name: 'Jane',
@@ -88,15 +88,9 @@ describe('verify function', function() {
             redirect_uri: 'https://client.example.org/cb'
           });
           
-          expect(strategy._oauth2._request.calledOnce).to.be.true;
-          expect(strategy._oauth2._request.getCall(0).args[0]).to.equal('GET');
-          expect(strategy._oauth2._request.getCall(0).args[1]).to.equal('https://server.example.com/userinfo?schema=openid');
-          expect(strategy._oauth2._request.getCall(0).args[2]).to.deep.equal({
-            'Authorization': 'Bearer SlAV32hkKG',
-            'Accept': 'application/json'
-          });
-          expect(strategy._oauth2._request.getCall(0).args[3]).to.be.null;
-          expect(strategy._oauth2._request.getCall(0).args[4]).to.be.null;
+          expect(strategy._oauth2.get.calledOnce).to.be.true;
+          expect(strategy._oauth2.get.getCall(0).args[0]).to.equal('https://server.example.com/userinfo?schema=openid');
+          expect(strategy._oauth2.get.getCall(0).args[1]).to.equal('SlAV32hkKG');
           
           done();
         })
