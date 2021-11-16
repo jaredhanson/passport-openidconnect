@@ -635,20 +635,6 @@ describe('Strategy', function() {
       callbackURL: 'https://client.example.org/cb'
     },
     function(iss, sub, profile, accessToken, refreshToken, cb) {
-      expect(iss).to.equal('https://server.example.com');
-      expect(sub).to.equal('248289761001');
-      var _raw = profile._raw; delete profile._raw;
-      var _json = profile._json; delete profile._json;
-      expect(profile).to.deep.equal({
-        id: '248289761001',
-        username: 'j.doe',
-        displayName: 'Jane Doe',
-        name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
-        emails: [ { value: 'janedoe@example.com' } ]
-      });
-      expect(accessToken).to.equal('SlAV32hkKG');
-      expect(refreshToken).to.equal('8xLOxBtZp8');
-      
       return cb(null, { id: '248289761001' });
     });
     
@@ -712,20 +698,6 @@ describe('Strategy', function() {
       callbackURL: 'https://client.example.org/cb'
     },
     function(iss, sub, profile, accessToken, refreshToken, cb) {
-      expect(iss).to.equal('https://server.example.com');
-      expect(sub).to.equal('248289761001');
-      var _raw = profile._raw; delete profile._raw;
-      var _json = profile._json; delete profile._json;
-      expect(profile).to.deep.equal({
-        id: '248289761001',
-        username: 'j.doe',
-        displayName: 'Jane Doe',
-        name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
-        emails: [ { value: 'janedoe@example.com' } ]
-      });
-      expect(accessToken).to.equal('SlAV32hkKG');
-      expect(refreshToken).to.equal('8xLOxBtZp8');
-      
       return cb(null, { id: '248289761001' });
     });
     

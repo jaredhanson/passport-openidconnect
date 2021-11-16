@@ -28,6 +28,8 @@ is used.
 
 ### Changed
 
+- The 3-arity form of `verify` function now invoked with `iss`, `profile`, `cb`
+arguments, rather than `iss`, `sub`, `cb`.
 - `prompt` option can now take any value, rather than just defined values, in
 order to support values defined by extensions.
 - `display` option can now take any value, rather than just defined values, in
