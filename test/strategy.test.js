@@ -52,8 +52,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&scope=openid&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -82,8 +81,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -115,8 +113,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -146,8 +143,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid%20profile%20email&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -177,8 +173,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid%20profile%20email&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -208,8 +203,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&response_mode=form_post&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -239,8 +233,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&prompt=login&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -270,8 +263,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&prompt=x-example&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -301,8 +293,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&display=touch&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -332,8 +323,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&display=x-example&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -363,8 +353,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&ui_locales=fr-CA%20fr%20en&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -394,8 +383,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&login_hint=janedoe%40example.com&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -426,7 +414,6 @@ describe('Strategy', function() {
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
           handle: state,
-          issuer: 'https://server.example.com',
           maxAge: 86400,
           issued: new Date('2011-07-21T20:42:50.000Z')
         });
@@ -458,8 +445,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&acr_values=urn%3Amace%3Aincommon%3Aiap%3Asilver&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -489,8 +475,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&id_token_hint=eyJh.ewogImlzcyI6ICJo.ggW8hZ1E&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })
@@ -522,7 +507,6 @@ describe('Strategy', function() {
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
           handle: state,
-          issuer: 'https://server.example.com',
           nonce: nonce
         });
         done();
@@ -558,8 +542,7 @@ describe('Strategy', function() {
         expect(url).to.equal('https://server.example.com/authorize?response_type=code&client_id=s6BhdRkqt3&redirect_uri=https%3A%2F%2Fclient.example.org%2Fcb&scope=openid&claims=%7B%22userinfo%22%3A%7B%22email%22%3Anull%2C%22email_verified%22%3Anull%7D%7D&state=' + encodeURIComponent(state));
         expect(state).to.have.length(24);
         expect(this.session['openidconnect:server.example.com'].state).to.deep.equal({
-          handle: state,
-          issuer: 'https://server.example.com'
+          handle: state
         });
         done();
       })

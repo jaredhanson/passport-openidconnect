@@ -44,8 +44,7 @@ describe('SessionStore', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           
@@ -80,8 +79,7 @@ describe('SessionStore', function() {
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             returnTo: 'https://client.example.org/welcome',
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();
@@ -125,8 +123,7 @@ describe('SessionStore', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:example']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();

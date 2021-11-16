@@ -62,9 +62,9 @@ header isn't needed, per spec.
 is largely unused and the functionality would be better suited in a different
 package.
 - Removed capability to pass `nonce` option as string or number values.
-- Removed `authorizationURL`, `tokenURL`, `userInfoURL`, `clientID`, and
-`callbackURL` from state stored in session.  This information is redundant and
-can be derived from `issuer`, which remains in the session.
+- Removed `issuer`, `authorizationURL`, `tokenURL`, `userInfoURL`, `clientID`,
+and `callbackURL` from state stored in session.  This information is redundant as
+state is stored with a key derived from the issuer.
 - Removed `clientSecret` property from state stored in session.
 - Removed `params` property, which contained all authentication request
 parameters, from state stored in session.  Most of these parameters are not

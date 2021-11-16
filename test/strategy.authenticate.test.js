@@ -29,8 +29,7 @@ describe('Strategy', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();
@@ -61,8 +60,7 @@ describe('Strategy', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();
@@ -93,8 +91,7 @@ describe('Strategy', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();
@@ -125,8 +122,7 @@ describe('Strategy', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();
@@ -157,8 +153,7 @@ describe('Strategy', function() {
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
             state: {
-              handle: state,
-              issuer: 'https://server.example.com'
+              handle: state
             }
           });
           done();
