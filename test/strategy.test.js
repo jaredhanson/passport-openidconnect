@@ -1438,6 +1438,35 @@ describe('Strategy', function() {
       .authenticate();
   }); // should error when state store throws an error attempting to store state
   
+  it('should error when state store does not yield state', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._stateStore, 'store').yields(null);
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.session = {};
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(Error);
+        expect(err.message).to.equal('OpenID Connect state store did not yield state for authentication request');
+        expect(this.session).to.deep.equal({});
+        done();
+      })
+      .authenticate();
+  }); // should error when state store does not yield state
+  
   it('should error when receiving an error response', function(done) {
     var strategy = new Strategy({
       issuer: 'https://server.example.com',
