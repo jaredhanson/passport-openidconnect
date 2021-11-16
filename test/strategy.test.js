@@ -1621,6 +1621,85 @@ describe('Strategy', function() {
       .authenticate();
   }); // should error when receiving a token error response
   
+  it('should error when receiving an error with text content from token endpoint', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync({ statusCode: 500, data: 'something went wrong'});
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj'
+          }
+        };
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(InternalOAuthError);
+        expect(err.message).to.equal('Failed to obtain access token');
+        expect(err.oauthError).to.be.an.object;
+        expect(err.oauthError.statusCode).to.equal(500);
+        expect(err.oauthError.data).to.equal('something went wrong');
+        done();
+      })
+      .authenticate();
+  }); // should error when receiving an error with text content from token endpoint
+  
+  it('should error when receiving an internal error from token endpoint', function(done) {
+    var strategy = new Strategy({
+      issuer: 'https://server.example.com',
+      authorizationURL: 'https://server.example.com/authorize',
+      tokenURL: 'https://server.example.com/token',
+      userInfoURL: 'https://server.example.com/userinfo',
+      clientID: 's6BhdRkqt3',
+      clientSecret: 'some_secret12345',
+      callbackURL: 'https://client.example.org/cb'
+    },
+    function(iss, sub, profile, accessToken, refreshToken, cb) {
+      throw new Error('verify function should not be called');
+    });
+    
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(new Error('something went wrong'));
+    
+    chai.passport.use(strategy)
+      .request(function(req) {
+        req.query = {
+          code: 'SplxlOBeZQQYbYS6WxSbIA',
+          state: 'af0ifjsldkj'
+        };
+        req.session = {};
+        req.session['openidconnect:server.example.com'] = {
+          state: {
+            handle: 'af0ifjsldkj'
+          }
+        };
+      })
+      .error(function(err) {
+        expect(err).to.be.an.instanceof(InternalOAuthError);
+        expect(err.message).to.equal('Failed to obtain access token');
+        expect(err.oauthError).to.be.an.instanceof(Error);
+        expect(err.oauthError.message).to.equal('something went wrong');
+        done();
+      })
+      .authenticate();
+  }); // should error when receiving an internal error from token endpoint
+  
   it('should throw if constructed without a verify function', function() {
     expect(function() {
       new Strategy();
