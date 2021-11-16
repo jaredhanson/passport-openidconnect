@@ -9,8 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Parsing `profile.username` from UserInfo response.
 - Parsing `profile.emails` from UserInfo response.
-- Support for `responseMode` options to `Strategy` constructor.
 - Support for `loginHint` options to `authenticate()`.
+- Support for `state` object passed as option to `authenticate`, which will be
+persisted in the session by state store.
+- Support for `responseMode` options to `Strategy` constructor.
 - Support for `claims` options to `Strategy` constructor.
 - Added `customHeaders` option to `Strategy` constructor, matching functionality
 in `passport-oauth2`.
@@ -19,10 +21,6 @@ indicate the app is behind a front-facing proxy.  Used when resolving relative
 redirect URIs to an absolute URI.
 - Added `agent` option to `Strategy` constructor, used to control `http.Agent`
 behavior.
-- Support for `StateStore#store()` function signature which accepts
-application-supplied state as an argument.
-- Support for `state` object passed as option to `authenticate`, which will be
-persisted in the session by state store.
 - Added `maxAge` and `nonce` properties to state stored in session.
 - Added `issued` property to state stored in session, only when `maxAge` option
 is used.
@@ -46,6 +44,9 @@ longer contains state internal to the strategy (`handle`, etc).
 - Treat invalid `azp` claim as an authentication failure rather than an error.
 - Treat expired `exp` claim as an authentication failure rather than an error.
 - Treat invalid `nonce` claim as an authentication failure rather than an error.
+- `StateStore#store()` function signature now only supports single variation
+with arguments (`req`, `ctx`, `state`, `meta`, `cb`), as opposed to previous
+four, three, and two argument variations.
 
 ### Removed
 

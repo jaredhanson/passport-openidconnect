@@ -3,7 +3,7 @@ var OIDCStrategy = require('../lib/strategy')
   , uri = require('url')
   , jwt = require('jsonwebtoken');
 
-describe('custom store', function() {
+describe.skip('custom store', function() {
 
   function buildIdToken() {
     return jwt.sign({some: 'claim'}, 'this is a secret', {
