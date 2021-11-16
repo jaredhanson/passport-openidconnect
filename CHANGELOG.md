@@ -47,6 +47,10 @@ longer contains state internal to the strategy (`handle`, etc).
 - `StateStore#store()` function signature now only supports single variation
 with arguments (`req`, `ctx`, `state`, `meta`, `cb`), as opposed to previous
 four, three, and two argument variations.
+- Callback passed to `StateStore#store()` now expected to be involved with
+`(err, ctx, state)`, rather than `(err, ok, state)`, where `ctx` is an object,
+rather than a boolean, and contains the protocol context needed to validate the
+authentication response.
 
 ### Removed
 
