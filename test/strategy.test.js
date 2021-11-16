@@ -1635,7 +1635,7 @@ describe('Strategy', function() {
       throw new Error('verify function should not be called');
     });
     
-    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync({ statusCode: 500, data: 'something went wrong'});
+    sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync({ statusCode: 500, data: 'something went wrong' });
     
     chai.passport.use(strategy)
       .request(function(req) {
