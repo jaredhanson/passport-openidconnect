@@ -18,7 +18,7 @@ describe('verify function', function() {
   
   describe('that authenticates', function() {
     
-    it('should accept issuer and profile to authenticate request', function(done) {
+    it('should fetch user info and accept issuer and profile to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -93,9 +93,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer and profile to authenticate request
+    }); // should fetch user info and accept issuer and profile to authenticate request
     
-    it('should accept issuer, profile, and ID token to authenticate request', function(done) {
+    it('should fetch user info and accept issuer, profile, and ID token to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -171,9 +171,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer, profile, and ID token to authenticate request
+    }); // should fetch user info and accept issuer, profile, and ID token to authenticate request
     
-    it('should accept issuer, profile, ID token, access token, and refresh token to authenticate request', function(done) {
+    it('should fetch user info and accept issuer, profile, ID token, access token, and refresh token to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -253,9 +253,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer, profile, ID token, access token, and refresh token to authenticate request
+    }); // should fetch user info and accept issuer, profile, ID token, access token, and refresh token to authenticate request
     
-    it('should accept issuer, profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
+    it('should fetch user info and accept issuer, profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -340,9 +340,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer, profile, ID token, access token, refresh token, and params to authenticate request
+    }); // should fetch user info and accept issuer, profile, ID token, access token, refresh token, and params to authenticate request
     
-    it('should accept request along with issuer and profile to authenticate request', function(done) {
+    it('should fetch user info and accept request along with issuer and profile to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -419,9 +419,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept request along with issuer and profile to authenticate request
+    }); // should fetch user info and accept request along with issuer and profile to authenticate request
     
-    it('should accept request along with issuer, profile, and ID token to authenticate request', function(done) {
+    it('should fetch user info and accept request along with issuer, profile, and ID token to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -499,9 +499,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept request along with issuer, profile, and ID token to authenticate request
+    }); // should fetch user info and accept request along with issuer, profile, and ID token to authenticate request
     
-    it('should accept request along with issuer, profile, ID token, access token, and refresh token to authenticate request', function(done) {
+    it('should fetch user info and accept request along with issuer, profile, ID token, access token, and refresh token to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -583,9 +583,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept request along with issuer, profile, ID token, access token, and refresh token to authenticate request
+    }); // should fetch user info and accept request along with issuer, profile, ID token, access token, and refresh token to authenticate request
     
-    it('should accept request along with issuer, profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
+    it('should fetch user info and accept request along with issuer, profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -672,7 +672,7 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept request along with issuer, profile, ID token, access token, refresh token, and params to authenticate request
+    }); // should fetch user info and accept request along with issuer, profile, ID token, access token, refresh token, and params to authenticate request
     
     it('should accept issuer and profile to authenticate request with additional info', function(done) {
       var strategy = new Strategy({
