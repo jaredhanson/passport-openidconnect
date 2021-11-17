@@ -744,4 +744,132 @@ describe('verify function', function() {
     
   }); // that authenticates
   
+  describe('that does not authenticate', function() {
+    
+    it('should fail request', function(done) {
+      var strategy = new Strategy({
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize',
+        tokenURL: 'https://server.example.com/token',
+        userInfoURL: 'https://server.example.com/userinfo',
+        clientID: 's6BhdRkqt3',
+        clientSecret: 'some_secret12345',
+        callbackURL: 'https://client.example.org/cb'
+      },
+      function(issuer, profile, cb) {
+        return cb(null, false);
+      });
+      
+      sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+        token_type: 'Bearer',
+        expires_in: 3600,
+        id_token: jws.sign({
+          header: { alg: 'HS256' },
+          payload: {
+            iss: 'https://server.example.com',
+            sub: '248289761001',
+            aud: 's6BhdRkqt3',
+            exp: Math.floor((Date.now() + 1000000) / 1000),
+            iat: Math.floor(Date.now() / 1000)
+          },
+          secret: 'keyboard cat',
+        })
+      });
+      
+      sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({
+        sub: '248289761001',
+        name: 'Jane Doe',
+        given_name: 'Jane',
+        family_name: 'Doe',
+        preferred_username: 'j.doe',
+        email: 'janedoe@example.com',
+        picture: 'http://example.com/janedoe/me.jpg'
+      }));
+      
+      chai.passport.use(strategy)
+        .request(function(req) {
+          req.query = {
+            code: 'SplxlOBeZQQYbYS6WxSbIA',
+            state: 'af0ifjsldkj'
+          };
+          req.session = {};
+          req.session['openidconnect:server.example.com'] = {
+            state: {
+              handle: 'af0ifjsldkj'
+            }
+          };
+        })
+        .fail(function(challenge, status) {
+          expect(challenge).to.be.undefined;
+          expect(status).to.be.undefined;
+          done();
+        })
+        .error(done)
+        .authenticate();
+    }); // should fail request
+    
+    it('should fail request with explanation', function(done) {
+      var strategy = new Strategy({
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize',
+        tokenURL: 'https://server.example.com/token',
+        userInfoURL: 'https://server.example.com/userinfo',
+        clientID: 's6BhdRkqt3',
+        clientSecret: 'some_secret12345',
+        callbackURL: 'https://client.example.org/cb'
+      },
+      function(issuer, profile, cb) {
+        return cb(null, false, { message: 'Account disabled' });
+      });
+      
+      sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+        token_type: 'Bearer',
+        expires_in: 3600,
+        id_token: jws.sign({
+          header: { alg: 'HS256' },
+          payload: {
+            iss: 'https://server.example.com',
+            sub: '248289761001',
+            aud: 's6BhdRkqt3',
+            exp: Math.floor((Date.now() + 1000000) / 1000),
+            iat: Math.floor(Date.now() / 1000)
+          },
+          secret: 'keyboard cat',
+        })
+      });
+      
+      sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({
+        sub: '248289761001',
+        name: 'Jane Doe',
+        given_name: 'Jane',
+        family_name: 'Doe',
+        preferred_username: 'j.doe',
+        email: 'janedoe@example.com',
+        picture: 'http://example.com/janedoe/me.jpg'
+      }));
+      
+      chai.passport.use(strategy)
+        .request(function(req) {
+          req.query = {
+            code: 'SplxlOBeZQQYbYS6WxSbIA',
+            state: 'af0ifjsldkj'
+          };
+          req.session = {};
+          req.session['openidconnect:server.example.com'] = {
+            state: {
+              handle: 'af0ifjsldkj'
+            }
+          };
+        })
+        .fail(function(challenge, status) {
+          expect(challenge).to.deep.equal({ message: 'Account disabled' });
+          expect(status).to.be.undefined;
+          done();
+        })
+        .error(done)
+        .authenticate();
+    }); // should fail request with explanation
+    
+  }); // that does not authenticate
+  
 });
