@@ -36,7 +36,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         
@@ -112,7 +112,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -189,7 +189,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -270,7 +270,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -358,7 +358,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         
@@ -436,7 +436,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -515,7 +515,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -598,7 +598,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -684,7 +684,7 @@ describe('verify function', function() {
           id: '248289761001',
           username: 'j.doe',
           displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane', middleName: undefined },
+          name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
         
