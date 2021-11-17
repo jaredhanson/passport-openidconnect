@@ -32,8 +32,8 @@ passport.use(new OpenIDConnectStrategy({
     issuer: 'https://server.example.com',
     authorizationURL: 'https://server.example.com/authorize',
     tokenURL: 'https://server.example.com/token',
-    clientID: 's6BhdRkqt3',
-    clientSecret: 'some_secret12345',
+    clientID: process.env['CLIENT_ID'],
+    clientSecret: process.env['CLIENT_SECRET'],
     callbackURL: 'https://client.example.org/cb'
   },
   function verify(issuer, profile, cb) {
