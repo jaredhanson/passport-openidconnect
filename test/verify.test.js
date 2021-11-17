@@ -103,9 +103,7 @@ describe('verify function', function() {
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
-        expect(context).to.deep.equal({
-          timestamp: new Date('2011-07-21T20:42:49.000Z')
-        });
+        expect(context).to.deep.equal({});
         
         return cb(null, { id: '248289761001' });
       });
@@ -120,8 +118,7 @@ describe('verify function', function() {
             sub: '248289761001',
             aud: 's6BhdRkqt3',
             exp: Math.floor((Date.now() + 1000000) / 1000),
-            iat: Math.floor(Date.now() / 1000),
-            auth_time: 1311280969
+            iat: Math.floor(Date.now() / 1000)
           },
           secret: 'keyboard cat',
         })
@@ -252,8 +249,11 @@ describe('verify function', function() {
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
-        expect(context).to.deep.equal({});
-        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
+        expect(context).to.deep.equal({
+          class: 'urn:mace:incommon:iap:silver',
+          timestamp: new Date('2011-07-21T20:42:49.000Z')
+        });
+        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwiYXV0aF90aW1lIjoxMzExMjgwOTY5LCJhY3IiOiJ1cm46bWFjZTppbmNvbW1vbjppYXA6c2lsdmVyIn0.SN9l8gT2OFq8VWEFgUKCENTgqqCb9zhZ8J8pxPyF0uc');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
         
@@ -270,7 +270,9 @@ describe('verify function', function() {
             sub: '248289761001',
             aud: 's6BhdRkqt3',
             exp: Math.floor((Date.now() + 1000000) / 1000),
-            iat: Math.floor(Date.now() / 1000)
+            iat: Math.floor(Date.now() / 1000),
+            auth_time: 1311280969,
+            acr: 'urn:mace:incommon:iap:silver'
           },
           secret: 'keyboard cat',
         })
@@ -326,14 +328,18 @@ describe('verify function', function() {
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
-        expect(context).to.deep.equal({});
-        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
+        expect(context).to.deep.equal({
+          class: 'urn:mace:incommon:iap:silver',
+          methods: [ 'pwd', 'otp' ],
+          timestamp: new Date('2011-07-21T20:42:49.000Z')
+        });
+        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwiYXV0aF90aW1lIjoxMzExMjgwOTY5LCJhY3IiOiJ1cm46bWFjZTppbmNvbW1vbjppYXA6c2lsdmVyIiwiYW1yIjpbInB3ZCIsIm90cCJdfQ.BX9YTraELmg1Bq3JmXYofYXrWgHOodntf0KDgeBjJ-I');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
         expect(params).to.deep.equal({
           token_type: 'Bearer',
           expires_in: 3600,
-          id_token: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk'
+          id_token: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwiYXV0aF90aW1lIjoxMzExMjgwOTY5LCJhY3IiOiJ1cm46bWFjZTppbmNvbW1vbjppYXA6c2lsdmVyIiwiYW1yIjpbInB3ZCIsIm90cCJdfQ.BX9YTraELmg1Bq3JmXYofYXrWgHOodntf0KDgeBjJ-I'
         });
         
         return cb(null, { id: '248289761001' });
@@ -349,7 +355,10 @@ describe('verify function', function() {
             sub: '248289761001',
             aud: 's6BhdRkqt3',
             exp: Math.floor((Date.now() + 1000000) / 1000),
-            iat: Math.floor(Date.now() / 1000)
+            iat: Math.floor(Date.now() / 1000),
+            auth_time: 1311280969,
+            acr: 'urn:mace:incommon:iap:silver',
+            amr: [ 'pwd', 'otp' ]
           },
           secret: 'keyboard cat',
         })
