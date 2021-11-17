@@ -17,7 +17,7 @@ $ npm install passport-openidconnect
 
 ## Usage
 
-#### Configure Strategy
+#### Configure
 
 The OpenID Connect authentication strategy authenticates users using their
 account at an OpenID Provider (OP).  The strategy needs to be configured with
@@ -31,7 +31,7 @@ strategy uses the OpenID Connect protocol to obtain this information via a
 sequence of redirects and back-channel HTTP requests to the OP.
 
 The `verify` function is responsible for determining the user to which the
-account at the OP belongs.  In cases where the account is signing in for the
+account at the OP belongs.  In cases where the account is logging in for the
 first time, a user account is typically created automatically.  Because the
 `verify` function is supplied by the application, the app is free to use any
 database of its choosing.  The example below illustrates usage of a SQL
@@ -91,6 +91,26 @@ passport.use(new OpenIDConnectStrategy({
     }
   })
 ));
+```
+
+#### Routes
+
+Two routes are needed in order to allow users to log in with their account at an
+OP.  The first route redirects the user to the OP, where they will authenticate:
+
+```js
+app.get('/login', passport.authenticate('openidconnect'));
+```
+
+The second route processes the authentication response, when the OP redirects
+the user back to the app's redirect URL:
+
+```
+app.get('/cb',
+  passport.authenticate('openidconnect', { failureRedirect: '/login', failureMessage: true }),
+  function(req, res) {
+    res.redirect('/');
+  });
 ```
 
 ## License
