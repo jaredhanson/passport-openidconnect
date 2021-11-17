@@ -244,8 +244,6 @@ describe('verify function', function() {
       },
       function(iss, profile, idToken, accessToken, refreshToken, params, cb) {
         expect(iss).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
@@ -420,8 +418,6 @@ describe('verify function', function() {
       },
       function(issuer, profile, cb) {
         expect(issuer).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -497,8 +493,6 @@ describe('verify function', function() {
       },
       function(issuer, profile, idToken, cb) {
         expect(issuer).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -575,8 +569,6 @@ describe('verify function', function() {
       },
       function(iss, profile, idToken, accessToken, refreshToken, cb) {
         expect(iss).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -655,8 +647,6 @@ describe('verify function', function() {
       },
       function(iss, profile, idToken, accessToken, refreshToken, params, cb) {
         expect(iss).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -742,8 +732,6 @@ describe('verify function', function() {
       function(req, issuer, profile, cb) {
         expect(req.url).to.equal('/');
         expect(issuer).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -821,8 +809,6 @@ describe('verify function', function() {
       function(req, issuer, profile, idToken, cb) {
         expect(req.url).to.equal('/');
         expect(issuer).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -901,8 +887,6 @@ describe('verify function', function() {
       function(req, iss, profile, idToken, accessToken, refreshToken, cb) {
         expect(req.url).to.equal('/');
         expect(iss).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
@@ -983,8 +967,6 @@ describe('verify function', function() {
       function(req, iss, profile, idToken, accessToken, refreshToken, params, cb) {
         expect(req.url).to.equal('/');
         expect(iss).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
           id: '248289761001',
           username: 'j.doe',
