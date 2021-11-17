@@ -102,8 +102,8 @@ OP.  The first route redirects the user to the OP, where they will authenticate:
 app.get('/login', passport.authenticate('openidconnect'));
 ```
 
-The second route processes the authentication response, when the OP redirects
-the user back to the app:
+The second route processes the authentication response and logs the user in,
+when the OP redirects the user back to the app:
 
 ```js
 app.get('/cb',
