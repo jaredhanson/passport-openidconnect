@@ -560,7 +560,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       return cb(null, { id: '248289761001' });
     });
     
@@ -632,7 +632,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       return cb(null, { id: '248289761001' });
     });
     
@@ -695,7 +695,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       return cb(null, { id: '248289761001' });
     });
     
@@ -760,7 +760,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -790,7 +790,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -852,7 +852,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -914,7 +914,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -976,7 +976,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1038,7 +1038,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1101,7 +1101,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1164,7 +1164,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1227,7 +1227,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1290,7 +1290,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1354,7 +1354,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1419,7 +1419,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1448,7 +1448,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1477,7 +1477,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1506,7 +1506,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1538,7 +1538,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1578,7 +1578,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1618,7 +1618,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1657,7 +1657,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1697,7 +1697,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1747,7 +1747,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1797,7 +1797,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1847,7 +1847,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1897,7 +1897,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1947,7 +1947,7 @@ describe('Strategy', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
@@ -1999,7 +1999,7 @@ describe('Strategy', function() {
       callbackURL: 'https://client.example.org/cb',
       skipUserProfile: false
     },
-    function(iss, sub, profile, accessToken, refreshToken, cb) {
+    function(iss, profile, cb) {
       throw new Error('verify function should not be called');
     });
     
