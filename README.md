@@ -1,21 +1,17 @@
 # passport-openidconnect
 
-[Passport](https://github.com/jaredhanson/passport) strategy for authenticating
-with [OpenID Connect](http://openid.net/connect/).
+[Passport](https://www.passportjs.org/) strategy for authenticating
+with [OpenID Connect](https://openid.net/connect/).
 
 This module lets you authenticate using OpenID Connect in your Node.js
 applications.  By plugging into Passport, OpenID Connect authentication can be
 easily and unobtrusively integrated into any application or framework that
-supports [Connect](http://www.senchalabs.org/connect/)-style middleware,
-including [Express](http://expressjs.com/).
-
-## Credits
-
-  - [Jared Hanson](http://github.com/jaredhanson)
+supports [Connect](https://github.com/senchalabs/connect#readme)-style
+middleware, including [Express](https://expressjs.com/).
 
 ## License
 
-[The MIT License](http://opensource.org/licenses/MIT)
+[The MIT License](https://opensource.org/licenses/MIT)
 
 Copyright (c) 2011-2021 Jared Hanson <[https://www.jaredhanson.me/](https://www.jaredhanson.me/)>
 
