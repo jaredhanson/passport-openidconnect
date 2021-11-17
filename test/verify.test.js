@@ -935,6 +935,6 @@ describe('verify function', function() {
         .authenticate();
     }); // should error request
     
-  });
+  }); // that errors
   
 });
