@@ -32,6 +32,7 @@ passport.use(new OpenIDConnectStrategy({
     issuer: 'https://server.example.com',
     authorizationURL: 'https://server.example.com/authorize',
     tokenURL: 'https://server.example.com/token',
+    userInfoURL: 'https://server.example.com/userinfo',
     clientID: process.env['CLIENT_ID'],
     clientSecret: process.env['CLIENT_SECRET'],
     callbackURL: 'https://client.example.org/cb'
