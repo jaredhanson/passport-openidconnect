@@ -81,6 +81,8 @@ header isn't needed, per spec.
 - Removed support for OpenID Connect Discovery and Dynamic Registration, as it
 is largely unused and the functionality would be better suited in a different
 package.
+- Removed the `schema=openid` parameter when making a request to the UserInfo
+endpoint.  The last draft specification to include this was [24](https://openid.net/specs/openid-connect-basic-1_0-24.html).
 - Removed capability to pass `nonce` option as string or number values.
 - Removed the 6-arity form of `verify` function which was invoked with (`iss`,
 `sub`, `profile`, `accessToken`, `refreshToken`, `cb`) arguments.
