@@ -968,19 +968,12 @@ describe('verify function', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb',
-        skipUserProfile: false
+        callbackURL: 'https://client.example.org/cb'
       },
       function(issuer, profile, cb) {
         expect(issuer).to.equal('https://server.example.com');
-        var _raw = profile._raw; delete profile._raw;
-        var _json = profile._json; delete profile._json;
         expect(profile).to.deep.equal({
-          id: '248289761001',
-          username: 'j.doe',
-          displayName: 'Jane Doe',
-          name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          id: '248289761001'
         });
         
         return cb(null, { id: '248289761001' }, { methods: [ 'password', 'otp' ] });
@@ -1028,9 +1021,6 @@ describe('verify function', function() {
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
           expect(info).to.deep.equal({ methods: [ 'password', 'otp' ] });
-          
-          expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
-          expect(strategy._oauth2.get.calledOnce).to.be.true;
           done();
         })
         .error(done)
