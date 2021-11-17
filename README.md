@@ -25,6 +25,18 @@ the provider's endpoints, as well as a client ID and secret that has been issued
 by the provider to the app.  Consult the provider's documentation for the
 locations of these endpoints and instructions on how to register a client.
 
+The strategy takes a `verify` function as an argument, which accepts the
+`issuer` and `profile` as arguments.  When authenticating a request, the
+strategy uses the OpenID Connect protocol to obtain this information via a
+sequence of redirects and back-channel HTTP requests to the OP.
+
+The `verify` function is responsible for determining the user to which the
+account at the OP belongs.  In cases where the account is signing in for the
+first time, a user account is typically created automatically.  Because the
+`verify` function is supplied by the application, the app is free to use any
+database of its choosing.  The example below illustrates usage of a SQL
+database.
+
 ```js
 var OpenIDConnectStrategy = require('passport-openidconnect');
 
@@ -80,18 +92,6 @@ passport.use(new OpenIDConnectStrategy({
   })
 ));
 ```
-
-The strategy takes a `verify` function as an argument, which accepts the
-`issuer` and `profile` as arguments.  When authenticating a request, the
-strategy uses the OpenID Connect protocol to obtain this information via a
-sequence of redirects and back-channel HTTP requests to the OP.
-
-The `verify` function is responsible for determining the user to which the
-account at the OP belongs.  In cases where the account is signing in for the
-first time, a user account is typically created automatically.  Because the
-`verify` function is supplied by the application, the app is free to use any
-database of its choosing.  The example above illustrates usage of a SQL
-database.
 
 ## License
 
