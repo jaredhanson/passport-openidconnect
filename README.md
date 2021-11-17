@@ -105,7 +105,7 @@ app.get('/login', passport.authenticate('openidconnect'));
 The second route processes the authentication response, when the OP redirects
 the user back to the app's redirect URL:
 
-```
+```js
 app.get('/cb',
   passport.authenticate('openidconnect', { failureRedirect: '/login', failureMessage: true }),
   function(req, res) {
