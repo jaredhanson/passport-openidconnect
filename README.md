@@ -25,10 +25,10 @@ the provider's endpoints, as well as a client ID and secret that has been issued
 by the provider to the app.  Consult the provider's documentation for the
 locations of these endpoints and instructions on how to register a client.
 
-The strategy takes a `verify` function as an argument, which accepts the
-`issuer` and `profile` as arguments.  When authenticating a request, the
-strategy uses the OpenID Connect protocol to obtain this information via a
-sequence of redirects and back-channel HTTP requests to the OP.
+The strategy takes a `verify` function as an argument, which accepts `issuer`
+and `profile` as arguments.  When authenticating a request, the strategy uses
+the OpenID Connect protocol to obtain this information via a sequence of
+redirects and back-channel HTTP requests to the OP.
 
 The `verify` function is responsible for determining the user to which the
 account at the OP belongs.  In cases where the account is logging in for the
