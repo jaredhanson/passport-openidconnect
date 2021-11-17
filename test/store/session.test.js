@@ -26,7 +26,7 @@ describe('SessionStore', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, done) {
+    function(iss, profile, done) {
       throw new Error('verify function should not be called');
     });
     
@@ -108,7 +108,7 @@ describe('SessionStore', function() {
         callbackURL: 'https://client.example.org/cb',
         sessionKey: 'openidconnect:example'
       },
-      function(iss, sub, profile, accessToken, refreshToken, done) {
+      function(iss, profile, done) {
         throw new Error('verify function should not be called');
       });
       
@@ -144,7 +144,7 @@ describe('SessionStore', function() {
       clientSecret: 'some_secret12345',
       callbackURL: 'https://client.example.org/cb'
     },
-    function(iss, sub, profile, accessToken, refreshToken, done) {
+    function(iss, profile, done) {
       return done(null, { id: '248289761001' }, { message: 'Hello' });
     });
     
@@ -302,7 +302,7 @@ describe('SessionStore', function() {
         callbackURL: 'https://client.example.org/cb',
         sessionKey: 'openidconnect:example'
       },
-      function(iss, sub, profile, accessToken, refreshToken, done) {
+      function(iss, profile, done) {
         return done(null, { id: '248289761001' }, { message: 'Hello' });
       });
     

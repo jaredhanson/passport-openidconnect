@@ -88,7 +88,7 @@ describe('verify function', function() {
         .authenticate();
     }); // should accept issuer and profile to authenticate request
     
-    it('should accept issuer, profile, and ID token to authenticate request', function(done) {
+    it('should accept issuer, profile, and context to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -98,12 +98,14 @@ describe('verify function', function() {
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb'
       },
-      function(issuer, profile, idToken, cb) {
+      function(issuer, profile, context, cb) {
         expect(issuer).to.equal('https://server.example.com');
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
-        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
+        expect(context).to.deep.equal({
+          timestamp: new Date('2011-07-21T20:42:49.000Z')
+        });
         
         return cb(null, { id: '248289761001' });
       });
@@ -118,7 +120,8 @@ describe('verify function', function() {
             sub: '248289761001',
             aud: 's6BhdRkqt3',
             exp: Math.floor((Date.now() + 1000000) / 1000),
-            iat: Math.floor(Date.now() / 1000)
+            iat: Math.floor(Date.now() / 1000),
+            auth_time: 1311280969
           },
           secret: 'keyboard cat',
         })
@@ -157,9 +160,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer, profile, and ID token to authenticate request
+    }); // should accept issuer, profile, and context to authenticate request
     
-    it('should accept issuer, profile, ID token, access token, and refresh token to authenticate request', function(done) {
+    it('should accept issuer, profile, context, and ID token to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -169,11 +172,87 @@ describe('verify function', function() {
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb'
       },
-      function(iss, profile, idToken, accessToken, refreshToken, cb) {
+      function(issuer, profile, context, idToken, cb) {
+        expect(issuer).to.equal('https://server.example.com');
+        expect(profile).to.deep.equal({
+          id: '248289761001'
+        });
+        expect(context).to.deep.equal({
+          timestamp: new Date('2011-07-21T20:42:49.000Z')
+        });
+        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MCwiYXV0aF90aW1lIjoxMzExMjgwOTY5fQ.9HnefGn3qU_lZ-AXl0TKi-6XQotWP3tP5gXl_4pRoC4');
+        
+        return cb(null, { id: '248289761001' });
+      });
+      
+      sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
+        token_type: 'Bearer',
+        expires_in: 3600,
+        id_token: jws.sign({
+          header: { alg: 'HS256' },
+          payload: {
+            iss: 'https://server.example.com',
+            sub: '248289761001',
+            aud: 's6BhdRkqt3',
+            exp: Math.floor((Date.now() + 1000000) / 1000),
+            iat: Math.floor(Date.now() / 1000),
+            auth_time: 1311280969
+          },
+          secret: 'keyboard cat',
+        })
+      });
+      
+      sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({
+        sub: '248289761001',
+        name: 'Jane Doe',
+        given_name: 'Jane',
+        family_name: 'Doe',
+        preferred_username: 'j.doe',
+        email: 'janedoe@example.com',
+        picture: 'http://example.com/janedoe/me.jpg'
+      }));
+      
+      chai.passport.use(strategy)
+        .request(function(req) {
+          req.query = {
+            code: 'SplxlOBeZQQYbYS6WxSbIA',
+            state: 'af0ifjsldkj'
+          };
+          req.session = {};
+          req.session['openidconnect:server.example.com'] = {
+            state: {
+              handle: 'af0ifjsldkj'
+            }
+          };
+        })
+        .success(function(user, info) {
+          expect(user).to.deep.equal({ id: '248289761001' });
+          expect(info).to.deep.equal({});
+          
+          expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
+          expect(strategy._oauth2.get.callCount).to.equal(0);
+          done();
+        })
+        .error(done)
+        .authenticate();
+    }); // should accept issuer, profile, context, and ID token to authenticate request
+    
+    it('should accept issuer, profile, context, ID token, access token, and refresh token to authenticate request', function(done) {
+      var strategy = new Strategy({
+        issuer: 'https://server.example.com',
+        authorizationURL: 'https://server.example.com/authorize',
+        tokenURL: 'https://server.example.com/token',
+        userInfoURL: 'https://server.example.com/userinfo',
+        clientID: 's6BhdRkqt3',
+        clientSecret: 'some_secret12345',
+        callbackURL: 'https://client.example.org/cb'
+      },
+      function(iss, profile, context, idToken, accessToken, refreshToken, cb) {
         expect(iss).to.equal('https://server.example.com');
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
+        expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
@@ -230,9 +309,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer, profile, ID token, access token, and refresh token to authenticate request
+    }); // should accept issuer, profile, context, ID token, access token, and refresh token to authenticate request
     
-    it('should accept issuer, profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
+    it('should accept issuer, profile, context, ID token, access token, refresh token, and params to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -242,11 +321,12 @@ describe('verify function', function() {
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb'
       },
-      function(iss, profile, idToken, accessToken, refreshToken, params, cb) {
+      function(iss, profile, context, idToken, accessToken, refreshToken, params, cb) {
         expect(iss).to.equal('https://server.example.com');
         expect(profile).to.deep.equal({
           id: '248289761001'
         });
+        expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
@@ -308,9 +388,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should accept issuer, profile, ID token, access token, refresh token, and params to authenticate request
+    }); // should accept issuer, profile, context, ID token, access token, refresh token, and params to authenticate request
     
-    it('should accept issuer, user info profile, ID token profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
+    it('should accept issuer, user info profile, ID token profile, context, ID token, access token, refresh token, and params to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -320,7 +400,7 @@ describe('verify function', function() {
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb'
       },
-      function(iss, uiProfile, idProfile, idToken, accessToken, refreshToken, params, cb) {
+      function(iss, uiProfile, idProfile, context, idToken, accessToken, refreshToken, params, cb) {
         expect(iss).to.equal('https://server.example.com');
         expect(uiProfile).to.deep.equal({
           id: '248289761001',
@@ -342,6 +422,7 @@ describe('verify function', function() {
         expect(idProfile).to.deep.equal({
           id: '248289761001'
         });
+        expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
@@ -480,7 +561,7 @@ describe('verify function', function() {
         .authenticate();
     }); // should fetch user info and accept issuer and profile to authenticate request
     
-    it('should fetch user info and accept issuer, profile, and ID token to authenticate request', function(done) {
+    it('should fetch user info and accept issuer, profile, and context to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -491,7 +572,7 @@ describe('verify function', function() {
         callbackURL: 'https://client.example.org/cb',
         skipUserProfile: false
       },
-      function(issuer, profile, idToken, cb) {
+      function(issuer, profile, context, cb) {
         expect(issuer).to.equal('https://server.example.com');
         expect(profile).to.deep.equal({
           id: '248289761001',
@@ -500,7 +581,7 @@ describe('verify function', function() {
           name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
-        expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
+        expect(context).to.deep.equal({});
         
         return cb(null, { id: '248289761001' });
       });
@@ -554,9 +635,9 @@ describe('verify function', function() {
         })
         .error(done)
         .authenticate();
-    }); // should fetch user info and accept issuer, profile, and ID token to authenticate request
+    }); // should fetch user info and accept issuer, profile, and context to authenticate request
     
-    it('should fetch user info and accept issuer, profile, ID token, access token, and refresh token to authenticate request', function(done) {
+    it('should fetch user info and accept issuer, profile, context, ID token, access token, and refresh token to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -567,7 +648,7 @@ describe('verify function', function() {
         callbackURL: 'https://client.example.org/cb',
         skipUserProfile: false
       },
-      function(iss, profile, idToken, accessToken, refreshToken, cb) {
+      function(iss, profile, context, idToken, accessToken, refreshToken, cb) {
         expect(iss).to.equal('https://server.example.com');
         expect(profile).to.deep.equal({
           id: '248289761001',
@@ -576,6 +657,7 @@ describe('verify function', function() {
           name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
+        expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
@@ -634,7 +716,7 @@ describe('verify function', function() {
         .authenticate();
     }); // should fetch user info and accept issuer, profile, ID token, access token, and refresh token to authenticate request
     
-    it('should fetch user info and accept issuer, profile, ID token, access token, refresh token, and params to authenticate request', function(done) {
+    it('should fetch user info and accept issuer, profile, context, ID token, access token, refresh token, and params to authenticate request', function(done) {
       var strategy = new Strategy({
         issuer: 'https://server.example.com',
         authorizationURL: 'https://server.example.com/authorize',
@@ -645,7 +727,7 @@ describe('verify function', function() {
         callbackURL: 'https://client.example.org/cb',
         skipUserProfile: false
       },
-      function(iss, profile, idToken, accessToken, refreshToken, params, cb) {
+      function(iss, profile, context, idToken, accessToken, refreshToken, params, cb) {
         expect(iss).to.equal('https://server.example.com');
         expect(profile).to.deep.equal({
           id: '248289761001',
@@ -654,6 +736,7 @@ describe('verify function', function() {
           name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ]
         });
+        expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');

@@ -21,6 +21,11 @@ indicate the app is behind a front-facing proxy.  Used when resolving relative
 redirect URIs to an absolute URI.
 - Added `agent` option to `Strategy` constructor, used to control `http.Agent`
 behavior.
+- 5-arity form of `verify` function invoked with (`iss`, `profile`, `context`
+`idToken`, `cb`) arguments.
+- 9-arity form of `verify` function invoked with (`iss`, `uiProfile`,
+`idProfile`, `context`, `idToken`, `accessToken`, `refreshToken`, `params`,
+`cb`) arguments.
 - Added `maxAge` and `nonce` properties to state stored in session.
 - Added `issued` property to state stored in session, only when `maxAge` option
 is used.
@@ -33,15 +38,12 @@ optimizing for network latency.
 - The 3-arity form of `verify` function now invoked with (`iss`, `profile`,
 `cb`) arguments, rather than (`iss`, `sub`, `cb`).
 - The 4-arity form of `verify` function now invoked with (`iss`, `profile`,
-`idToken`, `cb`) arguments, rather than (`iss`, `sub`, `profile`, `cb`).
-- The 6-arity form of `verify` function now invoked with (`iss`, `profile`,
-`idToken`, `accessToken`, `refreshToken`, `cb`) arguments, rather than (`iss`,
-`sub`, `profile`, `accessToken`, `refreshToken`, `cb`).
+`context`, `cb`) arguments, rather than (`iss`, `sub`, `profile`, `cb`).
 - The 7-arity form of `verify` function now invoked with (`iss`, `profile`,
-`idToken`, `accessToken`, `refreshToken`, `params`, `cb`) arguments, rather than
-(`iss`, `sub`, `profile`, `accessToken`, `refreshToken`, `params`, `cb`).
-- The 8-arity form of `verify` function now invoked with (`iss`, `uiProfile`,
-`idProfile`, `idToken`, `accessToken`, `refreshToken`, `params`, `cb`)
+`context`, `idToken`, `accessToken`, `refreshToken`, `cb`) arguments, rather
+than (`iss`, `sub`, `profile`, `accessToken`, `refreshToken`, `params`, `cb`).
+- The 8-arity form of `verify` function now invoked with (`iss`, `profile`,
+`context`, `idToken`, `accessToken`, `refreshToken`, `params`, `cb`)
 arguments, rather than (`iss`, `sub`, `profile`, `claims`, `accessToken`,
 `refreshToken`, `params`, `cb`).
 - `prompt` option can now take any value, rather than just defined values, in
@@ -80,6 +82,8 @@ header isn't needed, per spec.
 is largely unused and the functionality would be better suited in a different
 package.
 - Removed capability to pass `nonce` option as string or number values.
+- Removed the 6-arity form of `verify` function which was invoked with (`iss`,
+`sub`, `profile`, `accessToken`, `refreshToken`, `cb`) arguments.
 - Removed `issuer`, `authorizationURL`, `tokenURL`, `userInfoURL`, `clientID`,
 and `callbackURL` from state stored in session.  This information is redundant as
 state is stored with a key derived from the issuer.
