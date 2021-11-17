@@ -2,21 +2,10 @@ var chai = require('chai');
 var sinon = require('sinon');
 var Strategy = require('../../lib/strategy');
 var uri = require('url');
-var jwt = require('jsonwebtoken');
 var jws = require('jws');
 
 
 describe('SessionStore', function() {
-  
-  function buildIdToken() {
-    return jwt.sign({some: 'claim'}, 'this is a secret', {
-      issuer: 'https://server.example.com',
-      subject: '248289761001',
-      audience: 's6BhdRkqt3',
-      expiresIn: '1h'
-    });
-  };
-  
   
   describe('#store', function() {
     var strategy = new Strategy({
@@ -240,7 +229,17 @@ describe('SessionStore', function() {
       sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
         token_type: 'Bearer',
         expires_in: 3600,
-        id_token: buildIdToken()
+        id_token: jws.sign({
+          header: { alg: 'HS256' },
+          payload: {
+            iss: 'https://server.example.com',
+            sub: '248289761001',
+            aud: 's6BhdRkqt3',
+            exp: Math.floor((Date.now() + 1000000) / 1000),
+            iat: Math.floor(Date.now() / 1000)
+          },
+          secret: 'keyboard cat',
+        })
       });
     
       sinon.stub(strategy._oauth2, 'get').yieldsAsync(null, JSON.stringify({

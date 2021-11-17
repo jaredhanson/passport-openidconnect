@@ -42,7 +42,6 @@
   "devDependencies": {
     "chai": "2.x.x",
     "chai-passport-strategy": "3.x.x",
-    "jsonwebtoken": "^7.1.9",
     "jws": "^4.0.0",
     "make-node": "0.3.x",
     "mocha": "2.x.x",
