@@ -62,6 +62,8 @@ four, three, and two argument variations.
 `(err, ctx, state)`, rather than `(err, ok, state)`, where `ctx` is an object,
 rather than a boolean, and contains the protocol context needed to validate the
 authentication response.
+- `skipUserProfile` option, when set to a function, is now invoked with `req`
+argument, rather than `iss`, `sub`.
 - Switched to using `OAuth2#get`, from `OAuth2#_request`, when making UserInfo
 request.  As a result, `Accept: 'application/json` header no longer sent.  This
 header isn't needed, per spec.
