@@ -40,6 +40,10 @@ optimizing for network latency.
 - The 7-arity form of `verify` function now invoked with (`iss`, `profile`,
 `idToken`, `accessToken`, `refreshToken`, `params`, `cb`) arguments, rather than
 (`iss`, `sub`, `profile`, `accessToken`, `refreshToken`, `params`, `cb`).
+- The 8-arity form of `verify` function now invoked with (`iss`, `uiProfile`,
+`idProfile`, `idToken`, `accessToken`, `refreshToken`, `params`, `cb`)
+arguments, rather than (`iss`, `sub`, `profile`, `claims`, `accessToken`,
+`refreshToken`, `params`, `cb`).
 - `prompt` option can now take any value, rather than just defined values, in
 order to support values defined by extensions.
 - `display` option can now take any value, rather than just defined values, in
