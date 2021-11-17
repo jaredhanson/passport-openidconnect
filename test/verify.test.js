@@ -493,7 +493,7 @@ describe('verify function', function() {
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
         
-        return cb(null, { id: '248289761001' }, { message: 'Hello' });
+        return cb(null, { id: '248289761001' });
       });
       
       sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -537,9 +537,7 @@ describe('verify function', function() {
         })
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
-          expect(info).to.deep.equal({
-            message: 'Hello'
-          });
+          expect(info).to.deep.equal({});
           
           expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
           expect(strategy._oauth2.get.calledOnce).to.be.true;
@@ -580,7 +578,7 @@ describe('verify function', function() {
           id_token: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk'
         });
         
-        return cb(null, { id: '248289761001' }, { message: 'Hello' });
+        return cb(null, { id: '248289761001' });
       });
       
       sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -624,9 +622,7 @@ describe('verify function', function() {
         })
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
-          expect(info).to.deep.equal({
-            message: 'Hello'
-          });
+          expect(info).to.deep.equal({});
           
           expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
           expect(strategy._oauth2.get.calledOnce).to.be.true;
@@ -823,7 +819,7 @@ describe('verify function', function() {
         expect(accessToken).to.equal('SlAV32hkKG');
         expect(refreshToken).to.equal('8xLOxBtZp8');
         
-        return cb(null, { id: '248289761001' }, { message: 'Hello' });
+        return cb(null, { id: '248289761001' });
       });
       
       sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -867,9 +863,7 @@ describe('verify function', function() {
         })
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
-          expect(info).to.deep.equal({
-            message: 'Hello'
-          });
+          expect(info).to.deep.equal({});
           
           expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
           expect(strategy._oauth2.get.calledOnce).to.be.true;
@@ -912,7 +906,7 @@ describe('verify function', function() {
           id_token: 'eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk'
         });
         
-        return cb(null, { id: '248289761001' }, { message: 'Hello' });
+        return cb(null, { id: '248289761001' });
       });
       
       sinon.stub(strategy._oauth2, 'getOAuthAccessToken').yieldsAsync(null, 'SlAV32hkKG', '8xLOxBtZp8', {
@@ -956,9 +950,7 @@ describe('verify function', function() {
         })
         .success(function(user, info) {
           expect(user).to.deep.equal({ id: '248289761001' });
-          expect(info).to.deep.equal({
-            message: 'Hello'
-          });
+          expect(info).to.deep.equal({});
           
           expect(strategy._oauth2.getOAuthAccessToken.calledOnce).to.be.true;
           expect(strategy._oauth2.get.calledOnce).to.be.true;
