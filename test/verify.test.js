@@ -26,7 +26,8 @@ describe('verify function', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb'
+        callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false
       },
       function(issuer, profile, cb) {
         expect(issuer).to.equal('https://server.example.com');
@@ -102,7 +103,8 @@ describe('verify function', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb'
+        callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false
       },
       function(issuer, profile, idToken, cb) {
         expect(issuer).to.equal('https://server.example.com');
@@ -179,7 +181,8 @@ describe('verify function', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb'
+        callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false
       },
       function(iss, profile, idToken, accessToken, refreshToken, cb) {
         expect(iss).to.equal('https://server.example.com');
@@ -260,7 +263,8 @@ describe('verify function', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb'
+        callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false
       },
       function(iss, profile, idToken, accessToken, refreshToken, params, cb) {
         expect(iss).to.equal('https://server.example.com');
@@ -347,6 +351,7 @@ describe('verify function', function() {
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false,
         passReqToCallback: true
       },
       function(req, issuer, profile, cb) {
@@ -425,6 +430,7 @@ describe('verify function', function() {
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false,
         passReqToCallback: true
       },
       function(req, issuer, profile, idToken, cb) {
@@ -504,6 +510,7 @@ describe('verify function', function() {
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false,
         passReqToCallback: true
       },
       function(req, iss, profile, idToken, accessToken, refreshToken, cb) {
@@ -587,6 +594,7 @@ describe('verify function', function() {
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
         callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false,
         passReqToCallback: true
       },
       function(req, iss, profile, idToken, accessToken, refreshToken, params, cb) {
@@ -674,7 +682,8 @@ describe('verify function', function() {
         userInfoURL: 'https://server.example.com/userinfo',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.org/cb'
+        callbackURL: 'https://client.example.org/cb',
+        skipUserProfile: false
       },
       function(issuer, profile, cb) {
         expect(issuer).to.equal('https://server.example.com');

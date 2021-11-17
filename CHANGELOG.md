@@ -7,8 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 
-- Parsing `profile.username` from UserInfo response.
-- Parsing `profile.emails` from UserInfo response.
+- Parsing `profile.username` from standard claims.
+- Parsing `profile.emails` from standard claims.
 - Support for `loginHint` options to `authenticate()`.
 - Support for `state` object passed as option to `authenticate`, which will be
 persisted in the session by state store.
@@ -28,6 +28,8 @@ is used.
 
 ### Changed
 
+- By default, profile is parsed from ID token and UserInfo is not fetched,
+optimizing for network latency.
 - The 3-arity form of `verify` function now invoked with (`iss`, `profile`,
 `cb`) arguments, rather than (`iss`, `sub`, `cb`).
 - The 4-arity form of `verify` function now invoked with (`iss`, `profile`,

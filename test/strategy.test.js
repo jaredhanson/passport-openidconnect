@@ -614,9 +614,7 @@ describe('Strategy', function() {
           redirect_uri: 'https://client.example.org/cb'
         });
         
-        expect(strategy._oauth2.get.calledOnce).to.be.true;
-        expect(strategy._oauth2.get.getCall(0).args[0]).to.equal('https://server.example.com/userinfo?schema=openid');
-        expect(strategy._oauth2.get.getCall(0).args[1]).to.equal('SlAV32hkKG');
+        expect(strategy._oauth2.get.calledOnce).to.be.false;
         
         done();
       })
@@ -1998,7 +1996,8 @@ describe('Strategy', function() {
       userInfoURL: 'https://server.example.com/userinfo',
       clientID: 's6BhdRkqt3',
       clientSecret: 'some_secret12345',
-      callbackURL: 'https://client.example.org/cb'
+      callbackURL: 'https://client.example.org/cb',
+      skipUserProfile: false
     },
     function(iss, sub, profile, accessToken, refreshToken, cb) {
       throw new Error('verify function should not be called');
