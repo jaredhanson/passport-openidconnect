@@ -14,7 +14,7 @@ describe('SessionStore', function() {
       tokenURL: 'https://server.example.com/token',
       clientID: 's6BhdRkqt3',
       clientSecret: 'some_secret12345',
-      callbackURL: 'https://client.example.com/cb'
+      callbackURL: 'https://client.example.org/cb'
     },
     function(iss, profile, done) {
       throw new Error('verify function should not be called');
@@ -44,7 +44,7 @@ describe('SessionStore', function() {
             authorizationURL: 'https://server.example.com/authorize',
             tokenURL: 'https://server.example.com/token',
             clientID: 's6BhdRkqt3',
-            callbackURL: 'https://client.example.com/cb'
+            callbackURL: 'https://client.example.org/cb'
           });
           
           done();
@@ -58,7 +58,7 @@ describe('SessionStore', function() {
         .request(function(req) {
           req.session = {};
           req.session['openidconnect:server.example.com'] = {
-            returnTo: 'https://client.example.com/app'
+            returnTo: 'https://client.example.org/app'
           };
         })
         .redirect(function(url) {
@@ -67,7 +67,7 @@ describe('SessionStore', function() {
           
           expect(state).to.have.length(24);
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
-            returnTo: 'https://client.example.com/app',
+            returnTo: 'https://client.example.org/app',
             state: {
               handle: state
             }
@@ -85,7 +85,7 @@ describe('SessionStore', function() {
         tokenURL: 'https://server.example.com/token',
         clientID: 's6BhdRkqt3',
         clientSecret: 'some_secret12345',
-        callbackURL: 'https://client.example.com/cb',
+        callbackURL: 'https://client.example.org/cb',
         sessionKey: 'openidconnect:example'
       },
       function(iss, profile, done) {
@@ -132,7 +132,7 @@ describe('SessionStore', function() {
       userInfoURL: 'https://server.example.com/userinfo',
       clientID: 's6BhdRkqt3',
       clientSecret: 'some_secret12345',
-      callbackURL: 'https://client.example.com/cb'
+      callbackURL: 'https://client.example.org/cb'
     },
     function(iss, profile, done) {
       return done(null, { id: '248289761001' });
@@ -195,7 +195,7 @@ describe('SessionStore', function() {
           };
           req.session = {};
           req.session['openidconnect:server.example.com'] = {
-            returnTo: 'https://client.example.com/app',
+            returnTo: 'https://client.example.org/app',
             state: {
               handle: 'af0ifjsldkj'
             }
@@ -203,7 +203,7 @@ describe('SessionStore', function() {
         })
         .success(function(user, info) {
           expect(this.session['openidconnect:server.example.com']).to.deep.equal({
-            returnTo: 'https://client.example.com/app',
+            returnTo: 'https://client.example.org/app',
           });
           done();
         })
