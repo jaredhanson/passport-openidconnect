@@ -43,11 +43,14 @@ passport.use(new OpenIDConnectStrategy({
     ], function(err, cred) {
       if (err) { return cb(err); }
       if (!cred) {
+        // The account at the OpenID Provider (OP) has not logged in to this app
+        // before.  Create a new user account and associate it with the account
+        // at the OP.
         db.run('INSERT INTO users (name) VALUES (?)', [
           profile.displayName
         ], function(err) {
           if (err) { return cb(err); }
-      
+          
           var id = this.lastID;
           db.run('INSERT INTO federated_credentials (user_id, provider, subject) VALUES (?, ?, ?)', [
             id,
@@ -63,6 +66,9 @@ passport.use(new OpenIDConnectStrategy({
           });
         });
       } else {
+        // The account at the OpenID Provider has previously logged in to the
+        // app.  Get the user account associated with the account at the OP and
+        // log the user in.
         db.get('SELECT * FROM users WHERE id = ?', [ cred.user_id ], function(err, user) {
           if (err) { return cb(err); }
           if (!user) { return cb(null, false); }
