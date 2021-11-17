@@ -73,7 +73,7 @@ passport.use(new OpenIDConnectStrategy({
             if (err) { return cb(err); }
             var user = {
               id: id.toString(),
-              displayName: profile.displayName
+              name: profile.displayName
             };
             return cb(null, user);
           });
