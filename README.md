@@ -118,9 +118,21 @@ app.get('/cb',
   });
 ```
 
+## Examples
+
+* [todos-express-openidconnect](https://github.com/passport/todos-express-openidconnect)
+
+  Illustrates how to use the OpenID Connect strategy within an [Express](https://expressjs.com/)
+  application.
+
+* [todos-express-auth0](https://github.com/passport/todos-express-auth0)
+
+  Illustrates how to use the OpenID Connect strategy for [Auth0](https://auth0.com/)
+  integration within an [Express](https://expressjs.com/) application.
+
 ## License
 
 [The MIT License](https://opensource.org/licenses/MIT)
 
-Copyright (c) 2011-2021 Jared Hanson <[https://www.jaredhanson.me/](https://www.jaredhanson.me/)>
+Copyright (c) 2011-2022 Jared Hanson <[https://www.jaredhanson.me/](https://www.jaredhanson.me/)>
 
