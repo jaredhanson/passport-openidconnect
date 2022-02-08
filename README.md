@@ -17,7 +17,7 @@ $ npm install passport-openidconnect
 
 ## Usage
 
-#### Configure
+#### Configure Strategy
 
 The OpenID Connect authentication strategy authenticates users using their
 account at an OpenID Provider (OP).  The strategy needs to be configured with
@@ -26,15 +26,20 @@ by the provider to the app.  Consult the provider's documentation for the
 locations of these endpoints and instructions on how to register a client.
 
 The strategy takes a `verify` function as an argument, which accepts `issuer`
-and `profile` as arguments.  When authenticating a request, the strategy uses
-the OpenID Connect protocol to obtain this information via a sequence of
+and `profile` as arguments.  `issuer` is set to an identifier for the OP.
+`profile` contains the user's [profile information](https://www.passportjs.org/reference/normalized-profile/)
+stored in their account at the OP.  When authenticating a user, this strategy
+uses the OpenID Connect protocol to obtain this information via a sequence of
 redirects and back-channel HTTP requests to the OP.
 
 The `verify` function is responsible for determining the user to which the
 account at the OP belongs.  In cases where the account is logging in for the
-first time, a user account is typically created automatically.  Because the
-`verify` function is supplied by the application, the app is free to use any
-database of its choosing.  The example below illustrates usage of a SQL
+first time, a new user record is typically created automatically.  On subsequent
+logins, the existing user record will be found via its relation to the OP
+account.
+
+Because the `verify` function is supplied by the application, the app is free to
+use any database of its choosing.  The example below illustrates usage of a SQL
 database.
 
 ```js
@@ -72,16 +77,16 @@ passport.use(new OpenIDConnectStrategy({
           ], function(err) {
             if (err) { return cb(err); }
             var user = {
-              id: id.toString(),
+              id: id,
               name: profile.displayName
             };
             return cb(null, user);
           });
         });
       } else {
-        // The account at the OpenID Provider has previously logged in to the
-        // app.  Get the user account associated with the account at the OP and
-        // log the user in.
+        // The account at the OpenID Provider (OP) has previously logged in to
+        // the app.  Get the user account associated with the account at the OP
+        // and log the user in.
         db.get('SELECT * FROM users WHERE id = ?', [ cred.user_id ], function(err, user) {
           if (err) { return cb(err); }
           if (!user) { return cb(null, false); }
@@ -93,7 +98,7 @@ passport.use(new OpenIDConnectStrategy({
 ));
 ```
 
-#### Routes
+#### Define Routes
 
 Two routes are needed in order to allow users to log in with their account at an
 OP.  The first route redirects the user to the OP, where they will authenticate:
