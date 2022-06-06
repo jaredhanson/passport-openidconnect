@@ -94,8 +94,8 @@ passport.use(new OpenIDConnectStrategy({
           return cb(null, user);
         });
       }
-    }
-  })
+    });
+  }
 ));
 ```
 
