@@ -130,7 +130,7 @@ app.get('/cb',
 
   Illustrates how to use the OpenID Connect strategy to integrate with [Auth0](https://auth0.com/)
   in an Express application.  For developers new to Passport and getting
-  started, a [tutorial](https://www.passportjs.org/tutorials/google/) is
+  started, a [tutorial](https://www.passportjs.org/tutorials/auth0/) is
   available.
 
 ## License
