@@ -88,10 +88,10 @@ passport.use(new OpenIDConnectStrategy({
         // The account at the OpenID Provider (OP) has previously logged in to
         // the app.  Get the user account associated with the account at the OP
         // and log the user in.
-        db.get('SELECT * FROM users WHERE id = ?', [ cred.user_id ], function(err, user) {
+        db.get('SELECT * FROM users WHERE id = ?', [ cred.user_id ], function(err, row) {
           if (err) { return cb(err); }
-          if (!user) { return cb(null, false); }
-          return cb(null, user);
+          if (!row) { return cb(null, false); }
+          return cb(null, row);
         });
       }
     });
