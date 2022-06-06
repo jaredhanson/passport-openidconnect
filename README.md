@@ -60,6 +60,7 @@ passport.use(new OpenIDConnectStrategy({
       profile.id
     ], function(err, cred) {
       if (err) { return cb(err); }
+      
       if (!cred) {
         // The account at the OpenID Provider (OP) has not logged in to this app
         // before.  Create a new user account and associate it with the account
@@ -122,17 +123,16 @@ app.get('/cb',
 
 * [todos-express-openidconnect](https://github.com/passport/todos-express-openidconnect)
 
-  Illustrates how to use the OpenID Connect strategy within an [Express](https://expressjs.com/)
+  Illustrates how to use the OpenID Connect strategy within an Express
   application.
 
 * [todos-express-auth0](https://github.com/passport/todos-express-auth0)
 
-  Illustrates how to use the OpenID Connect strategy for [Auth0](https://auth0.com/)
-  integration within an [Express](https://expressjs.com/) application.
+  Illustrates how to use the OpenID Connect strategy to integrate with [Auth0](https://auth0.com/)
+  in an Express application.
 
 ## License
 
 [The MIT License](https://opensource.org/licenses/MIT)
 
 Copyright (c) 2011-2022 Jared Hanson <[https://www.jaredhanson.me/](https://www.jaredhanson.me/)>
-
