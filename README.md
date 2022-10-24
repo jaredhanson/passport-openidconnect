@@ -9,6 +9,12 @@ easily and unobtrusively integrated into any application or framework that
 supports [Connect](https://github.com/senchalabs/connect#readme)-style
 middleware, including [Express](https://expressjs.com/).
 
+<div align="center">
+
+:heart: [Sponsors](https://www.passportjs.org/sponsors/?utm_source=github&utm_medium=referral&utm_campaign=passport-openidconnect&utm_content=nav-sponsors)
+
+</div>
+
 ## Install
 
 ```sh
