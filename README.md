@@ -4,7 +4,7 @@
 with [OpenID Connect](https://openid.net/connect/).
 
 This module lets you authenticate using OpenID Connect in your Node.js
-applications.  By plugging into Passport, OpenID Connect authentication can be
+applications.  By plugging into Passport, OpenID Connect-based sign in can be
 easily and unobtrusively integrated into any application or framework that
 supports [Connect](https://github.com/senchalabs/connect#readme)-style
 middleware, including [Express](https://expressjs.com/).
