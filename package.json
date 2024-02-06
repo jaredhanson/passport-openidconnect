@@ -37,7 +37,8 @@
   "main": "./lib",
   "dependencies": {
     "oauth": "0.10.x",
-    "passport-strategy": "1.x.x"
+    "passport-strategy": "1.x.x",
+    "base64url": "3.x.x"
   },
   "devDependencies": {
     "chai": "2.x.x",
