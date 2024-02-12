@@ -417,6 +417,7 @@ describe('verify function', function() {
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ],
           _json: {
             sub: '248289761001',
             name: 'Jane Doe',
@@ -513,7 +514,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         
         return cb(null, { id: '248289761001' });
@@ -588,7 +590,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         
@@ -664,7 +667,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -743,7 +747,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -910,6 +915,7 @@ describe('verify function', function() {
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
           emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ],
           _json: {
             sub: '248289761001',
             name: 'Jane Doe',
@@ -1008,7 +1014,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         
         return cb(null, { id: '248289761001' });
@@ -1085,7 +1092,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         
@@ -1163,7 +1171,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -1242,7 +1251,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
@@ -1323,7 +1333,8 @@ describe('verify function', function() {
           username: 'j.doe',
           displayName: 'Jane Doe',
           name: { familyName: 'Doe', givenName: 'Jane' },
-          emails: [ { value: 'janedoe@example.com' } ]
+          emails: [ { value: 'janedoe@example.com' } ],
+          photos: [ { value: 'http://example.com/janedoe/me.jpg' } ]
         });
         expect(context).to.deep.equal({});
         expect(idToken).to.equal('eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL3NlcnZlci5leGFtcGxlLmNvbSIsInN1YiI6IjI0ODI4OTc2MTAwMSIsImF1ZCI6InM2QmhkUmtxdDMiLCJleHAiOjEzMTEyODE5NzAsImlhdCI6MTMxMTI4MDk3MH0.2Y-uXE7I6Gfon1v4mZVCRKIfZJ_I8BGQoedagok5MNk');
