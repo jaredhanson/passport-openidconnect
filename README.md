@@ -58,7 +58,8 @@ passport.use(new OpenIDConnectStrategy({
     userInfoURL: 'https://server.example.com/userinfo',
     clientID: process.env['CLIENT_ID'],
     clientSecret: process.env['CLIENT_SECRET'],
-    callbackURL: 'https://client.example.org/cb'
+    callbackURL: 'https://client.example.org/cb',
+    scope: [ 'profile' ]
   },
   function verify(issuer, profile, cb) {
     db.get('SELECT * FROM federated_credentials WHERE provider = ? AND subject = ?', [
