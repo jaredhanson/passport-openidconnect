@@ -352,7 +352,29 @@ describe('SessionStore', function() {
         })
         .authenticate();
     }); // should error when app does not have session support
-    
+
+    it('should replace whitespace characters with + character in state handle', function(done) {
+      chai.passport.use(strategy)
+          .request(function(req) {
+            req.query = {
+              code: 'SplxlOBeZQQYbYS6WxSbIA',
+              state: 'af 0ifjsld kj'
+            };
+            req.session = {};
+            req.session['openidconnect:server.example.com'] = {
+              state: {
+                handle: 'af+0ifjsld+kj'
+              }
+            };
+          })
+          .success(function(user, info) {
+            expect(this.session['openidconnect:server.example.com']).to.be.undefined;
+            done();
+          })
+          .error(done)
+          .authenticate();
+    });
+
   }); // #verify
   
 });
